@@ -1,3 +1,5 @@
+import colors from "../colors";
+
 export const estimatedBudgets = [
   {
     id: 1,
@@ -124,5 +126,124 @@ export const incomeMovements = [
     title: "Others",
     amount: 0,
     icon: "atom",
+  },
+];
+
+export const assets = [
+  {
+    id: 1,
+    title: "Salary",
+    amount: 0,
+    icon: "suitcase",
+  },
+  {
+    id: 2,
+    title: "Others",
+    amount: 0,
+    icon: "atom",
+  },
+  {
+    id: 3,
+    title: "Salary",
+    amount: 0,
+    icon: "suitcase",
+  },
+  {
+    id: 4,
+    title: "Others",
+    amount: 0,
+    icon: "atom",
+  },
+];
+
+export const liabilities = [
+  {
+    id: 1,
+    title: "Salary",
+    amount: 0,
+    icon: "suitcase",
+  },
+  {
+    id: 2,
+    title: "Others",
+    amount: 0,
+    icon: "atom",
+  },
+  {
+    id: 3,
+    title: "Salary",
+    amount: 0,
+    icon: "suitcase",
+  },
+  {
+    id: 4,
+    title: "Others",
+    amount: 0,
+    icon: "atom",
+  },
+];
+
+export const budgetOptions = [
+  {
+    id: 0,
+    name: "Spent",
+    icon: "arrow-down-circle",
+    color: colors.red,
+  },
+  {
+    id: 1,
+    name: "Income",
+    icon: "arrow-up-circle",
+    color: colors.green,
+  },
+];
+
+export const netWorthOptions = [
+  {
+    id: 0,
+    name: "Asset",
+    icon: "arrow-up-circle",
+    color: colors.red,
+  },
+  {
+    id: 1,
+    name: "Pasasive",
+    icon: "arrow-down-circle",
+    color: colors.green,
+  },
+];
+
+export const settings = [
+  {
+    id: "1",
+    title: "Categories",
+    icon: "profile",
+    screen: "Categories",
+  },
+  {
+    id: "2",
+    title: "Currency",
+    icon: "bank",
+    screen: "Currency",
+  },
+  {
+    id: "3",
+    title: "Aids & Support",
+    icon: "questioncircleo",
+  },
+  {
+    id: "4",
+    title: "The Moneyvisor",
+    icon: "team",
+  },
+  {
+    id: "5",
+    title: "Enable Decimal",
+    icon: "check",
+  },
+  {
+    id: "6",
+    title: "Export",
+    icon: "download",
   },
 ];

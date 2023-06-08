@@ -39,7 +39,7 @@ const Home = () => {
             borderRadius: 50,
           }}
           className="py-2 px-2"
-          onPress={() => navigation.navigate("MonthlyBudget")}
+          onPress={() => navigation.navigate("MonthlyBudgetStack")}
         >
           <Text
             className="text-2xl py-5 capitalize text-center"
@@ -57,6 +57,7 @@ const Home = () => {
             borderRadius: 50,
           }}
           className="py-2 px-2"
+          onPress={() => navigation.navigate("NetWorthStack")}
         >
           <Text
             className="text-2xl py-5 capitalize text-center"

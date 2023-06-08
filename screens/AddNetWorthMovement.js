@@ -11,16 +11,16 @@ import { AntDesign, Octicons, Ionicons } from "@expo/vector-icons";
 import moment from "moment";
 
 import colors from "../utils/colors";
-import Options from "../components/AddMovement/Options";
+import Options from "../components/AddBudgetMovement/Options";
 import { useNavigation } from "@react-navigation/native";
-import CustomInput from "../components/AddMovement/CustomInput";
+import CustomInput from "../components/shared/CustomInput";
 import RNPickerSelect from "react-native-picker-select";
+import { netWorthOptions } from "../utils/data/data";
 
-const AddMovement = () => {
+const AddNetWorthMovement = () => {
   const navigation = useNavigation();
 
   const [selectedOption, setSelectedOption] = useState(0);
-  const [repeatation, setRepeatation] = useState("NON");
   const [amount, setAmount] = useState(0);
 
   const handleAmountChange = (value) => {
@@ -45,7 +45,11 @@ const AddMovement = () => {
         </TouchableOpacity>
       </View>
 
-      <Options selected={selectedOption} setSelected={setSelectedOption} />
+      <Options
+        options={netWorthOptions}
+        selected={selectedOption}
+        setSelected={setSelectedOption}
+      />
 
       <TextInput
         keyboardType="numeric"
@@ -99,41 +103,6 @@ const AddMovement = () => {
         </TouchableOpacity>
       </CustomInput>
 
-      <CustomInput name="Repetition">
-        <RNPickerSelect
-          onValueChange={(value) => setRepeatation(value)}
-          value={repeatation}
-          Icon={() => (
-            <AntDesign name="downcircle" size={25} color={colors.primary} />
-          )}
-          style={{
-            inputIOS: {
-              fontSize: 20, // Assuming 'text-xl' in Tailwind CSS is equivalent to 20px font size
-              color: colors.primary,
-              paddingRight: 50, // Add right padding to make space for the icon
-            },
-            inputAndroid: {
-              fontSize: 20,
-              color: colors.primary,
-              paddingRight: 30,
-            },
-            iconContainer: {
-              top: 0,
-              right: 2,
-              position: "absolute",
-            },
-          }}
-          fixAndroidTouchableBug={true}
-          items={[
-            { label: "NON", value: "NON" },
-            { label: "OUI", value: "OUI" },
-          ]}
-          placeholder={{
-            label: "Choose",
-          }}
-        />
-      </CustomInput>
-
       <CustomInput name="Notes"></CustomInput>
 
       <TextInput
@@ -154,4 +123,4 @@ const AddMovement = () => {
   );
 };
 
-export default AddMovement;
+export default AddNetWorthMovement;
