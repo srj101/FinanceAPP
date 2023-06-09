@@ -15,7 +15,7 @@ const MovementItem = ({ item }) => {
           }}
           className="flex flex-row items-center gap-3"
         >
-          <FontAwesome5 name={icon} size={35} color={colors.gray} />
+          {icon && icon}
           <Text
             className="text-lg font-regular"
             style={{

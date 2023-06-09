@@ -6,7 +6,7 @@ export default COLORS = {
   red: "#FF7171",
   gray: "#6A6A6A",
   green: "#4EC361",
-  lightGray: "#C7BFB1",
+  lightGray: "#F9F7F7",
   lightGray2: "#F6F6F6",
   lightGray3: "#EFEFEF",
   transparentBlack1: "#000000D9",

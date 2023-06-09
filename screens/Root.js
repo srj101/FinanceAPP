@@ -10,6 +10,8 @@ import NetWorth from "./NetWorth";
 import AddBudgetMovement from "./AddBudgetMovement";
 import AddNetWorthMovement from "./AddNetWorthMovement";
 import Settings from "./Settings";
+import SelectCategory from "./SelectCategory";
+import NewCategory from "./NewCategory";
 const Stack = createNativeStackNavigator();
 
 const HomeStack = () => {
@@ -23,7 +25,22 @@ const HomeStack = () => {
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="MonthlyBudgetStack" component={BudgetStack} />
       <Stack.Screen name="NetWorthStack" component={NetWorthStack} />
+      <Stack.Screen name="CategoryStack" component={CategoryStack} />
       <Stack.Screen name="Settings" component={SettingsStack} />
+    </Stack.Navigator>
+  );
+};
+
+const CategoryStack = () => {
+  return (
+    <Stack.Navigator
+      initialRouteName="SelectCategory"
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name="SelectCategory" component={SelectCategory} />
+      <Stack.Screen name="NewCategory" component={NewCategory} />
     </Stack.Navigator>
   );
 };

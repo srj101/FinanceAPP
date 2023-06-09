@@ -64,7 +64,10 @@ const AddBudgetMovement = () => {
       />
 
       <CustomInput name="Category">
-        <TouchableOpacity className="flex flex-row justify-end items-center gap-2">
+        <TouchableOpacity
+          onPress={() => navigation.navigate("CategoryStack")}
+          className="flex flex-row justify-end items-center gap-2"
+        >
           <Text
             className="text-xl"
             style={{
