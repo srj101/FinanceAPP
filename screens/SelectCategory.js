@@ -6,16 +6,39 @@ import {
   TextInput,
   FlatList,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import colors from "../utils/colors";
 import { useNavigation } from "@react-navigation/native";
-import { categories } from "../utils/data/data";
 import CategoryItem from "../components/CategoryItem";
+import { useDispatch, useSelector } from "react-redux";
+import { setSelectedCategory } from "../providers/state/reducers/movement";
+import AppLoading from "../components/AppLoading";
 
 const SelectCategory = () => {
   const navigation = useNavigation();
-  const [categoryName, setCategoryName] = useState("");
+  const dispatch = useDispatch();
+
+  const { categories } = useSelector((state) => state.categories);
+
+  const { selectedCategory } = useSelector((state) => state.movement);
+
+  const onSelectedACategory = () => {
+    if (selectedCategory) {
+      navigation.goBack();
+    } else {
+      alert("Please select a category");
+    }
+  };
+
+  useEffect(() => {
+    dispatch(setSelectedCategory(null));
+  }, []);
+
+  if (!categories.length) {
+    return <AppLoading />;
+  }
+
   return (
     <SafeAreaView style={{ flex: 1 }} className="mx-4 relative">
       <View className="flex relative flex-row justify-between items-center ">
@@ -25,16 +48,17 @@ const SelectCategory = () => {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={onSelectedACategory}>
           <AntDesign name="plus" size={30} color={colors.black} />
         </TouchableOpacity>
       </View>
 
       <View className="py-5">
         <TextInput
-          placeholder="Research"
-          value={categoryName}
-          onChangeText={setCategoryName}
+          placeholder="Select Category"
+          value={selectedCategory ? selectedCategory.name : ""}
+          disableFullscreenUI={true}
+          aria-disabled={true}
           style={{
             fontFamily: "OpenSans-Regular",
             color: colors.black,
@@ -48,7 +72,7 @@ const SelectCategory = () => {
       <View
         className="px-5"
         style={{
-          maxHeight: 450,
+          maxHeight: 420,
         }}
       >
         <FlatList
@@ -63,7 +87,7 @@ const SelectCategory = () => {
         />
       </View>
 
-      <View className="absolute bottom-14 left-0 w-full">
+      <View className="absolute bottom-5 left-0 w-full">
         <TouchableOpacity
           className="rounded-full py-4 my-2"
           style={{

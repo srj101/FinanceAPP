@@ -6,7 +6,7 @@ import {
   FlatList,
   Animated,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { Feather, AntDesign } from "@expo/vector-icons";
 import MonthSlider from "../components/MonthSlider";
 import monthlyBudgets from "../utils/data/monthlyBudgets";
@@ -14,9 +14,15 @@ import MonthlyBudgetItem from "../components/Budget/MonthlyBudgetItem";
 import Paginator from "../components/Paginator";
 import colors from "../utils/colors";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch } from "react-redux";
+import {
+  setCurrentMonth,
+  setMovementType,
+} from "../providers/state/reducers/movement";
 
 const MonthlyBudget = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
   const scrollX = React.useRef(new Animated.Value(0)).current;
@@ -30,6 +36,10 @@ const MonthlyBudget = () => {
   const viewabilityConfig = React.useRef({
     viewAreaCoveragePercentThreshold: 50,
   }).current;
+
+  useEffect(() => {
+    dispatch(setCurrentMonth(0));
+  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -47,7 +57,7 @@ const MonthlyBudget = () => {
           <MonthSlider />
         </View>
 
-        <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+        <TouchableOpacity onPress={() => navigation.navigate("SettingsStack")}>
           <Feather name="settings" size={30} color={colors.black} />
         </TouchableOpacity>
       </View>
@@ -87,6 +97,8 @@ const MonthlyBudget = () => {
       <TouchableOpacity
         className="absolute bottom-8 right-5  "
         onPress={() => {
+          const movementTypes = ["ESTIMATED_BUDGET", "REAL_BUDGET"];
+          dispatch(setMovementType(movementTypes[currentIndex]));
           navigation.navigate("AddMovementStack");
         }}
       >

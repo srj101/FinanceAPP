@@ -12,6 +12,10 @@ import {
 } from "redux-persist";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import monthsReducer from "./reducers/months"; // Adjust the import path if needed
+import categoriesReducer from "./reducers/categories";
+import movementReducer from "./reducers/movement";
+import settingsReducer from "./reducers/settings";
+import worthReducer from "./reducers/worth";
 
 // Secure storage
 const secureStorage = createSecureStore();
@@ -29,6 +33,10 @@ const persistConfig = {
 // Combine them together
 const rootReducer = combineReducers({
   months: persistReducer(persistConfig, monthsReducer),
+  categories: persistReducer(persistConfig, categoriesReducer),
+  movement: persistReducer(persistConfig, movementReducer),
+  settings: persistReducer(persistConfig, settingsReducer),
+  worth: persistReducer(persistConfig, worthReducer),
 });
 
 let store = configureStore({

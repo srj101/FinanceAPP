@@ -1,9 +1,15 @@
 import { View, Text, FlatList } from "react-native";
-import React from "react";
+import React, { useMemo } from "react";
 import MovementItem from "../Budget/movement/movementItem";
-import { liabilities } from "../../utils/data/data";
+import { useSelector } from "react-redux";
 
 const Liabilities = () => {
+  const { currentMonth, worths } = useSelector((state) => state.worth);
+
+  const currentMonthLiabilities = useMemo(() => {
+    return worths[currentMonth].liabilities;
+  }, [currentMonth]);
+
   return (
     <View className="mx-6">
       <Text
@@ -12,15 +18,26 @@ const Liabilities = () => {
         }}
         className="text-2xl text-center my-10"
       >
-        My Liabilities
+        Mes passifs
       </Text>
 
       <View>
-        <FlatList
-          data={liabilities}
-          renderItem={({ item }) => <MovementItem item={item} />}
-          keyExtractor={(item) => item.id.toString()}
-        />
+        {currentMonthLiabilities.length > 0 ? (
+          <FlatList
+            data={currentMonthLiabilities}
+            renderItem={({ item }) => <MovementItem item={item} />}
+            keyExtractor={(item) => item.id.toString()}
+          />
+        ) : (
+          <Text
+            className="text-md text-center my-10"
+            style={{
+              fontFamily: "OpenSans-Regular",
+            }}
+          >
+            aucun actif ajouté pour le moment
+          </Text>
+        )}
       </View>
     </View>
   );

@@ -1,22 +1,49 @@
 import { View } from "react-native";
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import MonthBudgetCard from "./MonthBudgetCard";
 import Movement from "./movement/movementCard";
 import { incomeMovements } from "../../utils/data/data";
+import { useSelector } from "react-redux";
 
 const EstimatedBudget = () => {
+  const { currentMonth, movements } = useSelector((state) => state.movement);
+
+  const currentMonthEstBudgets = useMemo(() => {
+    return movements[currentMonth].estimatedBudgets;
+  }, [currentMonth]);
+
+  const currentMonthExpense = useMemo(() => {
+    return currentMonthEstBudgets.filter((b) => b.type === "Dépense");
+  }, [currentMonthEstBudgets]);
+
+  const currentMonthRevenue = useMemo(() => {
+    return currentMonthEstBudgets.filter((b) => b.type === "Revenu");
+  }, [currentMonthEstBudgets]);
+
+  const totalExpense = useMemo(() => {
+    return currentMonthExpense.reduce((acc, cur) => acc + cur.amount, 0);
+  }, [currentMonthExpense]);
+
+  const totalRevenue = useMemo(() => {
+    return currentMonthRevenue.reduce((acc, cur) => acc + cur.amount, 0);
+  }, [currentMonthRevenue]);
+
+  const currentMonthBalance = useMemo(() => {
+    return totalRevenue - totalExpense;
+  }, [totalExpense, totalRevenue]);
+
   return (
     <View className="px-4 py-3">
       <MonthBudgetCard
-        title="My Estimated budget"
-        expense={0.0}
-        revenue={0.0}
-        balance={0.0}
+        title="Mon budget prévisionnel"
+        expense={totalExpense}
+        revenue={totalRevenue}
+        balance={currentMonthBalance}
       />
 
-      <Movement title="My Income" movements={incomeMovements} />
+      <Movement title="Mes revenus" movements={currentMonthRevenue} />
 
-      <Movement title="My Spend" movements={incomeMovements} />
+      <Movement title="Mes dépenses" movements={currentMonthExpense} />
     </View>
   );
 };

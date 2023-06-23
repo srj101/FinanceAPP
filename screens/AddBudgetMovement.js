@@ -6,7 +6,7 @@ import {
   TextInput,
   Alert,
 } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AntDesign, Octicons, Ionicons } from "@expo/vector-icons";
 import moment from "moment";
 
@@ -15,14 +15,27 @@ import Options from "../components/AddBudgetMovement/Options";
 import { useNavigation } from "@react-navigation/native";
 import CustomInput from "../components/shared/CustomInput";
 import RNPickerSelect from "react-native-picker-select";
-import { budgetOptions } from "../utils/data/data";
+import { initalOptions } from "../utils/data/data";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setCurrentMonth,
+  setMovementType,
+  setMovements,
+  setSelectedCategory,
+  setSelectedDate,
+} from "../providers/state/reducers/movement";
 
-const AddBudgetMovement = () => {
+const AddBudgetMovement = (props) => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const { selectedCategory, selectedDate, movementType, movements } =
+    useSelector((state) => state.movement);
+  const { currency } = useSelector((state) => state.settings);
 
   const [selectedOption, setSelectedOption] = useState(0);
   const [repeatation, setRepeatation] = useState("NON");
   const [amount, setAmount] = useState(0);
+  const [notes, setNotes] = useState("");
 
   const handleAmountChange = (value) => {
     // Remove the "€" symbol from the value before storing it in the state
@@ -30,32 +43,118 @@ const AddBudgetMovement = () => {
     setAmount(numericValue);
   };
 
-  const onSubmit = (data) => Alert.alert("Form Data", data);
+  const onSubmit = () => {
+    if (amount === 0) {
+      Alert.alert("Please enter an amount");
+      return;
+    }
+
+    if (!selectedCategory) {
+      Alert.alert("Please choose a category");
+      return;
+    }
+
+    if (!selectedDate) {
+      Alert.alert("Please choose a date");
+      return;
+    }
+
+    if (!movementType) {
+      Alert.alert("Something went wrong, please try again");
+      navigation.goBack();
+      return;
+    }
+
+    // list of all 12 months
+    const months = moment.months();
+
+    // get the index of the selected month
+    const selectedMonthIndex = months.indexOf(
+      moment(selectedDate).format("MMMM")
+    );
+
+    // get the selected month
+    let selectedMonth = movements[selectedMonthIndex];
+
+    if (repeatation === "NON") {
+      // add the movement to the selected month
+      if (movementType === "ESTIMATED_BUDGET") {
+        const { estimatedBudgets } = selectedMonth;
+        selectedMonth["estimatedBudgets"] = [
+          ...estimatedBudgets,
+          {
+            id: Math.random().toString(),
+            amount,
+            category: selectedCategory,
+            date: selectedDate,
+            type: selectedOption,
+            notes,
+          },
+        ];
+      } else if (movementType === "REAL_BUDGET") {
+        const { actualBudgets } = selectedMonth;
+        selectedMonth["actualBudgets"] = [
+          ...actualBudgets,
+          {
+            id: Math.random().toString(),
+            amount,
+            category: selectedCategory,
+            date: selectedDate,
+            notes,
+            type: selectedOption,
+          },
+        ];
+      }
+    }
+
+    const newMovements = movements.map((month, index) => {
+      if (index === selectedMonthIndex) {
+        return selectedMonth;
+      }
+      return month;
+    });
+
+    dispatch(setMovements(newMovements));
+
+    Alert.alert("Success", "Movement added successfully");
+
+    dispatch(setSelectedCategory(null));
+    dispatch(setSelectedDate(new Date().toISOString().split("T")[0]));
+    dispatch(setMovementType(null));
+    dispatch(setCurrentMonth(selectedMonthIndex));
+    navigation.goBack();
+  };
+
+  const handleClose = () => {
+    dispatch(setSelectedCategory(null));
+    dispatch(setSelectedDate(new Date().toISOString().split("T")[0]));
+    navigation.goBack();
+  };
 
   return (
     <SafeAreaView style={{ flex: 1 }} className="mx-4">
       <View className="flex relative flex-row justify-between items-center ">
-        <TouchableOpacity onPress={navigation.goBack}>
+        <TouchableOpacity onPress={handleClose}>
           <Text style={{ fontSize: 30, fontFamily: "OpenSans-Regular" }}>
             <AntDesign name="close" size={30} color={colors.black} />
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={onSubmit}>
           <Octicons name="check" size={30} color={colors.black} />
         </TouchableOpacity>
       </View>
 
       <Options
-        options={budgetOptions}
+        options={initalOptions}
         selected={selectedOption}
         setSelected={setSelectedOption}
       />
 
       <TextInput
         keyboardType="numeric"
-        placeholder="0.00 €"
-        value={`${amount.toFixed(2).toString()} €`}
+        placeholder={`0.00 ${currency}`}
+        value={`${amount.toFixed(2).toString()} ${currency}`}
         onChangeText={handleAmountChange}
         style={{
           fontFamily: "OpenSans-Bold",
@@ -63,7 +162,7 @@ const AddBudgetMovement = () => {
         className="text-center text-4xl my-5"
       />
 
-      <CustomInput name="Category">
+      <CustomInput name="Catégorie">
         <TouchableOpacity
           onPress={() => navigation.navigate("CategoryStack")}
           className="flex flex-row justify-end items-center gap-2"
@@ -75,7 +174,7 @@ const AddBudgetMovement = () => {
               color: colors.primary,
             }}
           >
-            Choose
+            {selectedCategory ? selectedCategory.name : "Choisir"}
           </Text>
           <Ionicons
             name="md-arrow-forward-circle"
@@ -97,7 +196,7 @@ const AddBudgetMovement = () => {
               color: colors.primary,
             }}
           >
-            {moment().format("DD MMMM YYYY")}
+            {moment(selectedDate).format("DD MMMM YYYY")}
           </Text>
           <Ionicons
             name="md-arrow-forward-circle"
@@ -107,7 +206,7 @@ const AddBudgetMovement = () => {
         </TouchableOpacity>
       </CustomInput>
 
-      <CustomInput name="Repetition">
+      <CustomInput name="Répétition">
         <RNPickerSelect
           onValueChange={(value) => setRepeatation(value)}
           value={repeatation}
@@ -154,6 +253,8 @@ const AddBudgetMovement = () => {
           alignItems: "flex-start",
           height: 150,
         }}
+        value={notes}
+        onChangeText={setNotes}
         multiline
         numberOfLines={4}
         className=" text-xl my-5"

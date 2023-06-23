@@ -1,9 +1,41 @@
 import { View, Text } from "react-native";
-import React from "react";
+import React, { useMemo } from "react";
 import moment from "moment";
 import DashedBorder from "../DashedBorder";
+import { useSelector } from "react-redux";
 
 const NetWorth = () => {
+  const { currentMonth, worths } = useSelector((state) => state.worth);
+  const { currency } = useSelector((state) => state.settings);
+
+  const currentMonthAssets = useMemo(() => {
+    return worths[currentMonth].assets;
+  }, [currentMonth]);
+
+  const currentMonthLiabilities = useMemo(() => {
+    return worths[currentMonth].liabilities;
+  }, [currentMonth]);
+
+  const totalAssets = useMemo(() => {
+    return currentMonthAssets.reduce((acc, cur) => acc + cur.amount, 0);
+  }, [currentMonthAssets]);
+
+  const totalPassives = useMemo(() => {
+    return currentMonthLiabilities.reduce((acc, cur) => acc + cur.amount, 0);
+  }, [currentMonthLiabilities]);
+
+  // Last date of the month from month index value (0-11)
+  console.log("currentMonth", currentMonth);
+  const lastDate = useMemo(() => {
+    return moment(currentMonth + 1, "M")
+      .endOf("month")
+      .format("DD.MM.YYYY");
+  }, [currentMonth]);
+
+  const netWorth = useMemo(() => {
+    return totalAssets - totalPassives;
+  }, [totalAssets, totalPassives]);
+
   return (
     <View>
       <Text
@@ -12,7 +44,7 @@ const NetWorth = () => {
         }}
         className="text-2xl text-center my-10"
       >
-        As of {moment().format("DD.MM.YYYY")}
+        Au {lastDate}
       </Text>
 
       <View className="flex flex-row justify-center items-center pb-10">
@@ -23,10 +55,12 @@ const NetWorth = () => {
               fontFamily: "OpenSans-SemiBold",
             }}
           >
-            Assets
+            Actifs
           </Text>
 
-          <Text>0.00 €</Text>
+          <Text>
+            {totalAssets.toFixed(2)} {currency}
+          </Text>
         </View>
 
         <DashedBorder />
@@ -38,20 +72,31 @@ const NetWorth = () => {
               fontFamily: "OpenSans-SemiBold",
             }}
           >
-            Passives
+            Passifs
           </Text>
 
-          <Text>0.00 €</Text>
+          <Text>
+            {totalPassives.toFixed(2)} {currency}
+          </Text>
         </View>
       </View>
 
       <Text
-        className="text-center text-2xl py-10"
+        className="text-center text-2xl pt-10"
         style={{
           fontFamily: "OpenSans-SemiBold",
         }}
       >
-        Net Worth: 0.00 €
+        Ma valeur nette est de
+      </Text>
+
+      <Text
+        className="text-center text-2xl py-3"
+        style={{
+          fontFamily: "OpenSans-Bold",
+        }}
+      >
+        {netWorth.toFixed(2)} {currency}
       </Text>
 
       <Text
@@ -60,8 +105,11 @@ const NetWorth = () => {
           fontFamily: "OpenSans-Regular",
         }}
       >
-        Your assets cover your debts. This situation is not ideal. Increase your
-        assets and reduce your debts to improve your net worth.
+        {netWorth === 0
+          ? "Votre patrimoine couvre vos dettes. Cette situation n’est pas l’idéal. Augmentez vos actifs et réduisez vos dettes pour améliorer votre valeur nette"
+          : netWorth > 0
+          ? "Bravo! Vous êtes en bonne santé financièrement. Continuez à accroitre vos actifs et à réduire vos dettes."
+          : "Oups. Vous devez plus que vous ne possédez. C’est peut-être le moment de se concentrer sur la réduction de dettes et ou d’augmenter les éléments de votre patrimoine."}
       </Text>
     </View>
   );

@@ -1,14 +1,17 @@
 import { View, Text } from "react-native";
 import React from "react";
 import DashedBorder from "../DashedBorder";
+import { useSelector } from "react-redux";
 
 const MonthAnalysisCard = ({
-  title = "Salary",
+  title = "Salaire",
   forseen = 0,
   accomplished = 0,
   gap = 0,
   color = "#000",
 }) => {
+  const { currency } = useSelector((state) => state.settings);
+
   return (
     <View className="py-4">
       <Text
@@ -28,10 +31,12 @@ const MonthAnalysisCard = ({
               fontFamily: "OpenSans-SemiBold",
             }}
           >
-            Foreseen
+            Prévu
           </Text>
 
-          <Text>{forseen.toFixed(2)} €</Text>
+          <Text>
+            {forseen.toFixed(2)} {currency}
+          </Text>
         </View>
         <DashedBorder />
         <View className="flex flex-col items-center justify-center gap-4">
@@ -42,9 +47,11 @@ const MonthAnalysisCard = ({
               color: color,
             }}
           >
-            Accomplished
+            Réalisé
           </Text>
-          <Text>{accomplished.toFixed(2)} €</Text>
+          <Text>
+            {accomplished.toFixed(2)} {currency}
+          </Text>
         </View>
         <DashedBorder />
         <View className="flex flex-col items-center justify-center gap-4">
@@ -54,9 +61,11 @@ const MonthAnalysisCard = ({
               fontFamily: "OpenSans-SemiBold",
             }}
           >
-            Gap
+            Ecart
           </Text>
-          <Text>{gap.toFixed(2)} €</Text>
+          <Text>
+            {gap.toFixed(2)} {currency}
+          </Text>
         </View>
       </View>
     </View>

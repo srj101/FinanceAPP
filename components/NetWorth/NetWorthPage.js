@@ -17,8 +17,6 @@ const NetWorthPage = ({ item, currentIndex }) => {
     return currentIndex;
   }, [currentIndex]);
 
-  console.log(currentIdx);
-
   let renderedComponent;
 
   switch (currentIdx) {

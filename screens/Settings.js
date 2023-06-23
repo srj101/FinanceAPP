@@ -31,11 +31,13 @@ const Settings = () => {
         />
       </TouchableOpacity>
 
-      <View className="py-6">
+      <View className="py-3">
         <FlatList
           data={settings}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <SettingItem item={item} />}
+          renderItem={({ item }) => (
+            <SettingItem item={item} navigation={navigation} />
+          )}
         />
       </View>
 

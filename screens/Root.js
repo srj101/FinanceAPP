@@ -12,6 +12,21 @@ import AddNetWorthMovement from "./AddNetWorthMovement";
 import Settings from "./Settings";
 import SelectCategory from "./SelectCategory";
 import NewCategory from "./NewCategory";
+import Subscribe from "./Subscribe";
+import AppLoading from "../components/AppLoading";
+import CategoryList from "./CategoryList";
+import { setCategories } from "../providers/state/reducers/categories";
+import { useDispatch } from "react-redux";
+import {
+  categories,
+  currencies,
+  initalNetWorth,
+  initialMovements,
+} from "../utils/data/data";
+import EditCategory from "./EditCategory";
+import { setCurrencies } from "../providers/state/reducers/settings";
+import { setMovements } from "../providers/state/reducers/movement";
+import { setInitialWorths } from "../providers/state/reducers/worth";
 const Stack = createNativeStackNavigator();
 
 const HomeStack = () => {
@@ -26,7 +41,7 @@ const HomeStack = () => {
       <Stack.Screen name="MonthlyBudgetStack" component={BudgetStack} />
       <Stack.Screen name="NetWorthStack" component={NetWorthStack} />
       <Stack.Screen name="CategoryStack" component={CategoryStack} />
-      <Stack.Screen name="Settings" component={SettingsStack} />
+      <Stack.Screen name="SettingsStack" component={SettingsStack} />
     </Stack.Navigator>
   );
 };
@@ -54,6 +69,8 @@ const SettingsStack = () => {
       }}
     >
       <Stack.Screen name="Settings" component={Settings} />
+      <Stack.Screen name="CategoryList" component={CategoryList} />
+      <Stack.Screen name="EditCategory" component={EditCategory} />
     </Stack.Navigator>
   );
 };
@@ -122,11 +139,15 @@ const AddMovementStack = () => {
 
 const Root = () => {
   const [isFirstLaunch, setIsFirstLaunch] = React.useState(null);
-
+  const dispatch = useDispatch();
   React.useEffect(() => {
+    dispatch(setCurrencies(currencies));
     getValueFor("onboarding")
       .then((res) => {
         if (res === null) {
+          dispatch(setCategories(categories));
+          dispatch(setMovements(initialMovements));
+          dispatch(setInitialWorths(initalNetWorth));
           setIsFirstLaunch(true);
         } else {
           setIsFirstLaunch(false);
@@ -134,6 +155,10 @@ const Root = () => {
       })
       .catch((err) => {});
   }, []);
+
+  if (isFirstLaunch === null) {
+    return <AppLoading />;
+  }
 
   return (
     <View
@@ -143,7 +168,7 @@ const Root = () => {
       }}
     >
       <Stack.Navigator
-        initialRouteName={isFirstLaunch ? `OnBoarding` : `HomeStack`}
+        initialRouteName={isFirstLaunch ? `OnBoarding` : "HomeStack"}
       >
         <Stack.Screen
           name="OnBoarding"
@@ -158,6 +183,15 @@ const Root = () => {
           component={HomeStack}
           options={{
             headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="PayWall"
+          component={Subscribe}
+          options={{
+            headerShown: false,
+            presentation: "modal",
           }}
         />
       </Stack.Navigator>

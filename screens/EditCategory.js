@@ -16,17 +16,20 @@ import IconItem from "../components/IconItem";
 import { useDispatch } from "react-redux";
 import {
   addCategory,
+  editCategory,
   resetState,
 } from "../providers/state/reducers/categories";
 
-const NewCategory = () => {
+const EditCategory = (props) => {
+  const { item } = props.route.params;
+
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const [categoryName, setCategoryName] = useState("");
-  const [categoryColor, setCategoryColor] = useState(undefined);
-  const [categoryIcon, setCategoryIcon] = useState("");
+  const [categoryName, setCategoryName] = useState(item.name);
+  const [categoryColor, setCategoryColor] = useState(item.color);
+  const [categoryIcon, setCategoryIcon] = useState(item.icon);
 
-  const handleCreateCategory = () => {
+  const handleEditCategory = () => {
     if (!categoryName) {
       alert("Please enter a name");
 
@@ -46,7 +49,7 @@ const NewCategory = () => {
     }
 
     const category = {
-      id: Math.floor(Math.random() * 100000000),
+      id: item.id,
       name: categoryName,
       color: categoryColor,
       icon: categoryIcon,
@@ -56,7 +59,7 @@ const NewCategory = () => {
     setCategoryColor("");
     setCategoryIcon("");
 
-    dispatch(addCategory(category));
+    dispatch(editCategory(category));
     navigation.goBack();
   };
 
@@ -69,20 +72,20 @@ const NewCategory = () => {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={handleCreateCategory}>
+        <TouchableOpacity onPress={handleEditCategory}>
           <Octicons name="check" size={30} color={colors.black} />
         </TouchableOpacity>
       </View>
 
       <View className="py-5">
         <TextInput
-          placeholder="Entrez un nom"
+          placeholder="Enter A Name"
           value={categoryName}
           onChangeText={setCategoryName}
           style={{
             fontFamily: "OpenSans-Regular",
-            color: categoryColor?.color ? colors.white : colors.black,
-            backgroundColor: categoryColor?.color || colors.lightGray2,
+            color: colors.black,
+            backgroundColor: colors.lightGray,
           }}
           className="py-4 px-4 text-xl rounded-full text-center"
           multiline={false}
@@ -153,4 +156,4 @@ const NewCategory = () => {
   );
 };
 
-export default NewCategory;
+export default EditCategory;

@@ -14,11 +14,24 @@ const Movement = ({ movements, title }) => {
       >
         {title}
       </Text>
-      <FlatList
-        data={movements}
-        renderItem={({ item }) => <MovementItem item={item} />}
-        keyExtractor={(item) => item.id}
-      />
+
+      {movements.length > 0 ? (
+        <FlatList
+          data={movements}
+          renderItem={({ item }) => <MovementItem item={item} />}
+          keyExtractor={(item) => item.id}
+        />
+      ) : (
+        <Text
+          className="text-sm"
+          style={{
+            fontFamily: "OpenSans-Regular",
+            letterSpacing: 0.1,
+          }}
+        >
+          No movements added
+        </Text>
+      )}
     </View>
   );
 };

@@ -37,7 +37,7 @@ const OnBoarding = () => {
     if (currentIndex < slides.length - 1) {
       slideRef.current.scrollToIndex({ index: currentIndex + 1 });
     } else {
-      console.log("Purhcase");
+      console.log("Hello from OnBoarding.js");
     }
   };
 
@@ -66,7 +66,7 @@ const OnBoarding = () => {
                 fontFamily: "OpenSans-Regular",
               }}
             >
-              Ignore
+              Ignorer
             </Text>
           </TouchableOpacity>
         )

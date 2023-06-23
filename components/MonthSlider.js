@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import colors from "../utils/colors";
 import MonthItem from "./MonthItem";
 import { setCurrentMonthID } from "../providers/state/reducers/months";
+import { setCurrentMonth } from "../providers/state/reducers/movement";
+import moment from "moment";
+import { setCurrentMonthIdx } from "../providers/state/reducers/worth";
 
 const MonthSlider = () => {
   const dispatch = useDispatch();
@@ -35,6 +38,11 @@ const MonthSlider = () => {
     if (currentIndex < months.length - 1) {
       monthRef.current.scrollToIndex({ index: currentIndex + 1 });
     }
+  }, [currentIndex]);
+
+  React.useEffect(() => {
+    dispatch(setCurrentMonth(currentIndex));
+    dispatch(setCurrentMonthIdx(currentIndex));
   }, [currentIndex]);
 
   return (

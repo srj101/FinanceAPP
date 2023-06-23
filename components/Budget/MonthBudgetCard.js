@@ -1,6 +1,7 @@
 import { View, Text } from "react-native";
 import React from "react";
 import DashedBorder from "../DashedBorder";
+import { useSelector } from "react-redux";
 
 const MonthBudgetCard = ({
   title = "Budget",
@@ -8,6 +9,7 @@ const MonthBudgetCard = ({
   expense = 0,
   balance = 0,
 }) => {
+  const { currency } = useSelector((state) => state.settings);
   return (
     <View>
       <Text
@@ -27,10 +29,12 @@ const MonthBudgetCard = ({
               fontFamily: "OpenSans-SemiBold",
             }}
           >
-            Revenue
+            Revenus
           </Text>
 
-          <Text>{revenue.toFixed(2)} €</Text>
+          <Text>
+            {revenue.toFixed(2)} {currency}
+          </Text>
         </View>
         <DashedBorder />
         <View className="flex flex-col items-center justify-center gap-4">
@@ -40,9 +44,11 @@ const MonthBudgetCard = ({
               fontFamily: "OpenSans-SemiBold",
             }}
           >
-            Expenses
+            Dépenses
           </Text>
-          <Text>{expense.toFixed(2)} €</Text>
+          <Text>
+            {expense.toFixed(2)} {currency}
+          </Text>
         </View>
         <DashedBorder />
         <View className="flex flex-col items-center justify-center gap-4">
@@ -52,9 +58,11 @@ const MonthBudgetCard = ({
               fontFamily: "OpenSans-SemiBold",
             }}
           >
-            Balance
+            Solde
           </Text>
-          <Text>{balance.toFixed(2)} €</Text>
+          <Text>
+            {balance.toFixed(2)} {currency}
+          </Text>
         </View>
       </View>
     </View>

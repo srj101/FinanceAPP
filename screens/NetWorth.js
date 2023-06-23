@@ -6,7 +6,7 @@ import {
   Animated,
   FlatList,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { AntDesign, Feather } from "@expo/vector-icons";
 import MonthSlider from "../components/MonthSlider";
 import colors from "../utils/colors";
@@ -14,9 +14,15 @@ import Paginator from "../components/Paginator";
 import netWorthPages from "../utils/data/netWorthPages";
 import { useNavigation } from "@react-navigation/native";
 import NetWorthPage from "../components/NetWorth/NetWorthPage";
+import { useDispatch } from "react-redux";
+import {
+  setCurrentMonthIdx,
+  setWorthType,
+} from "../providers/state/reducers/worth";
 
 const NetWorth = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
   const [currentIndex, setCurrentIndex] = React.useState(0);
 
   const scrollX = React.useRef(new Animated.Value(0)).current;
@@ -31,6 +37,21 @@ const NetWorth = () => {
     viewAreaCoveragePercentThreshold: 50,
   }).current;
 
+  useEffect(() => {
+    dispatch(setCurrentMonthIdx(0));
+  }, []);
+
+  useEffect(() => {
+    let type = "";
+    if (currentIndex === 1) {
+      type = "ASSETS";
+    }
+    if (currentIndex === 2) {
+      type = "LIABILITIES";
+    }
+    dispatch(setWorthType(type));
+  }, [currentIndex]);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View className="flex relative flex-row justify-between items-center mx-4">
@@ -44,7 +65,7 @@ const NetWorth = () => {
           <MonthSlider />
         </View>
 
-        <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+        <TouchableOpacity onPress={() => navigation.navigate("SettingsStack")}>
           <Feather name="settings" size={30} color={colors.black} />
         </TouchableOpacity>
       </View>

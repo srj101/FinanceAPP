@@ -14,14 +14,28 @@ import colors from "../utils/colors";
 import Options from "../components/AddBudgetMovement/Options";
 import { useNavigation } from "@react-navigation/native";
 import CustomInput from "../components/shared/CustomInput";
-import RNPickerSelect from "react-native-picker-select";
 import { netWorthOptions } from "../utils/data/data";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setCategory,
+  setCurrentMonthIdx,
+  setDate,
+  setWorths,
+} from "../providers/state/reducers/worth";
 
 const AddNetWorthMovement = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const { currency } = useSelector((state) => state.settings);
 
   const [selectedOption, setSelectedOption] = useState(0);
   const [amount, setAmount] = useState(0);
+  const [notes, setNotes] = useState("");
+
+  const { selectedCategory, selectedDate, worths, worthType } = useSelector(
+    (state) => state.worth
+  );
 
   const handleAmountChange = (value) => {
     // Remove the "€" symbol from the value before storing it in the state
@@ -29,7 +43,81 @@ const AddNetWorthMovement = () => {
     setAmount(numericValue);
   };
 
-  const onSubmit = (data) => Alert.alert("Form Data", data);
+  const onSubmit = () => {
+    if (amount === 0) {
+      Alert.alert("Amount cannot be 0");
+      return;
+    }
+    if (!selectedCategory) {
+      Alert.alert("Please select a category");
+      return;
+    }
+    if (!selectedDate) {
+      Alert.alert("Please select a date");
+      return;
+    }
+
+    // list of all 12 months
+    const months = moment.months();
+
+    // get the index of the selected month
+    const selectedMonthIndex = months.indexOf(
+      moment(selectedDate).format("MMMM")
+    );
+
+    // get the selected month
+    let selectedMonth = worths[selectedMonthIndex];
+
+    if (worthType === "ASSETS") {
+      // Asset
+      const { assets } = selectedMonth;
+      selectedMonth["assets"] = [
+        ...assets,
+        {
+          id: Math.random().toString(),
+          amount,
+          category: selectedCategory,
+          date: selectedDate,
+          type: selectedOption,
+          notes,
+        },
+      ];
+    } else if (worthType === "LIABILITIES") {
+      // Liability
+      const { liabilities } = selectedMonth;
+      selectedMonth["liabilities"] = [
+        ...liabilities,
+        {
+          id: Math.random().toString(),
+          amount,
+          category: selectedCategory,
+          date: selectedDate,
+          notes,
+          type: selectedOption,
+        },
+      ];
+    }
+
+    const newNetWorth = worths.map((month, index) => {
+      if (index === selectedMonthIndex) {
+        return selectedMonth;
+      }
+      return month;
+    });
+
+    dispatch(setWorths(newNetWorth));
+    alert("Net item added successfully");
+
+    // Reset state
+    setAmount(0);
+    setNotes("");
+    setSelectedOption(0);
+    dispatch(setCategory(null));
+    dispatch(setDate(new Date().toISOString().split("T")[0]));
+    dispatch(setCurrentMonthIdx(selectedMonthIndex));
+
+    navigation.goBack();
+  };
 
   return (
     <SafeAreaView style={{ flex: 1 }} className="mx-4">
@@ -40,7 +128,7 @@ const AddNetWorthMovement = () => {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={onSubmit}>
           <Octicons name="check" size={30} color={colors.black} />
         </TouchableOpacity>
       </View>
@@ -53,8 +141,8 @@ const AddNetWorthMovement = () => {
 
       <TextInput
         keyboardType="numeric"
-        placeholder="0.00 €"
-        value={`${amount.toFixed(2).toString()} €`}
+        placeholder={`0.00 ${currency}`}
+        value={`${amount.toFixed(2).toString()} ${currency}`}
         onChangeText={handleAmountChange}
         style={{
           fontFamily: "OpenSans-Bold",
@@ -62,7 +150,7 @@ const AddNetWorthMovement = () => {
         className="text-center text-4xl my-5"
       />
 
-      <CustomInput name="Category">
+      <CustomInput name="Catégories">
         <TouchableOpacity
           className="flex flex-row justify-end items-center gap-2"
           onPress={() => navigation.navigate("CategoryStack")}
@@ -74,7 +162,7 @@ const AddNetWorthMovement = () => {
               color: colors.primary,
             }}
           >
-            Choose
+            {selectedCategory ? selectedCategory.name : "Choisir"}
           </Text>
           <Ionicons
             name="md-arrow-forward-circle"
@@ -96,7 +184,7 @@ const AddNetWorthMovement = () => {
               color: colors.primary,
             }}
           >
-            {moment().format("DD MMMM YYYY")}
+            {moment(selectedDate).format("DD MMMM YYYY")}
           </Text>
           <Ionicons
             name="md-arrow-forward-circle"
@@ -110,6 +198,8 @@ const AddNetWorthMovement = () => {
 
       <TextInput
         placeholder="Notes"
+        value={notes}
+        onChangeText={setNotes}
         style={{
           fontFamily: "OpenSans-Regular",
           backgroundColor: colors.lightGray,

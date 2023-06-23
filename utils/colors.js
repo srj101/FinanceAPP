@@ -15,4 +15,5 @@ export default COLORS = {
   transparentBlack8: "#000000CC",
   transparentBlack10: "#0000001A",
   transparentBlack11: "#0000001F",
+  transparent: "transparent",
 };

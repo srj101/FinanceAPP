@@ -2,10 +2,18 @@ import { View, Text, StyleSheet } from "react-native";
 import React from "react";
 import colors from "../utils/colors";
 
-const UpgradePlan = () => {
+const UpgradePlan = ({ textColor }) => {
   return (
     <View className="px-5 py-4">
-      <Text className="text-xl text-center mb-5" style={styles.upgradeText}>
+      <Text
+        className="text-xl text-center mb-5"
+        style={[
+          styles.upgradeText,
+          {
+            color: textColor ? textColor : colors.black,
+          },
+        ]}
+      >
         Payez{" "}
         <Text
           style={{
@@ -22,6 +30,7 @@ const UpgradePlan = () => {
         className="text-center py-5 text-md px-4"
         style={{
           fontFamily: "OpenSans-Regular",
+          color: textColor ? textColor : colors.black,
         }}
       >
         Je suis salariée et entrepreneure. Lorsque je ne travaille pas pour mon
@@ -33,6 +42,7 @@ const UpgradePlan = () => {
       <Text
         style={{
           fontFamily: "OpenSans-Regular",
+          color: textColor ? textColor : colors.black,
         }}
         className="text-center font-extrabold text-xl py-5"
       >

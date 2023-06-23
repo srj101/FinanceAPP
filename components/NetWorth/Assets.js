@@ -1,9 +1,15 @@
 import { View, Text, FlatList } from "react-native";
-import React from "react";
+import React, { useMemo } from "react";
 import MovementItem from "../Budget/movement/movementItem";
-import { assets } from "../../utils/data/data";
+import { useSelector } from "react-redux";
 
 const Assets = () => {
+  const { currentMonth, worths } = useSelector((state) => state.worth);
+
+  const currentMonthAssets = useMemo(() => {
+    return worths[currentMonth].assets;
+  }, [currentMonth]);
+
   return (
     <View className="mx-6">
       <Text
@@ -12,15 +18,26 @@ const Assets = () => {
         }}
         className="text-2xl text-center my-10"
       >
-        My Assets
+        Mes actifs
       </Text>
 
       <View>
-        <FlatList
-          data={assets}
-          renderItem={({ item }) => <MovementItem item={item} />}
-          keyExtractor={(item) => item.id.toString()}
-        />
+        {currentMonthAssets.length > 0 ? (
+          <FlatList
+            data={currentMonthAssets}
+            renderItem={({ item }) => <MovementItem item={item} />}
+            keyExtractor={(item) => item.id.toString()}
+          />
+        ) : (
+          <Text
+            className="text-md text-center my-10"
+            style={{
+              fontFamily: "OpenSans-Regular",
+            }}
+          >
+            aucun actif ajouté pour le moment
+          </Text>
+        )}
       </View>
     </View>
   );

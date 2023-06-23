@@ -15,9 +15,10 @@ const Options = (props) => {
             backgroundColor: option.color,
             borderRadius: 100,
             borderWidth: 2,
-            borderColor: selected === option.id ? colors.primary : option.color,
+            borderColor:
+              selected === option.name ? colors.primary : option.color,
           }}
-          onPress={() => setSelected(option.id)}
+          onPress={() => setSelected(option.name)}
         >
           <Text
             className="text-center text-xl"
