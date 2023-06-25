@@ -76,6 +76,9 @@ const AddBudgetMovement = (props) => {
     // get the selected month
     let selectedMonth = movements[selectedMonthIndex];
 
+    // months till last month from selected month
+    const monthsTillLastMonth = months.slice(selectedMonthIndex, undefined);
+
     if (repeatation === "NON") {
       // add the movement to the selected month
       if (movementType === "ESTIMATED_BUDGET") {
@@ -105,6 +108,39 @@ const AddBudgetMovement = (props) => {
           },
         ];
       }
+    } else if (repeatation === "OUI") {
+      monthsTillLastMonth.forEach((month) => {
+        const monthIndex = months.indexOf(month);
+        let selectedMonth = movements[monthIndex];
+
+        if (movementType === "ESTIMATED_BUDGET") {
+          const { estimatedBudgets } = selectedMonth;
+          selectedMonth["estimatedBudgets"] = [
+            ...estimatedBudgets,
+            {
+              id: Math.random().toString(),
+              amount,
+              category: selectedCategory,
+              date: selectedDate,
+              type: selectedOption,
+              notes,
+            },
+          ];
+        } else if (movementType === "REAL_BUDGET") {
+          const { actualBudgets } = selectedMonth;
+          selectedMonth["actualBudgets"] = [
+            ...actualBudgets,
+            {
+              id: Math.random().toString(),
+              amount,
+              category: selectedCategory,
+              date: selectedDate,
+              notes,
+              type: selectedOption,
+            },
+          ];
+        }
+      });
     }
 
     const newMovements = movements.map((month, index) => {

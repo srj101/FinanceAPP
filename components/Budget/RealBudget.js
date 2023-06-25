@@ -35,15 +35,15 @@ const RealBudget = () => {
   return (
     <View className="px-4 py-3">
       <MonthBudgetCard
-        title="My Real budget"
+        title="Mon budget réel"
         expense={totalExpense}
         revenue={totalRevenue}
         balance={currentMonthBalance}
       />
 
-      <Movement title="My Income" movements={currentMonthRevenue} />
+      <Movement title="Mes revenus" movements={currentMonthRevenue} />
 
-      <Movement title="My Spend" movements={currentMonthExpense} />
+      <Movement title="Mes dépenses" movements={currentMonthExpense} />
     </View>
   );
 };

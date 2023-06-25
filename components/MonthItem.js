@@ -3,6 +3,26 @@ import React from "react";
 
 const MonthItem = ({ item, currentIndex }) => {
   const { id, month } = item;
+
+  const getFrenchMonth = (month) => {
+    const months = {
+      January: "Janvier",
+      February: "Février",
+      March: "Mars",
+      April: "Avril",
+      May: "Mai",
+      June: "Juin",
+      July: "Juillet",
+      August: "Août",
+      September: "Septembre",
+      October: "Octobre",
+      November: "Novembre",
+      December: "Décembre",
+    };
+
+    return months[month];
+  };
+
   return (
     <View style={styles.container}>
       <Text
@@ -11,7 +31,7 @@ const MonthItem = ({ item, currentIndex }) => {
         }}
         className="text-lg font-bold uppercase"
       >
-        {month}
+        {getFrenchMonth(month)}
       </Text>
     </View>
   );

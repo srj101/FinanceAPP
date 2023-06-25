@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  currency: { label: "Euro", value: "€" },
+  currency: "€",
   decimalEnabled: false,
   currencies: [
     { label: "Euro", value: "€" },

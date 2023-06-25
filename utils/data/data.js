@@ -19,13 +19,13 @@ export const netWorthOptions = [
 export const settings = [
   {
     id: "1",
-    title: "Categories",
+    title: "Catégories",
     icon: "carryout",
     screen: "Categories",
   },
   {
     id: "2",
-    title: "Currency",
+    title: "Devise",
     icon: "bank",
     screen: "Currency",
   },
@@ -41,7 +41,7 @@ export const settings = [
   },
   {
     id: "5",
-    title: "Enable Decimal",
+    title: "Activer décimal",
     icon: "checksquareo",
   },
   {
@@ -51,7 +51,7 @@ export const settings = [
   },
 ];
 
-export const categories = [
+export const initialCategories = [
   {
     id: 1,
     name: "Book",

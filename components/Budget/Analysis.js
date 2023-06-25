@@ -77,19 +77,30 @@ const Analysis = () => {
           fontFamily: "OpenSans-Bold",
         }}
       >
-        My end of month analysis
+        Mon analyse de fin de mois
       </Text>
 
-      {categories.map((c) => (
-        <MonthAnalysisCard
-          key={c.category.id}
-          title={c.category.name}
-          forseen={c.forseen}
-          accomplished={c.accomplished}
-          gap={c.gap}
-          color={c.gap > 0 ? colors.green : colors.red}
-        />
-      ))}
+      {categories.length > 0 ? (
+        categories.map((c) => (
+          <MonthAnalysisCard
+            key={c.category.id}
+            title={c.category.name}
+            forseen={c.forseen}
+            accomplished={c.accomplished}
+            gap={c.gap}
+            color={c.gap > 0 ? colors.green : colors.red}
+          />
+        ))
+      ) : (
+        <Text
+          className="text-sm text-center py-10"
+          style={{
+            fontFamily: "OpenSans-Regular",
+          }}
+        >
+          Pas d'analyse pour ce mois
+        </Text>
+      )}
     </View>
   );
 };

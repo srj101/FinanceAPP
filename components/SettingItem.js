@@ -8,6 +8,7 @@ import {
   setCurrency,
   setDecimalEnabled,
 } from "../providers/state/reducers/settings";
+import { downloadJSON } from "../utils/funtions";
 
 const SettingItem = (props) => {
   const { item, navigation } = props;
@@ -17,6 +18,9 @@ const SettingItem = (props) => {
   const { decimalEnabled, currency, currencies } = useSelector(
     (state) => state.settings
   );
+
+  const { movements } = useSelector((state) => state.movement);
+  const { worths } = useSelector((state) => state.worth);
 
   const dispatch = useDispatch();
 
@@ -32,6 +36,12 @@ const SettingItem = (props) => {
     } else if (item.id === "1") {
       // CategoryList
       navigation.navigate("CategoryList");
+    } else if (item.id === "6") {
+      // Export all data to Excel
+      await downloadJSON({
+        movements,
+        worths,
+      });
     }
   };
 

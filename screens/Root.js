@@ -16,9 +16,9 @@ import Subscribe from "./Subscribe";
 import AppLoading from "../components/AppLoading";
 import CategoryList from "./CategoryList";
 import { setCategories } from "../providers/state/reducers/categories";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
-  categories,
+  initialCategories,
   currencies,
   initalNetWorth,
   initialMovements,
@@ -139,15 +139,15 @@ const AddMovementStack = () => {
 
 const Root = () => {
   const [isFirstLaunch, setIsFirstLaunch] = React.useState(null);
+  const { categories } = useSelector((state) => state.categories);
+  const { movements } = useSelector((state) => state.movement);
+  const { worths } = useSelector((state) => state.worth);
   const dispatch = useDispatch();
   React.useEffect(() => {
     dispatch(setCurrencies(currencies));
     getValueFor("onboarding")
       .then((res) => {
         if (res === null) {
-          dispatch(setCategories(categories));
-          dispatch(setMovements(initialMovements));
-          dispatch(setInitialWorths(initalNetWorth));
           setIsFirstLaunch(true);
         } else {
           setIsFirstLaunch(false);
@@ -155,6 +155,19 @@ const Root = () => {
       })
       .catch((err) => {});
   }, []);
+
+  React.useEffect(() => {
+    if (
+      isFirstLaunch === true ||
+      categories.length === 0 ||
+      movements.length === 0 ||
+      worths.length === 0
+    ) {
+      dispatch(setCategories(initialCategories));
+      dispatch(setMovements(initialMovements));
+      dispatch(setInitialWorths(initalNetWorth));
+    }
+  }, [categories, movements, worths, isFirstLaunch]);
 
   if (isFirstLaunch === null) {
     return <AppLoading />;

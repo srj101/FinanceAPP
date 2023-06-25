@@ -1,8 +1,7 @@
 import { View } from "react-native";
-import React, { useEffect, useMemo } from "react";
+import React, { useMemo } from "react";
 import MonthBudgetCard from "./MonthBudgetCard";
 import Movement from "./movement/movementCard";
-import { incomeMovements } from "../../utils/data/data";
 import { useSelector } from "react-redux";
 
 const EstimatedBudget = () => {
