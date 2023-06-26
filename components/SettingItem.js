@@ -72,6 +72,7 @@ const SettingItem = (props) => {
               color: colors.black,
               fontSize: 23,
               paddingLeft: 55,
+              paddingVertical: 10,
             },
             iconContainer: {
               position: "absolute",
@@ -80,6 +81,7 @@ const SettingItem = (props) => {
             },
           }}
           fixAndroidTouchableBug={true}
+          useNativeAndroidPickerStyle={false}
           items={currencies}
         />
       </View>

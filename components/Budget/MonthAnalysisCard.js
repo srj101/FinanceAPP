@@ -2,6 +2,7 @@ import { View, Text } from "react-native";
 import React from "react";
 import DashedBorder from "../DashedBorder";
 import { useSelector } from "react-redux";
+import { NumberFormat } from "../../utils/funtions";
 
 const MonthAnalysisCard = ({
   title = "Salaire",
@@ -10,7 +11,7 @@ const MonthAnalysisCard = ({
   gap = 0,
   color = "#000",
 }) => {
-  const { currency } = useSelector((state) => state.settings);
+  const { currency, decimalEnabled } = useSelector((state) => state.settings);
 
   return (
     <View className="py-4">
@@ -34,9 +35,7 @@ const MonthAnalysisCard = ({
             Prévu
           </Text>
 
-          <Text>
-            {forseen.toFixed(2)} {currency}
-          </Text>
+          <Text>{NumberFormat(forseen, currency, decimalEnabled)}</Text>
         </View>
         <DashedBorder />
         <View className="flex flex-col items-center justify-center gap-4">
@@ -49,9 +48,7 @@ const MonthAnalysisCard = ({
           >
             Réalisé
           </Text>
-          <Text>
-            {accomplished.toFixed(2)} {currency}
-          </Text>
+          <Text>{NumberFormat(accomplished, currency, decimalEnabled)}</Text>
         </View>
         <DashedBorder />
         <View className="flex flex-col items-center justify-center gap-4">
@@ -63,9 +60,7 @@ const MonthAnalysisCard = ({
           >
             Ecart
           </Text>
-          <Text>
-            {gap.toFixed(2)} {currency}
-          </Text>
+          <Text>{NumberFormat(gap, currency, decimalEnabled)}</Text>
         </View>
       </View>
     </View>

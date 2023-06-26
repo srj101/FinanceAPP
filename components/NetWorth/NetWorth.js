@@ -3,10 +3,11 @@ import React, { useMemo } from "react";
 import moment from "moment";
 import DashedBorder from "../DashedBorder";
 import { useSelector } from "react-redux";
+import { NumberFormat } from "../../utils/funtions";
 
 const NetWorth = () => {
   const { currentMonth, worths } = useSelector((state) => state.worth);
-  const { currency } = useSelector((state) => state.settings);
+  const { currency, decimalEnabled } = useSelector((state) => state.settings);
 
   const currentMonthAssets = useMemo(() => {
     return worths[currentMonth].assets;
@@ -58,9 +59,7 @@ const NetWorth = () => {
             Actifs
           </Text>
 
-          <Text>
-            {totalAssets.toFixed(2)} {currency}
-          </Text>
+          <Text>{NumberFormat(totalAssets, currency, decimalEnabled)}</Text>
         </View>
 
         <DashedBorder />
@@ -75,9 +74,7 @@ const NetWorth = () => {
             Passifs
           </Text>
 
-          <Text>
-            {totalPassives.toFixed(2)} {currency}
-          </Text>
+          <Text>{NumberFormat(totalPassives, currency, decimalEnabled)}</Text>
         </View>
       </View>
 
@@ -96,7 +93,7 @@ const NetWorth = () => {
           fontFamily: "OpenSans-Bold",
         }}
       >
-        {netWorth.toFixed(2)} {currency}
+        {NumberFormat(netWorth, currency, decimalEnabled)}
       </Text>
 
       <Text

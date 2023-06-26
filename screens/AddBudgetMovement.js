@@ -24,13 +24,14 @@ import {
   setSelectedCategory,
   setSelectedDate,
 } from "../providers/state/reducers/movement";
+import { NumberFormat } from "../utils/funtions";
 
 const AddBudgetMovement = (props) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { selectedCategory, selectedDate, movementType, movements } =
     useSelector((state) => state.movement);
-  const { currency } = useSelector((state) => state.settings);
+  const { currency, decimalEnabled } = useSelector((state) => state.settings);
 
   const [selectedOption, setSelectedOption] = useState(0);
   const [repeatation, setRepeatation] = useState("NON");
@@ -190,7 +191,7 @@ const AddBudgetMovement = (props) => {
       <TextInput
         keyboardType="numeric"
         placeholder={`0.00 ${currency}`}
-        value={`${amount.toFixed(2).toString()} ${currency}`}
+        value={`${NumberFormat(amount, currency, decimalEnabled)}`}
         onChangeText={handleAmountChange}
         style={{
           fontFamily: "OpenSans-Bold",
@@ -267,6 +268,7 @@ const AddBudgetMovement = (props) => {
             },
           }}
           fixAndroidTouchableBug={true}
+          useNativeAndroidPickerStyle={false}
           items={[
             { label: "NON", value: "NON" },
             { label: "OUI", value: "OUI" },

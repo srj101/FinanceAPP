@@ -22,14 +22,15 @@ import {
   setDate,
   setWorths,
 } from "../providers/state/reducers/worth";
+import { NumberFormat } from "../utils/funtions";
 
 const AddNetWorthMovement = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const { currency } = useSelector((state) => state.settings);
+  const { currency, decimalEnabled } = useSelector((state) => state.settings);
 
-  const [selectedOption, setSelectedOption] = useState(0);
+  const [selectedOption, setSelectedOption] = useState("Actif");
   const [amount, setAmount] = useState(0);
   const [notes, setNotes] = useState("");
 
@@ -68,6 +69,11 @@ const AddNetWorthMovement = () => {
     // get the selected month
     let selectedMonth = worths[selectedMonthIndex];
 
+    console.log("selectedMonth", selectedMonth);
+    console.log("SelectedCategory", selectedCategory);
+    console.log("selectedDate", selectedDate);
+    console.log("selectedOption", selectedOption);
+
     if (worthType === "ASSETS") {
       // Asset
       const { assets } = selectedMonth;
@@ -98,12 +104,16 @@ const AddNetWorthMovement = () => {
       ];
     }
 
+    console.log("selectedMonth", selectedMonth);
+
     const newNetWorth = worths.map((month, index) => {
       if (index === selectedMonthIndex) {
         return selectedMonth;
       }
       return month;
     });
+
+    console.log("newNetWorth", newNetWorth);
 
     dispatch(setWorths(newNetWorth));
     alert("Net item added successfully");
@@ -114,7 +124,6 @@ const AddNetWorthMovement = () => {
     setSelectedOption(0);
     dispatch(setCategory(null));
     dispatch(setDate(new Date().toISOString().split("T")[0]));
-    dispatch(setCurrentMonthIdx(selectedMonthIndex));
 
     navigation.goBack();
   };
@@ -142,7 +151,7 @@ const AddNetWorthMovement = () => {
       <TextInput
         keyboardType="numeric"
         placeholder={`0.00 ${currency}`}
-        value={`${amount.toFixed(2).toString()} ${currency}`}
+        value={`${NumberFormat(amount, currency, decimalEnabled)}`}
         onChangeText={handleAmountChange}
         style={{
           fontFamily: "OpenSans-Bold",

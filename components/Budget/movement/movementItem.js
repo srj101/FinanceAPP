@@ -4,11 +4,12 @@ import { useSelector } from "react-redux";
 import DashedBorder from "../../DashedBorder";
 import { AntDesign } from "@expo/vector-icons";
 import colors from "../../../utils/colors";
+import { NumberFormat } from "../../../utils/funtions";
 
 const MovementItem = ({ item }) => {
   const { icon, id, amount, color, date, category, notes } = item;
 
-  const { currency } = useSelector((state) => state.settings);
+  const { currency, decimalEnabled } = useSelector((state) => state.settings);
   return (
     <View>
       <View className="flex flex-row justify-between items-center py-4">
@@ -28,9 +29,7 @@ const MovementItem = ({ item }) => {
           </Text>
         </View>
 
-        <Text>
-          {amount.toFixed(2)} {currency}
-        </Text>
+        <Text>{NumberFormat(amount, currency, decimalEnabled)}</Text>
       </View>
 
       <DashedBorder vertical={false} />

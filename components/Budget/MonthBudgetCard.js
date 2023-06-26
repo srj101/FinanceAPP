@@ -2,6 +2,7 @@ import { View, Text } from "react-native";
 import React from "react";
 import DashedBorder from "../DashedBorder";
 import { useSelector } from "react-redux";
+import { NumberFormat } from "../../utils/funtions";
 
 const MonthBudgetCard = ({
   title = "Budget",
@@ -9,7 +10,7 @@ const MonthBudgetCard = ({
   expense = 0,
   balance = 0,
 }) => {
-  const { currency } = useSelector((state) => state.settings);
+  const { currency, decimalEnabled } = useSelector((state) => state.settings);
   return (
     <View>
       <Text
@@ -32,9 +33,7 @@ const MonthBudgetCard = ({
             Revenus
           </Text>
 
-          <Text>
-            {revenue.toFixed(2)} {currency}
-          </Text>
+          <Text>{NumberFormat(revenue, currency, decimalEnabled)}</Text>
         </View>
         <DashedBorder />
         <View className="flex flex-col items-center justify-center gap-4">
@@ -46,9 +45,7 @@ const MonthBudgetCard = ({
           >
             Dépenses
           </Text>
-          <Text>
-            {expense.toFixed(2)} {currency}
-          </Text>
+          <Text>{NumberFormat(expense, currency, decimalEnabled)}</Text>
         </View>
         <DashedBorder />
         <View className="flex flex-col items-center justify-center gap-4">
@@ -60,9 +57,7 @@ const MonthBudgetCard = ({
           >
             Solde
           </Text>
-          <Text>
-            {balance.toFixed(2)} {currency}
-          </Text>
+          <Text>{NumberFormat(balance, currency, decimalEnabled)}</Text>
         </View>
       </View>
     </View>

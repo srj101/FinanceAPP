@@ -13,6 +13,7 @@ import colors from "../../utils/colors";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedDate } from "../../providers/state/reducers/movement";
+import { setDate } from "../../providers/state/reducers/worth";
 
 const MovementDatePicker = () => {
   const navigation = useNavigation();
@@ -24,6 +25,10 @@ const MovementDatePicker = () => {
       if (selectedDate === undefined) {
         navigation.goBack();
         return;
+      }
+
+      if (event.type === "dismissed" || event.type === "set") {
+        navigation.goBack();
       }
 
       // Check if the date is within the current year
@@ -42,6 +47,7 @@ const MovementDatePicker = () => {
       currentDate = currentDate.toISOString();
 
       dispatch(setSelectedDate(currentDate));
+      dispatch(setDate(currentDate));
     },
     [selectedDate]
   );
@@ -52,6 +58,14 @@ const MovementDatePicker = () => {
     const lastDateOfCurrentYear = new Date(currentYear, 11, 31);
 
     return lastDateOfCurrentYear;
+  }, []);
+
+  const FirstDateOfCurrentYear = useMemo(() => {
+    const date = new Date();
+    const currentYear = date.getFullYear();
+    const FirstDateOfCurrentYear = new Date(currentYear, 0, 1);
+
+    return FirstDateOfCurrentYear;
   }, []);
 
   return (
@@ -75,7 +89,7 @@ const MovementDatePicker = () => {
       <RNDateTimePicker
         display="spinner"
         value={new Date(selectedDate)}
-        minimumDate={new Date()}
+        minimumDate={FirstDateOfCurrentYear}
         maximumDate={lastDateOfCurrentYear}
         mode="date"
         onChange={handleDateChange}
