@@ -8,6 +8,9 @@ import { Provider } from "react-redux";
 import { store, persistor } from "./providers/state/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { registerRootComponent } from "expo";
+import { LogBox } from "react-native";
+LogBox.ignoreAllLogs();
+console.disableYellowBox = true;
 
 export default function App() {
   return (

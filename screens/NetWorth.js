@@ -43,7 +43,7 @@ const NetWorth = () => {
 
   useEffect(() => {
     let type = "";
-    if (currentIndex === 1) {
+    if (currentIndex === 1 || currentIndex === 0) {
       type = "ASSETS";
     }
     if (currentIndex === 2) {

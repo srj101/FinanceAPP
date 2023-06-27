@@ -69,12 +69,7 @@ const AddNetWorthMovement = () => {
     // get the selected month
     let selectedMonth = worths[selectedMonthIndex];
 
-    console.log("selectedMonth", selectedMonth);
-    console.log("SelectedCategory", selectedCategory);
-    console.log("selectedDate", selectedDate);
-    console.log("selectedOption", selectedOption);
-
-    if (worthType === "ASSETS") {
+    if (selectedOption === "Actif" || worthType === "ASSETS") {
       // Asset
       const { assets } = selectedMonth;
       selectedMonth["assets"] = [
@@ -88,7 +83,7 @@ const AddNetWorthMovement = () => {
           notes,
         },
       ];
-    } else if (worthType === "LIABILITIES") {
+    } else if (selectedOption === "Passif" || worthType === "LIABILITIES") {
       // Liability
       const { liabilities } = selectedMonth;
       selectedMonth["liabilities"] = [
