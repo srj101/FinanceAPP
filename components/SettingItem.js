@@ -1,13 +1,13 @@
-import { Linking, Text, TouchableOpacity, View } from "react-native";
-import React, { useCallback } from "react";
-import colors from "../utils/colors";
 import { AntDesign } from "@expo/vector-icons";
+import React from "react";
+import { Linking, Text, TouchableOpacity, View } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setCurrency,
   setDecimalEnabled,
 } from "../providers/state/reducers/settings";
+import colors from "../utils/colors";
 import { downloadJSON } from "../utils/funtions";
 
 const SettingItem = (props) => {

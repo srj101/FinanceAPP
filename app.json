@@ -16,12 +16,20 @@
       "supportsTablet": true,
       "config": {
         "usesNonExemptEncryption": false
-      }
+      },
+      "bundleIdentifier": "com.srjoy.MoneyAdvisor"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "package": "com.srjoy.MoneyAdvisor",
+      "versionCode": 1
+    },
+    "extra": {
+      "eas": {
+        "projectId": "16a7640c-eb3e-42ea-929f-2eb895838a16"
       }
     }
   }

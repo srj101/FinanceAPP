@@ -1,27 +1,26 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  TextInput,
-  Alert,
-} from "react-native";
-import React, { useState } from "react";
-import { AntDesign, Octicons, Ionicons } from "@expo/vector-icons";
+import { AntDesign, Ionicons, Octicons } from "@expo/vector-icons";
 import moment from "moment";
+import React, { useState } from "react";
+import {
+  Alert,
+  SafeAreaView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
-import colors from "../utils/colors";
-import Options from "../components/AddBudgetMovement/Options";
 import { useNavigation } from "@react-navigation/native";
-import CustomInput from "../components/shared/CustomInput";
-import { netWorthOptions } from "../utils/data/data";
 import { useDispatch, useSelector } from "react-redux";
+import Options from "../components/AddBudgetMovement/Options";
+import CustomInput from "../components/shared/CustomInput";
 import {
   setCategory,
-  setCurrentMonthIdx,
   setDate,
   setWorths,
 } from "../providers/state/reducers/worth";
+import colors from "../utils/colors";
+import { netWorthOptions } from "../utils/data/data";
 import { NumberFormat } from "../utils/funtions";
 
 const AddNetWorthMovement = () => {
@@ -69,7 +68,7 @@ const AddNetWorthMovement = () => {
     // get the selected month
     let selectedMonth = worths[selectedMonthIndex];
 
-    if (selectedOption === "Actif" || worthType === "ASSETS") {
+    if (selectedOption === "Actif") {
       // Asset
       const { assets } = selectedMonth;
       selectedMonth["assets"] = [
@@ -83,7 +82,7 @@ const AddNetWorthMovement = () => {
           notes,
         },
       ];
-    } else if (selectedOption === "Passif" || worthType === "LIABILITIES") {
+    } else if (selectedOption === "Passif") {
       // Liability
       const { liabilities } = selectedMonth;
       selectedMonth["liabilities"] = [
