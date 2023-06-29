@@ -1,14 +1,12 @@
 {
   "expo": {
-    "name": "MoneyAdvisor",
+    "name": "TMVBudget",
     "slug": "MoneyAdvisor",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon.jpg",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": ["**/*"],
@@ -17,14 +15,14 @@
       "config": {
         "usesNonExemptEncryption": false
       },
-      "bundleIdentifier": "com.srjoy.MoneyAdvisor"
+      "bundleIdentifier": "com.srjoy.TMVBudget"
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/adaptive-icon.jpg",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.srjoy.MoneyAdvisor",
+      "package": "com.srjoy.TMVBudget",
       "versionCode": 1
     },
     "extra": {

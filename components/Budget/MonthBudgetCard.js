@@ -12,20 +12,20 @@ const MonthBudgetCard = ({
 }) => {
   const { currency, decimalEnabled } = useSelector((state) => state.settings);
   return (
-    <View>
+    <View className="pb-4">
       <Text
-        className="capitalize text-2xl font-extrabold py-4"
+        className="capitalize text-4xl pt-4 pb-6"
         style={{
-          fontFamily: "OpenSans-Bold",
+          fontFamily: "DancingScript-SemiBold",
         }}
       >
         {title}
       </Text>
 
-      <View className="flex flex-row justify-between items-center mt-4">
+      <View className="flex flex-row justify-between items-center mt-4 px-5">
         <View className="flex flex-col items-center justify-center gap-4">
           <Text
-            className="text-sm font-semibold"
+            className="text-sm uppercase"
             style={{
               fontFamily: "OpenSans-SemiBold",
             }}
@@ -33,31 +33,52 @@ const MonthBudgetCard = ({
             Revenus
           </Text>
 
-          <Text>{NumberFormat(revenue, currency, decimalEnabled)}</Text>
+          <Text
+            className="text-lg font-semibold"
+            style={{
+              fontFamily: "OpenSans-SemiBold",
+            }}
+          >
+            {NumberFormat(revenue, currency, decimalEnabled)}
+          </Text>
         </View>
         <DashedBorder />
         <View className="flex flex-col items-center justify-center gap-4">
           <Text
-            className="text-sm font-semibold"
+            className="text-sm font-semibold uppercase"
             style={{
               fontFamily: "OpenSans-SemiBold",
             }}
           >
             Dépenses
           </Text>
-          <Text>{NumberFormat(expense, currency, decimalEnabled)}</Text>
+          <Text
+            className="text-lg font-semibold"
+            style={{
+              fontFamily: "OpenSans-SemiBold",
+            }}
+          >
+            {NumberFormat(expense, currency, decimalEnabled)}
+          </Text>
         </View>
         <DashedBorder />
         <View className="flex flex-col items-center justify-center gap-4">
           <Text
-            className="text-sm font-semibold"
+            className="text-sm font-semibold uppercase"
             style={{
               fontFamily: "OpenSans-SemiBold",
             }}
           >
             Solde
           </Text>
-          <Text>{NumberFormat(balance, currency, decimalEnabled)}</Text>
+          <Text
+            className="text-lg font-semibold"
+            style={{
+              fontFamily: "OpenSans-SemiBold",
+            }}
+          >
+            {NumberFormat(balance, currency, decimalEnabled)}
+          </Text>
         </View>
       </View>
     </View>

@@ -156,7 +156,7 @@ const AddNetWorthMovement = () => {
       <CustomInput name="Catégories">
         <TouchableOpacity
           className="flex flex-row justify-end items-center gap-2"
-          onPress={() => navigation.navigate("CategoryStack")}
+          onPress={() => navigation.navigate("SelectCategory")}
         >
           <Text
             className="text-xl"

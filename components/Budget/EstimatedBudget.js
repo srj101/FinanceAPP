@@ -40,9 +40,17 @@ const EstimatedBudget = () => {
         balance={currentMonthBalance}
       />
 
-      <Movement title="Mes revenus" movements={currentMonthRevenue} />
+      <Movement
+        title="Mes revenus"
+        movements={currentMonthRevenue}
+        type="revenue"
+      />
 
-      <Movement title="Mes dépenses" movements={currentMonthExpense} />
+      <Movement
+        title="Mes dépenses"
+        movements={currentMonthExpense}
+        type="expense"
+      />
     </View>
   );
 };

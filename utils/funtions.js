@@ -1,6 +1,8 @@
 import * as FileSystem from "expo-file-system";
-import { Share } from "react-native";
 import * as Sharing from "expo-sharing";
+
+export const rgbToHex = (r, g, b) =>
+  "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 
 export const downloadJSON = async (data) => {
   const { movements, worths } = data;

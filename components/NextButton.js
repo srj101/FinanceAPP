@@ -12,10 +12,10 @@ const NextButton = ({ data, scrollTo }) => {
       }}
     >
       <Text
-        className="text-lg font-extrabold"
+        className="text-xl uppercase "
         style={{
-          color: colors.white,
-          fontFamily: "OpenSans-Regular",
+          color: colors.yellow,
+          fontFamily: "OpenSans-Bold",
         }}
       >
         {data.NextButtonText}

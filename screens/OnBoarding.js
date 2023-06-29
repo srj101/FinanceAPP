@@ -44,27 +44,25 @@ const OnBoarding = () => {
   return (
     <SafeAreaView style={styles.container} className="relative">
       {/** Logo Image */}
-      <View>
-        <Image
-          source={require("../assets/logo.png")}
-          style={{ width: 200, height: 100 }}
-        />
+      <View className={currentIndex === 0 ? `pt-20` : `pt-10`}>
+        <Image source={require("../assets/logo.png")} style={{ height: 50 }} />
       </View>
 
       {
         /** Skip Button */
         currentIndex === slides.length - 1 && (
           <TouchableOpacity
-            className="absolute top-[50] right-[30]"
+            className="absolute top-[20] right-[20]"
             onPress={async () => {
               await save("onboarding", "true");
-              navigation.replace("HomeStack", {});
+              navigation.replace("Home", {});
             }}
           >
             <Text
               style={{
-                fontFamily: "OpenSans-Regular",
+                fontFamily: "OpenSans-Bold",
               }}
+              className="text-md"
             >
               Ignorer
             </Text>

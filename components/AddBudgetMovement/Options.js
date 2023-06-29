@@ -12,7 +12,8 @@ const Options = (props) => {
           key={option.id}
           className="px-4 py-5 w-1/2"
           style={{
-            backgroundColor: option.color,
+            backgroundColor:
+              selected === option.name ? colors.black : option.color,
             borderRadius: 100,
             borderWidth: 2,
             borderColor:
@@ -21,7 +22,7 @@ const Options = (props) => {
           onPress={() => setSelected(option.name)}
         >
           <Text
-            className="text-center text-xl"
+            className="text-center text-2xl"
             style={{
               fontFamily: "OpenSans-Regular",
               color: colors.white,

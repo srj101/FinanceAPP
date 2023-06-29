@@ -3,6 +3,7 @@ import React, { useMemo } from "react";
 import MonthAnalysisCard from "./MonthAnalysisCard";
 import colors from "../../utils/colors";
 import { useSelector } from "react-redux";
+import NoMovement from "./movement/NoMovement";
 
 const Analysis = () => {
   const { currentMonth, movements } = useSelector((state) => state.movement);
@@ -92,14 +93,7 @@ const Analysis = () => {
           />
         ))
       ) : (
-        <Text
-          className="text-sm text-center py-10"
-          style={{
-            fontFamily: "OpenSans-Regular",
-          }}
-        >
-          Pas d'analyse pour ce mois
-        </Text>
+        <NoMovement type="revenue" />
       )}
     </View>
   );

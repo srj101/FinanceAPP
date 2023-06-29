@@ -1,4 +1,3 @@
-import { AntDesign } from "@expo/vector-icons";
 import colors from "../colors";
 
 export const netWorthOptions = [
@@ -13,41 +12,6 @@ export const netWorthOptions = [
     name: "Passif",
     icon: "arrow-down-circle",
     color: colors.green,
-  },
-];
-
-export const settings = [
-  {
-    id: "1",
-    title: "Catégories",
-    icon: "carryout",
-    screen: "Categories",
-  },
-  {
-    id: "2",
-    title: "Devise",
-    icon: "bank",
-    screen: "Currency",
-  },
-  {
-    id: "3",
-    title: "Aids & Support",
-    icon: "customerservice",
-  },
-  {
-    id: "4",
-    title: "The Moneyvisor",
-    icon: "user",
-  },
-  {
-    id: "5",
-    title: "Activer décimal",
-    icon: "checksquareo",
-  },
-  {
-    id: "6",
-    title: "Export",
-    icon: "download",
   },
 ];
 

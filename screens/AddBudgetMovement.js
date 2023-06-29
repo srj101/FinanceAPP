@@ -1,22 +1,22 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  TextInput,
-  Alert,
-} from "react-native";
-import React, { useEffect, useState } from "react";
-import { AntDesign, Octicons, Ionicons } from "@expo/vector-icons";
+import { AntDesign, Ionicons, Octicons } from "@expo/vector-icons";
 import moment from "moment";
+import React, { useCallback, useMemo, useState } from "react";
+import {
+  Alert,
+  Platform,
+  SafeAreaView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
-import colors from "../utils/colors";
-import Options from "../components/AddBudgetMovement/Options";
 import { useNavigation } from "@react-navigation/native";
-import CustomInput from "../components/shared/CustomInput";
+import { KeyboardAvoidingView, ScrollView } from "react-native";
 import RNPickerSelect from "react-native-picker-select";
-import { initalOptions } from "../utils/data/data";
 import { useDispatch, useSelector } from "react-redux";
+import Options from "../components/AddBudgetMovement/Options";
+import CustomInput from "../components/shared/CustomInput";
 import {
   setCurrentMonth,
   setMovementType,
@@ -24,11 +24,17 @@ import {
   setSelectedCategory,
   setSelectedDate,
 } from "../providers/state/reducers/movement";
+import colors from "../utils/colors";
+import { initalOptions } from "../utils/data/data";
 import { NumberFormat } from "../utils/funtions";
+import { setDate } from "../providers/state/reducers/worth";
+import RNDateTimePicker from "@react-native-community/datetimepicker";
 
 const AddBudgetMovement = (props) => {
+  const inputRef = React.useRef(null);
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const [showDatePicker, setShowDatePicker] = useState(false);
   const { selectedCategory, selectedDate, movementType, movements } =
     useSelector((state) => state.movement);
   const { currency, decimalEnabled } = useSelector((state) => state.settings);
@@ -37,11 +43,75 @@ const AddBudgetMovement = (props) => {
   const [repeatation, setRepeatation] = useState("NON");
   const [amount, setAmount] = useState(0);
   const [notes, setNotes] = useState("");
+  const [selectedCurrentDate, setSelectedCurrentDate] = useState(new Date());
 
   const handleAmountChange = (value) => {
-    // Remove the "€" symbol from the value before storing it in the state
-    const numericValue = parseFloat(value.replace("€", ""));
-    setAmount(numericValue);
+    if (decimalEnabled) {
+      // Remove the "€" symbol from the value before storing it in the state
+      const numericValue = parseFloat(value.replace("€", ""));
+
+      // round the value to integer
+      const roundedValue = Math.round(numericValue);
+
+      setAmount(roundedValue);
+    } else {
+      // Remove the "€" symbol from the value before storing it in the state
+      const numericValue = parseFloat(value.replace("€", ""));
+      setAmount(numericValue);
+    }
+  };
+
+  const lastDateOfCurrentYear = useMemo(() => {
+    const date = new Date();
+    const currentYear = date.getFullYear();
+    const lastDateOfCurrentYear = new Date(currentYear, 11, 31);
+
+    return lastDateOfCurrentYear;
+  }, []);
+
+  const FirstDateOfCurrentYear = useMemo(() => {
+    const date = new Date();
+    const currentYear = date.getFullYear();
+    const FirstDateOfCurrentYear = new Date(currentYear, 0, 1);
+
+    return FirstDateOfCurrentYear;
+  }, []);
+
+  const handleDateChange = useCallback(
+    (event, selectedDate) => {
+      if (event.type === "dismissed" || event.type === "set") {
+        setShowDatePicker(false);
+      }
+
+      // Check if the date is within the current year
+
+      const date = new Date();
+      const currentYear = date.getFullYear();
+      const lastDateOfCurrentYear = new Date(currentYear, 11, 31);
+
+      if (selectedDate > lastDateOfCurrentYear) {
+        alert("The date must be within the current year");
+        return;
+      }
+
+      let currentDate = selectedDate || date;
+
+      setSelectedCurrentDate(currentDate);
+
+      currentDate = currentDate.toISOString();
+      dispatch(setSelectedDate(currentDate));
+      dispatch(setDate(currentDate));
+    },
+    [selectedDate]
+  );
+
+  const handleDatePickerShow = () => {
+    const platform = Platform.OS;
+    if (platform === "ios") {
+      navigation.navigate("MovementDatePicker");
+    } else {
+      setShowDatePicker(true);
+    }
   };
 
   const onSubmit = () => {
@@ -168,136 +238,176 @@ const AddBudgetMovement = (props) => {
     navigation.goBack();
   };
 
+  const handleTextInputFocus = () => {
+    // Set the selection to the beginning of the text input
+    inputRef.current?.setSelection({ start: 0, end: 0 });
+  };
+
   return (
-    <SafeAreaView style={{ flex: 1 }} className="mx-4">
-      <View className="flex relative flex-row justify-between items-center ">
-        <TouchableOpacity onPress={handleClose}>
-          <Text style={{ fontSize: 30, fontFamily: "OpenSans-Regular" }}>
-            <AntDesign name="close" size={30} color={colors.black} />
-          </Text>
-        </TouchableOpacity>
+    <KeyboardAvoidingView
+      style={{ flexGrow: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
+      contentContainerStyle={{ flexGrow: 1 }}
+    >
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }} bounces={false}>
+        <SafeAreaView style={{ flex: 1 }} className="mx-4">
+          <View>
+            <View className="flex relative flex-row justify-between items-center ">
+              <TouchableOpacity onPress={handleClose}>
+                <Text style={{ fontSize: 30, fontFamily: "OpenSans-Regular" }}>
+                  <AntDesign name="close" size={30} color={colors.black} />
+                </Text>
+              </TouchableOpacity>
 
-        <TouchableOpacity onPress={onSubmit}>
-          <Octicons name="check" size={30} color={colors.black} />
-        </TouchableOpacity>
-      </View>
+              <TouchableOpacity onPress={onSubmit}>
+                <Octicons name="check" size={30} color={colors.black} />
+              </TouchableOpacity>
+            </View>
 
-      <Options
-        options={initalOptions}
-        selected={selectedOption}
-        setSelected={setSelectedOption}
-      />
+            <Options
+              options={initalOptions}
+              selected={selectedOption}
+              setSelected={setSelectedOption}
+            />
 
-      <TextInput
-        keyboardType="numeric"
-        placeholder={`0.00 ${currency}`}
-        value={`${NumberFormat(amount, currency, decimalEnabled)}`}
-        onChangeText={handleAmountChange}
-        style={{
-          fontFamily: "OpenSans-Bold",
-        }}
-        className="text-center text-4xl my-5"
-      />
+            <TextInput
+              ref={inputRef}
+              onFocus={handleTextInputFocus}
+              keyboardType={decimalEnabled ? "numeric" : "number-pad"}
+              placeholder={`0.00 ${currency}`}
+              value={`${NumberFormat(amount, currency, decimalEnabled)}`}
+              onChangeText={handleAmountChange}
+              style={{
+                fontFamily: "OpenSans-Bold",
+              }}
+              onKeyPress={({ nativeEvent }) => {
+                if (
+                  nativeEvent.key === "Backspace" ||
+                  nativeEvent.key === "del"
+                ) {
+                  setAmount(0);
+                }
+              }}
+              className="text-center text-4xl my-5"
+            />
 
-      <CustomInput name="Catégorie">
-        <TouchableOpacity
-          onPress={() => navigation.navigate("CategoryStack")}
-          className="flex flex-row justify-end items-center gap-2"
-        >
-          <Text
-            className="text-xl"
-            style={{
-              fontFamily: "OpenSans-Regular",
-              color: colors.primary,
-            }}
-          >
-            {selectedCategory ? selectedCategory.name : "Choisir"}
-          </Text>
-          <Ionicons
-            name="md-arrow-forward-circle"
-            size={30}
-            color={colors.primary}
-          />
-        </TouchableOpacity>
-      </CustomInput>
+            <CustomInput name="Catégorie">
+              <TouchableOpacity
+                onPress={() => navigation.navigate("SelectCategory")}
+                className="flex flex-row justify-end items-center gap-2"
+              >
+                <Text
+                  className="text-xl"
+                  style={{
+                    fontFamily: "OpenSans-Regular",
+                    color: colors.primary,
+                  }}
+                >
+                  {selectedCategory ? selectedCategory.name : "Choisir"}
+                </Text>
+                <Ionicons
+                  name="md-arrow-forward-circle"
+                  size={30}
+                  color={colors.primary}
+                />
+              </TouchableOpacity>
+            </CustomInput>
 
-      <CustomInput name="Date">
-        <TouchableOpacity
-          className="flex flex-row justify-end items-center gap-2"
-          onPress={() => navigation.navigate("MovementDatePicker")}
-        >
-          <Text
-            className="text-xl"
-            style={{
-              fontFamily: "OpenSans-Regular",
-              color: colors.primary,
-            }}
-          >
-            {moment(selectedDate).format("DD MMMM YYYY")}
-          </Text>
-          <Ionicons
-            name="md-arrow-forward-circle"
-            size={30}
-            color={colors.primary}
-          />
-        </TouchableOpacity>
-      </CustomInput>
+            <CustomInput name="Date">
+              <TouchableOpacity
+                className="flex flex-row justify-end items-center gap-2"
+                onPress={handleDatePickerShow}
+              >
+                <Text
+                  className="text-xl"
+                  style={{
+                    fontFamily: "OpenSans-Regular",
+                    color: colors.primary,
+                  }}
+                >
+                  {moment(selectedDate).format("DD MMMM YYYY")}
+                </Text>
+                <Ionicons
+                  name="md-arrow-forward-circle"
+                  size={30}
+                  color={colors.primary}
+                />
+              </TouchableOpacity>
 
-      <CustomInput name="Répétition">
-        <RNPickerSelect
-          onValueChange={(value) => setRepeatation(value)}
-          value={repeatation}
-          Icon={() => (
-            <AntDesign name="downcircle" size={25} color={colors.primary} />
-          )}
-          style={{
-            inputIOS: {
-              fontSize: 20, // Assuming 'text-xl' in Tailwind CSS is equivalent to 20px font size
-              color: colors.primary,
-              paddingRight: 50, // Add right padding to make space for the icon
-            },
-            inputAndroid: {
-              fontSize: 20,
-              color: colors.primary,
-              paddingRight: 30,
-            },
-            iconContainer: {
-              top: 0,
-              right: 2,
-              position: "absolute",
-            },
-          }}
-          fixAndroidTouchableBug={true}
-          useNativeAndroidPickerStyle={false}
-          items={[
-            { label: "NON", value: "NON" },
-            { label: "OUI", value: "OUI" },
-          ]}
-          placeholder={{
-            label: "Choose",
-          }}
-        />
-      </CustomInput>
+              {showDatePicker && (
+                <RNDateTimePicker
+                  display="spinner"
+                  value={selectedCurrentDate}
+                  minimumDate={FirstDateOfCurrentYear}
+                  maximumDate={lastDateOfCurrentYear}
+                  mode="date"
+                  onChange={handleDateChange}
+                />
+              )}
+            </CustomInput>
 
-      <CustomInput name="Notes"></CustomInput>
+            <CustomInput name="Répétition">
+              <RNPickerSelect
+                onValueChange={(value) => setRepeatation(value)}
+                value={repeatation}
+                Icon={() => (
+                  <AntDesign
+                    name="downcircle"
+                    size={25}
+                    color={colors.primary}
+                  />
+                )}
+                style={{
+                  inputIOS: {
+                    fontSize: 20, // Assuming 'text-xl' in Tailwind CSS is equivalent to 20px font size
+                    color: colors.primary,
+                    paddingRight: 50, // Add right padding to make space for the icon
+                  },
+                  inputAndroid: {
+                    fontSize: 20,
+                    color: colors.primary,
+                    paddingRight: 30,
+                  },
+                  iconContainer: {
+                    top: 0,
+                    right: 2,
+                    position: "absolute",
+                  },
+                }}
+                fixAndroidTouchableBug={true}
+                useNativeAndroidPickerStyle={false}
+                items={[
+                  { label: "NON", value: "NON" },
+                  { label: "OUI", value: "OUI" },
+                ]}
+                placeholder={{
+                  label: "Choose",
+                }}
+              />
+            </CustomInput>
 
-      <TextInput
-        placeholder="Notes"
-        style={{
-          fontFamily: "OpenSans-Regular",
-          backgroundColor: colors.lightGray,
-          borderRadius: 10,
-          padding: 10,
-          alignItems: "flex-start",
-          height: 150,
-        }}
-        value={notes}
-        onChangeText={setNotes}
-        multiline
-        numberOfLines={4}
-        className=" text-xl my-5"
-      />
-    </SafeAreaView>
+            <CustomInput name="Notes"></CustomInput>
+
+            <TextInput
+              placeholder="Notes"
+              style={{
+                fontFamily: "OpenSans-Regular",
+                backgroundColor: colors.lightGray,
+                borderRadius: 10,
+                padding: 10,
+                alignItems: "flex-start",
+                height: 150,
+              }}
+              value={notes}
+              onChangeText={setNotes}
+              multiline
+              numberOfLines={4}
+              className=" text-xl my-5"
+            />
+          </View>
+        </SafeAreaView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 

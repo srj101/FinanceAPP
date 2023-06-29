@@ -27,9 +27,9 @@ const MonthItem = ({ item, currentIndex }) => {
     <View style={styles.container}>
       <Text
         style={{
-          fontFamily: "OpenSans-Bold",
+          fontFamily: "OpenSans-Regular",
         }}
-        className="text-lg font-bold uppercase"
+        className="text-xl uppercase"
       >
         {getFrenchMonth(month)}
       </Text>

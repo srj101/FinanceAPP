@@ -22,10 +22,9 @@ const Home = () => {
         className="absolute top-10"
       >
         <Image
-          source={require("../assets/text-logo.png")}
+          source={require("../assets/logo.png")}
           style={{
-            resizeMode: "contain",
-            width: 200,
+            height: 50,
           }}
         />
       </View>
@@ -35,17 +34,19 @@ const Home = () => {
       <View className=" flex flex-col w-full gap-5 mb-10">
         <TouchableOpacity
           style={{
-            backgroundColor: colors.primary,
+            backgroundColor: colors.yellow,
             borderRadius: 50,
+            minHeight: 100,
+            justifyContent: "center",
           }}
           className="py-2 px-2"
-          onPress={() => navigation.navigate("MonthlyBudgetStack")}
+          onPress={() => navigation.navigate("MonthlyBudget")}
         >
           <Text
-            className="text-2xl py-5 capitalize text-center"
+            className="text-5xl py-5 capitalize text-center"
             style={{
-              color: colors.white,
-              fontFamily: "OpenSans-Regular",
+              color: colors.black,
+              fontFamily: "TheHand-Bold",
             }}
           >
             Mon budget
@@ -53,17 +54,19 @@ const Home = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            backgroundColor: colors.primary,
+            backgroundColor: colors.yellow,
             borderRadius: 50,
+            minHeight: 100,
+            justifyContent: "center",
           }}
           className="py-2 px-2"
-          onPress={() => navigation.navigate("NetWorthStack")}
+          onPress={() => navigation.navigate("NetWorth")}
         >
           <Text
-            className="text-2xl py-5 capitalize text-center"
+            className="text-5xl py-5 capitalize text-center"
             style={{
-              color: colors.white,
-              fontFamily: "OpenSans-Regular",
+              color: colors.black,
+              fontFamily: "TheHand-Bold",
             }}
           >
             Ma valeur nette{" "}
@@ -71,7 +74,7 @@ const Home = () => {
         </TouchableOpacity>
       </View>
 
-      <View>
+      <View className="py-10 px-8">
         <Text
           className=" text-lg text-center "
           style={{

@@ -1,34 +1,37 @@
-import { View, Text, StyleSheet } from "react-native";
 import React from "react";
+import { ScrollView, StyleSheet, Text } from "react-native";
 
 const Welcome = () => {
   return (
-    <View style={styles.container} className="relative px-2">
+    <ScrollView
+      contentContainerStyle={styles.container}
+      className="relative px-2"
+    >
       <Text
-        className="text-2xl py-5 capitalize text-center"
+        className="text-6xl py-5 text-center"
         style={{
-          fontFamily: "OpenSans-Regular",
+          fontFamily: "TheHand-Bold",
         }}
       >
         Bienvenue sur
       </Text>
       <Text
-        className="text-3xl text-center py-2 uppercase"
+        className="text-6xl text-center py-2 uppercase"
         style={{
-          fontFamily: "OpenSans-Bold",
+          fontFamily: "TheHand-Bold",
         }}
       >
-        The MoneyVisor Budget
+        The Moneyvisor Budget
       </Text>
       <Text
-        className="absolute bottom-0 text-center text-xl px-2"
+        className="absolute bottom-0 text-center text-2xl px-7"
         style={{
-          fontFamily: "OpenSans-Regular",
+          fontFamily: "Calibri-Regular",
         }}
       >
         Votre allié pour le suivi et la planification de vos dépenses
       </Text>
-    </View>
+    </ScrollView>
   );
 };
 

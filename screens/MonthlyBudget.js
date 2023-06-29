@@ -5,9 +5,10 @@ import {
   TouchableOpacity,
   FlatList,
   Animated,
+  ScrollView,
 } from "react-native";
 import React, { useEffect } from "react";
-import { Feather, AntDesign } from "@expo/vector-icons";
+import { Feather, AntDesign, Ionicons } from "@expo/vector-icons";
 import MonthSlider from "../components/MonthSlider";
 import monthlyBudgets from "../utils/data/monthlyBudgets";
 import MonthlyBudgetItem from "../components/Budget/MonthlyBudgetItem";
@@ -44,25 +45,27 @@ const MonthlyBudget = () => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View
-        className="flex relative flex-row justify-between items-center mx-4"
+        className="flex relative flex-row justify-between items-center mx-4 my-3"
         style={{}}
       >
         <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-          <Text style={{ fontSize: 30, fontFamily: "OpenSans-Regular" }}>
-            💸
-          </Text>
+          <Ionicons
+            name="ios-arrow-back-outline"
+            size={25}
+            color={colors.black}
+          />
         </TouchableOpacity>
 
         <View>
           <MonthSlider />
         </View>
 
-        <TouchableOpacity onPress={() => navigation.navigate("SettingsStack")}>
-          <Feather name="settings" size={30} color={colors.black} />
+        <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
+          <Feather name="circle" size={25} color={colors.black} />
         </TouchableOpacity>
       </View>
 
-      <View>
+      <ScrollView>
         <FlatList
           data={monthlyBudgets}
           keyExtractor={(item) => item.id}
@@ -84,7 +87,7 @@ const MonthlyBudget = () => {
           viewabilityConfig={viewabilityConfig}
           ref={budgetsRef}
         />
-      </View>
+      </ScrollView>
 
       <View className="absolute bottom-5 flex flex-row justify-center w-full items-center ">
         <Paginator
@@ -94,16 +97,18 @@ const MonthlyBudget = () => {
         />
       </View>
 
-      <TouchableOpacity
-        className="absolute bottom-8 right-5  "
-        onPress={() => {
-          const movementTypes = ["ESTIMATED_BUDGET", "REAL_BUDGET"];
-          dispatch(setMovementType(movementTypes[currentIndex]));
-          navigation.navigate("AddMovementStack");
-        }}
-      >
-        <AntDesign name="pluscircleo" size={45} color={colors.primary} />
-      </TouchableOpacity>
+      {currentIndex !== 2 && (
+        <TouchableOpacity
+          className="absolute bottom-8 right-5"
+          onPress={() => {
+            const movementTypes = ["ESTIMATED_BUDGET", "REAL_BUDGET"];
+            dispatch(setMovementType(movementTypes[currentIndex]));
+            navigation.navigate("AddMovement");
+          }}
+        >
+          <AntDesign name="pluscircleo" size={45} color={colors.primary} />
+        </TouchableOpacity>
+      )}
     </SafeAreaView>
   );
 };

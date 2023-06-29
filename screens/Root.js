@@ -12,7 +12,6 @@ import AddNetWorthMovement from "./AddNetWorthMovement";
 import Settings from "./Settings";
 import SelectCategory from "./SelectCategory";
 import NewCategory from "./NewCategory";
-import Subscribe from "./Subscribe";
 import AppLoading from "../components/AppLoading";
 import CategoryList from "./CategoryList";
 import { setCategories } from "../providers/state/reducers/categories";
@@ -28,114 +27,6 @@ import { setCurrencies } from "../providers/state/reducers/settings";
 import { setMovements } from "../providers/state/reducers/movement";
 import { setInitialWorths } from "../providers/state/reducers/worth";
 const Stack = createNativeStackNavigator();
-
-const HomeStack = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName="Home"
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="MonthlyBudgetStack" component={BudgetStack} />
-      <Stack.Screen name="NetWorthStack" component={NetWorthStack} />
-      <Stack.Screen name="CategoryStack" component={CategoryStack} />
-      <Stack.Screen name="SettingsStack" component={SettingsStack} />
-    </Stack.Navigator>
-  );
-};
-
-const CategoryStack = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName="SelectCategory"
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen name="SelectCategory" component={SelectCategory} />
-      <Stack.Screen name="NewCategory" component={NewCategory} />
-    </Stack.Navigator>
-  );
-};
-
-const SettingsStack = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName="Settings"
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen name="Settings" component={Settings} />
-      <Stack.Screen name="CategoryList" component={CategoryList} />
-      <Stack.Screen name="EditCategory" component={EditCategory} />
-    </Stack.Navigator>
-  );
-};
-
-const NetWorthStack = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName="NetWorth"
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen name="NetWorth" component={NetWorth} />
-      <Stack.Screen
-        name="AddNetWorthMovementStack"
-        component={AddNetWorthMovementStack}
-      />
-    </Stack.Navigator>
-  );
-};
-
-const AddNetWorthMovementStack = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName="AddNetWorthMovement"
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen
-        name="AddNetWorthMovement"
-        component={AddNetWorthMovement}
-      />
-      <Stack.Screen name="MovementDatePicker" component={MovementDatePicker} />
-    </Stack.Navigator>
-  );
-};
-
-const BudgetStack = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName="MonthlyBudget"
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen name="MonthlyBudget" component={MonthlyBudget} />
-      <Stack.Screen name="AddMovementStack" component={AddMovementStack} />
-    </Stack.Navigator>
-  );
-};
-
-const AddMovementStack = () => {
-  return (
-    <Stack.Navigator
-      initialRouteName="AddMovement"
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      <Stack.Screen name="AddMovement" component={AddBudgetMovement} />
-      <Stack.Screen name="MovementDatePicker" component={MovementDatePicker} />
-    </Stack.Navigator>
-  );
-};
 
 const Root = () => {
   const [isFirstLaunch, setIsFirstLaunch] = React.useState(null);
@@ -167,6 +58,10 @@ const Root = () => {
       dispatch(setMovements(initialMovements));
       dispatch(setInitialWorths(initalNetWorth));
     }
+
+    if (categories.length < 5) {
+      dispatch(setCategories(initialCategories));
+    }
   }, [categories, movements, worths, isFirstLaunch]);
 
   if (isFirstLaunch === null) {
@@ -181,7 +76,9 @@ const Root = () => {
       }}
     >
       <Stack.Navigator
-        initialRouteName={isFirstLaunch ? `OnBoarding` : "HomeStack"}
+        screenOptions={{
+          headerShown: false,
+        }}
       >
         <Stack.Screen
           name="OnBoarding"
@@ -191,22 +88,24 @@ const Root = () => {
           }}
         />
 
-        <Stack.Screen
-          name="HomeStack"
-          component={HomeStack}
-          options={{
-            headerShown: false,
-          }}
-        />
+        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="MonthlyBudget" component={MonthlyBudget} />
+        <Stack.Screen name="AddMovement" component={AddBudgetMovement} />
 
+        <Stack.Screen name="NetWorth" component={NetWorth} />
         <Stack.Screen
-          name="PayWall"
-          component={Subscribe}
-          options={{
-            headerShown: false,
-            presentation: "modal",
-          }}
+          name="AddNetWorthMovement"
+          component={AddNetWorthMovement}
         />
+        <Stack.Screen
+          name="MovementDatePicker"
+          component={MovementDatePicker}
+        />
+        <Stack.Screen name="SelectCategory" component={SelectCategory} />
+        <Stack.Screen name="NewCategory" component={NewCategory} />
+        <Stack.Screen name="Settings" component={Settings} />
+        <Stack.Screen name="CategoryList" component={CategoryList} />
+        <Stack.Screen name="EditCategory" component={EditCategory} />
       </Stack.Navigator>
     </View>
   );

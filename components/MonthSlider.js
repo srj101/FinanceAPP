@@ -49,8 +49,8 @@ const MonthSlider = () => {
     <View className="flex flex-row items-center gap-3">
       <AntDesign
         name="left"
-        size={30}
-        color={colors.secondary}
+        size={20}
+        color={colors.primary}
         onPress={movePrev}
       />
       <View
@@ -82,8 +82,8 @@ const MonthSlider = () => {
       </View>
       <AntDesign
         name="right"
-        size={30}
-        color={colors.secondary}
+        size={20}
+        color={colors.primary}
         onPress={moveNext}
       />
     </View>

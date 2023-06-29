@@ -1,6 +1,12 @@
 import { AntDesign } from "@expo/vector-icons";
 import React from "react";
-import { Linking, Text, TouchableOpacity, View } from "react-native";
+import {
+  Linking,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import RNPickerSelect from "react-native-picker-select";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -51,28 +57,28 @@ const SettingItem = (props) => {
 
   if (item.id === "2") {
     return (
-      <View>
+      <View style={styles.settingItem} className="justify-center">
         <RNPickerSelect
           onValueChange={updateCurrency}
           value={currency}
           placeholder={{}}
           Icon={() => (
-            <AntDesign name={"bank"} size={40} color={colors.black} />
+            <AntDesign name={"bank"} size={25} color={colors.black} />
           )}
           style={{
             inputIOS: {
-              fontFamily: "OpenSans-Regular",
+              fontFamily: "TheHand-Bold",
               color: colors.black,
-              fontSize: 23,
-              paddingLeft: 55,
-              paddingVertical: 10,
+              fontSize: 36,
+              paddingLeft: 45,
+              paddingVertical: 0,
             },
             inputAndroid: {
-              fontFamily: "OpenSans-Regular",
+              fontFamily: "TheHand-Bold",
               color: colors.black,
-              fontSize: 23,
-              paddingLeft: 55,
-              paddingVertical: 10,
+              fontSize: 25,
+              paddingLeft: 45,
+              paddingVertical: 0,
             },
             iconContainer: {
               position: "absolute",
@@ -90,8 +96,9 @@ const SettingItem = (props) => {
 
   return (
     <TouchableOpacity
-      className="py-4 flex flex-row justify-start items-center gap-4"
+      className="py-4 flex flex-row justify-start items-center gap-5"
       onPress={handlePress}
+      style={styles.settingItem}
     >
       <AntDesign
         name={
@@ -101,13 +108,13 @@ const SettingItem = (props) => {
               : "checksquareo"
             : icon
         }
-        size={40}
+        size={25}
         color={colors.black}
       />
       <Text
-        className="text-2xl"
+        className="text-4xl"
         style={{
-          fontFamily: "OpenSans-Regular",
+          fontFamily: "TheHand-Bold",
           color: colors.black,
         }}
       >
@@ -116,5 +123,13 @@ const SettingItem = (props) => {
     </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+  settingItem: {
+    borderBottomColor: colors.lightGray,
+    borderBottomWidth: 1,
+    paddingVertical: 10,
+  },
+});
 
 export default SettingItem;

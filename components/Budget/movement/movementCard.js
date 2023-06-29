@@ -1,37 +1,32 @@
 import { View, Text, FlatList } from "react-native";
 import React from "react";
 import MovementItem from "./movementItem";
+import NoMovement from "./NoMovement";
 
-const Movement = ({ movements, title }) => {
+const Movement = ({ movements, title, type }) => {
   return (
-    <View className="py-5">
+    <View className="pt-5">
       <Text
-        className="text-2xl font-bold py-4"
+        className="text-3xl pb-4"
         style={{
-          fontFamily: "OpenSans-Bold",
+          fontFamily: "DancingScript-SemiBold",
           letterSpacing: 0.1,
         }}
       >
         {title}
       </Text>
 
-      {movements.length > 0 ? (
-        <FlatList
-          data={movements}
-          renderItem={({ item }) => <MovementItem item={item} />}
-          keyExtractor={(item) => item.id}
-        />
-      ) : (
-        <Text
-          className="text-sm"
-          style={{
-            fontFamily: "OpenSans-Regular",
-            letterSpacing: 0.1,
-          }}
-        >
-          No movements added
-        </Text>
-      )}
+      <View className="px-4">
+        {movements.length > 0 ? (
+          <FlatList
+            data={movements}
+            renderItem={({ item }) => <MovementItem item={item} />}
+            keyExtractor={(item) => item.id}
+          />
+        ) : (
+          <NoMovement type={type} />
+        )}
+      </View>
     </View>
   );
 };

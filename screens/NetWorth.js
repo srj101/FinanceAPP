@@ -7,7 +7,7 @@ import {
   FlatList,
 } from "react-native";
 import React, { useEffect } from "react";
-import { AntDesign, Feather } from "@expo/vector-icons";
+import { AntDesign, Feather, Ionicons } from "@expo/vector-icons";
 import MonthSlider from "../components/MonthSlider";
 import colors from "../utils/colors";
 import Paginator from "../components/Paginator";
@@ -56,16 +56,18 @@ const NetWorth = () => {
     <SafeAreaView style={{ flex: 1 }}>
       <View className="flex relative flex-row justify-between items-center mx-4">
         <TouchableOpacity onPress={() => navigation.navigate("Home")}>
-          <Text style={{ fontSize: 30, fontFamily: "OpenSans-Regular" }}>
-            💸
-          </Text>
+          <Ionicons
+            name="ios-arrow-back-outline"
+            size={30}
+            color={colors.black}
+          />
         </TouchableOpacity>
 
         <View>
           <MonthSlider />
         </View>
 
-        <TouchableOpacity onPress={() => navigation.navigate("SettingsStack")}>
+        <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
           <Feather name="settings" size={30} color={colors.black} />
         </TouchableOpacity>
       </View>
@@ -104,7 +106,7 @@ const NetWorth = () => {
 
       <TouchableOpacity
         className="absolute bottom-8 right-5  "
-        onPress={() => navigation.navigate("AddNetWorthMovementStack")}
+        onPress={() => navigation.navigate("AddNetWorthMovement")}
       >
         <AntDesign name="pluscircleo" size={45} color={colors.green} />
       </TouchableOpacity>

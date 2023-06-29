@@ -12,13 +12,6 @@ const AppLoading = () => {
         alignItems: "center",
       }}
     >
-      <Image
-        source={require("../assets/loading.png")}
-        resizeMode="contain"
-        style={{
-          width: 200,
-        }}
-      />
       <ActivityIndicator size="large" color={colors.primary} />
     </View>
   );

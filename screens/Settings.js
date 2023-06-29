@@ -1,28 +1,48 @@
-import React from "react";
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Platform,
-  StatusBar,
-  TouchableOpacity,
-  FlatList,
-} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import colors from "../utils/colors";
 import { useNavigation } from "@react-navigation/native";
-import { settings } from "../utils/data/data";
+import React from "react";
+import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import SettingItem from "../components/SettingItem";
+import colors from "../utils/colors";
+const settings = [
+  {
+    id: "1",
+    title: "Catégories",
+    icon: "carryout",
+    screen: "Categories",
+  },
+  {
+    id: "2",
+    title: "Devise",
+    icon: "bank",
+    screen: "Currency",
+  },
+  {
+    id: "3",
+    title: "Aids & Support",
+    icon: "customerservice",
+  },
+  {
+    id: "4",
+    title: "The Moneyvisor",
+    icon: "user",
+  },
+  {
+    id: "5",
+    title: "Activer décimal",
+    icon: "checksquareo",
+  },
+  {
+    id: "6",
+    title: "Export",
+    icon: "download",
+  },
+];
 
 const Settings = () => {
   const navigation = useNavigation();
   return (
-    <SafeAreaView
-      style={{
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-      }}
-      className="mx-4 relative flex-1"
-    >
+    <View className="mx-4 relative flex-1">
       <TouchableOpacity onPress={navigation.goBack}>
         <Ionicons
           name="ios-arrow-back-outline"
@@ -46,7 +66,7 @@ const Settings = () => {
           themoneyvisor@gmail.com
         </Text>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
