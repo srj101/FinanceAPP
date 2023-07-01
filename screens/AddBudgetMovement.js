@@ -300,7 +300,7 @@ const AddBudgetMovement = (props) => {
                 keyboardType={decimalEnabled ? "numeric" : "number-pad"}
                 placeholder={`0.00`}
                 maxLength={10}
-                value={amount}
+                value={String(amount)}
                 onChangeText={handleAmountChange}
                 style={{
                   fontFamily: "OpenSans-Bold",
@@ -317,9 +317,9 @@ const AddBudgetMovement = (props) => {
               />
 
               <Text
+                className="text-4xl"
                 style={{
                   fontFamily: "OpenSans-Bold",
-                  fontSize: 30,
                   color: colors.black,
                   marginLeft: 10,
                 }}

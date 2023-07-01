@@ -28,7 +28,7 @@ const NetWorth = () => {
   }, [currentMonthLiabilities]);
 
   // Last date of the month from month index value (0-11)
-  console.log("currentMonth", currentMonth);
+
   const lastDate = useMemo(() => {
     return moment(currentMonth + 1, "M")
       .endOf("month")
