@@ -57,6 +57,9 @@ const NewCategory = () => {
     setCategoryIcon("");
 
     dispatch(addCategory(category));
+
+    alert("Category created");
+
     navigation.goBack();
   };
 
@@ -93,9 +96,9 @@ const NewCategory = () => {
             fontFamily: "OpenSans-Bold",
             color: colors.black,
           }}
-          className="text-xl py-5"
+          className="text-xl py-5 capitalize"
         >
-          Color
+          COULEUR
         </Text>
 
         <FlatList
@@ -120,9 +123,9 @@ const NewCategory = () => {
             fontFamily: "OpenSans-Bold",
             color: colors.black,
           }}
-          className="text-xl py-5"
+          className="text-xl py-5 capitalize"
         >
-          Icons
+          ICÔNE
         </Text>
 
         <FlatList

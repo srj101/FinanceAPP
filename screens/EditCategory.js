@@ -96,9 +96,9 @@ const EditCategory = (props) => {
             fontFamily: "OpenSans-Bold",
             color: colors.black,
           }}
-          className="text-xl py-5"
+          className="text-xl py-5 capitalize"
         >
-          Color
+          COULEUR
         </Text>
 
         <FlatList
@@ -123,9 +123,9 @@ const EditCategory = (props) => {
             fontFamily: "OpenSans-Bold",
             color: colors.black,
           }}
-          className="text-xl py-5"
+          className="text-xl py-5 capitalize"
         >
-          Icons
+          ICÔNE
         </Text>
 
         <FlatList

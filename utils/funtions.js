@@ -275,16 +275,17 @@ const getDocumentDirectory = async () => {
 
 export const NumberFormat = (
   amount = 0,
-  currency = "$",
+  currency = "EUR",
+  exchangeRate = 1,
   decimalEnabled = false
 ) => {
   if (decimalEnabled) {
-    return `${amount
+    return `${(amount * exchangeRate)
       .toFixed(2)
       .replace(/\d(?=(\d{3})+\.)/g, "$&,")} ${currency}`;
   } else {
-    return `${amount
+    return `${(amount * exchangeRate)
       .toFixed(0)
-      .replace(/\d(?=(\d{3})+\.)/g, "$&,")} ${currency}`;
+      .replace(/\d(?=(\d{3})+$)/g, "$&,")} ${currency}`;
   }
 };

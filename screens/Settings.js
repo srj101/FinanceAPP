@@ -1,6 +1,6 @@
+import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
 import { FlatList, Text, TouchableOpacity, View } from "react-native";
 import SettingItem from "../components/SettingItem";
 import colors from "../utils/colors";
@@ -34,6 +34,11 @@ const settings = [
   },
   {
     id: "6",
+    title: "Pin", // Set Pincode
+    icon: "lock",
+  },
+  {
+    id: "7",
     title: "Export",
     icon: "download",
   },
@@ -55,9 +60,7 @@ const Settings = () => {
         <FlatList
           data={settings}
           keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => (
-            <SettingItem item={item} navigation={navigation} />
-          )}
+          renderItem={({ item }) => <SettingItem item={item} />}
         />
       </View>
 

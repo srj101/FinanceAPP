@@ -42,64 +42,73 @@ const OnBoarding = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container} className="relative">
-      {/** Logo Image */}
-      <View className={currentIndex === 0 ? `pt-20` : `pt-10`}>
-        <Image source={require("../assets/logo.png")} style={{ height: 50 }} />
-      </View>
+    <SafeAreaView
+      style={{
+        flex: 1,
+      }}
+    >
+      <View className="relative" style={styles.container}>
+        {/** Logo Image */}
+        <View className={currentIndex === 0 ? `pt-20` : `pt-10`}>
+          <Image
+            source={require("../assets/logo.png")}
+            style={{ height: 50 }}
+          />
+        </View>
 
-      {
-        /** Skip Button */
-        currentIndex === slides.length - 1 && (
-          <TouchableOpacity
-            className="absolute top-[20] right-[20]"
-            onPress={async () => {
-              await save("onboarding", "true");
-              navigation.replace("Home", {});
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: "OpenSans-Bold",
+        {
+          /** Skip Button */
+          currentIndex === slides.length - 1 && (
+            <TouchableOpacity
+              className="absolute top-[20] right-[20]"
+              onPress={async () => {
+                await save("onboarding", "true");
+                navigation.replace("Home", {});
               }}
-              className="text-md"
             >
-              Ignorer
-            </Text>
-          </TouchableOpacity>
-        )
-      }
+              <Text
+                style={{
+                  fontFamily: "OpenSans-Bold",
+                }}
+                className="text-md"
+              >
+                Ignorer
+              </Text>
+            </TouchableOpacity>
+          )
+        }
 
-      {/** Onboarding Screens */}
-      <View style={{ flex: 2 }}>
-        <FlatList
-          data={slides}
-          keyExtractor={(item) => item.id}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          pagingEnabled
-          bounces={false}
-          onScroll={Animated.event(
-            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
-            {
-              useNativeDriver: false,
-            }
-          )}
-          onViewableItemsChanged={viewableItemsChanged}
-          renderItem={({ item }) => (
-            <OnBoardingItem item={item} currentIndex={currentIndex} />
-          )}
-          scrollEventThrottle={32}
-          viewabilityConfig={viewabilityConfig}
-          ref={slideRef}
-        />
+        {/** Onboarding Screens */}
+        <View style={{ flex: 2 }}>
+          <FlatList
+            data={slides}
+            keyExtractor={(item) => item.id}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            pagingEnabled
+            bounces={false}
+            onScroll={Animated.event(
+              [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+              {
+                useNativeDriver: false,
+              }
+            )}
+            onViewableItemsChanged={viewableItemsChanged}
+            renderItem={({ item }) => (
+              <OnBoardingItem item={item} currentIndex={currentIndex} />
+            )}
+            scrollEventThrottle={32}
+            viewabilityConfig={viewabilityConfig}
+            ref={slideRef}
+          />
+        </View>
+
+        {/** Next Button */}
+        <NextButton data={slides[currentIndex]} scrollTo={scrollTo} />
+
+        {/** Dots */}
+        <Paginator data={slides} scrollX={scrollX} />
       </View>
-
-      {/** Next Button */}
-      <NextButton data={slides[currentIndex]} scrollTo={scrollTo} />
-
-      {/** Dots */}
-      <Paginator data={slides} scrollX={scrollX} />
     </SafeAreaView>
   );
 };

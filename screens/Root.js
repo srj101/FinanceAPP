@@ -1,31 +1,32 @@
-import HomeScreen from "./Home";
-import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import OnBoarding from "./OnBoarding";
-import MonthlyBudget from "./MonthlyBudget";
-import { getValueFor } from "../utils/secureStorage";
-import { StatusBar, Platform, View } from "react-native";
-import MovementDatePicker from "../components/AddBudgetMovement/MovementDatePicker";
-import NetWorth from "./NetWorth";
-import AddBudgetMovement from "./AddBudgetMovement";
-import AddNetWorthMovement from "./AddNetWorthMovement";
-import Settings from "./Settings";
-import SelectCategory from "./SelectCategory";
-import NewCategory from "./NewCategory";
-import AppLoading from "../components/AppLoading";
-import CategoryList from "./CategoryList";
-import { setCategories } from "../providers/state/reducers/categories";
+import React from "react";
+import { Platform, StatusBar, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  initialCategories,
-  currencies,
-  initalNetWorth,
-  initialMovements,
-} from "../utils/data/data";
-import EditCategory from "./EditCategory";
-import { setCurrencies } from "../providers/state/reducers/settings";
+import MovementDatePicker from "../components/AddBudgetMovement/MovementDatePicker";
+import AppLoading from "../components/AppLoading";
+import { setCategories } from "../providers/state/reducers/categories";
 import { setMovements } from "../providers/state/reducers/movement";
 import { setInitialWorths } from "../providers/state/reducers/worth";
+import {
+  initalNetWorth,
+  initialCategories,
+  initialMovements,
+} from "../utils/data/data";
+import { getValueFor } from "../utils/secureStorage";
+import AddBudgetMovement from "./AddBudgetMovement";
+import AddNetWorthMovement from "./AddNetWorthMovement";
+import CategoryList from "./CategoryList";
+import CurrencyList from "./CurrencyList";
+import EditCategory from "./EditCategory";
+import HomeScreen from "./Home";
+import MonthlyBudget from "./MonthlyBudget";
+import NetWorth from "./NetWorth";
+import NewCategory from "./NewCategory";
+import OnBoarding from "./OnBoarding";
+import SelectCategory from "./SelectCategory";
+import Settings from "./Settings";
+import PinCodeAuth from "./PinCodeAuth";
+import NewPin from "./NewPin";
 const Stack = createNativeStackNavigator();
 
 const Root = () => {
@@ -33,9 +34,10 @@ const Root = () => {
   const { categories } = useSelector((state) => state.categories);
   const { movements } = useSelector((state) => state.movement);
   const { worths } = useSelector((state) => state.worth);
+  const { pinCode } = useSelector((state) => state.settings);
+
   const dispatch = useDispatch();
   React.useEffect(() => {
-    dispatch(setCurrencies(currencies));
     getValueFor("onboarding")
       .then((res) => {
         if (res === null) {
@@ -79,6 +81,7 @@ const Root = () => {
         screenOptions={{
           headerShown: false,
         }}
+        initialRouteName={pinCode ? "PinCodeAuth" : "OnBoarding"}
       >
         <Stack.Screen
           name="OnBoarding"
@@ -89,6 +92,8 @@ const Root = () => {
         />
 
         <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="PinCodeAuth" component={PinCodeAuth} />
+        <Stack.Screen name="NewPin" component={NewPin} />
         <Stack.Screen name="MonthlyBudget" component={MonthlyBudget} />
         <Stack.Screen name="AddMovement" component={AddBudgetMovement} />
 
@@ -106,6 +111,8 @@ const Root = () => {
         <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="CategoryList" component={CategoryList} />
         <Stack.Screen name="EditCategory" component={EditCategory} />
+
+        <Stack.Screen name="CurrencyList" component={CurrencyList} />
       </Stack.Navigator>
     </View>
   );

@@ -54,7 +54,7 @@ const NetWorth = () => {
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View className="flex relative flex-row justify-between items-center mx-4">
+      <View className="flex relative flex-row justify-between items-center mx-4 my-3">
         <TouchableOpacity onPress={() => navigation.navigate("Home")}>
           <Ionicons
             name="ios-arrow-back-outline"

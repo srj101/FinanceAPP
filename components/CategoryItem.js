@@ -20,9 +20,9 @@ const CategoryItem = ({ item }) => {
       onPress={selectCategory}
       className="py-5 items-center gap-3 flex-1"
     >
-      <AntDesign name={icon?.icon} size={30} color={color?.color} />
+      <AntDesign name={icon?.icon} size={40} color={color?.color} />
       <Text
-        className="text-md font-bold text-center"
+        className="text-lg font-bold text-center"
         style={{
           fontFamily: "OpenSans-Bold",
           color: colors.black,

@@ -5,15 +5,17 @@ import {
   Alert,
   Platform,
   SafeAreaView,
+  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
 
+import RNDateTimePicker from "@react-native-community/datetimepicker";
+import { Picker } from "@react-native-picker/picker";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAvoidingView, ScrollView } from "react-native";
-import RNPickerSelect from "react-native-picker-select";
 import { useDispatch, useSelector } from "react-redux";
 import Options from "../components/AddBudgetMovement/Options";
 import CustomInput from "../components/shared/CustomInput";
@@ -24,11 +26,10 @@ import {
   setSelectedCategory,
   setSelectedDate,
 } from "../providers/state/reducers/movement";
+import { setDate } from "../providers/state/reducers/worth";
 import colors from "../utils/colors";
 import { initalOptions } from "../utils/data/data";
 import { NumberFormat } from "../utils/funtions";
-import { setDate } from "../providers/state/reducers/worth";
-import RNDateTimePicker from "@react-native-community/datetimepicker";
 
 const AddBudgetMovement = (props) => {
   const inputRef = React.useRef(null);
@@ -47,16 +48,11 @@ const AddBudgetMovement = (props) => {
 
   const handleAmountChange = (value) => {
     if (decimalEnabled) {
-      // Remove the "€" symbol from the value before storing it in the state
-      const numericValue = parseFloat(value.replace("€", ""));
+      const numericValue = parseInt(value);
 
-      // round the value to integer
-      const roundedValue = Math.round(numericValue);
-
-      setAmount(roundedValue);
+      setAmount(numericValue);
     } else {
-      // Remove the "€" symbol from the value before storing it in the state
-      const numericValue = parseFloat(value.replace("€", ""));
+      const numericValue = parseFloat(value);
       setAmount(numericValue);
     }
   };
@@ -115,6 +111,11 @@ const AddBudgetMovement = (props) => {
   };
 
   const onSubmit = () => {
+    if (!repeatation) {
+      Alert.alert("Please choose a repeatation");
+      return;
+    }
+
     if (amount === 0) {
       Alert.alert("Please enter an amount");
       return;
@@ -346,45 +347,64 @@ const AddBudgetMovement = (props) => {
               )}
             </CustomInput>
 
-            <CustomInput name="Répétition">
-              <RNPickerSelect
-                onValueChange={(value) => setRepeatation(value)}
-                value={repeatation}
-                Icon={() => (
-                  <AntDesign
-                    name="downcircle"
-                    size={25}
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+                position: "relative",
+              }}
+            >
+              <Text
+                className="font-bold text-xl"
+                style={{
+                  fontFamily: "OpenSans-Bold",
+                  color: colors.black,
+                }}
+              >
+                Répétition
+              </Text>
+              {Platform.OS === "android" && (
+                <Text
+                  style={{
+                    position: "absolute",
+                    right: "15%",
+                    fontFamily: "OpenSans-Regular",
+                    color: colors.black,
+                    top: "25%",
+                  }}
+                  className="text-lg"
+                >
+                  {repeatation && repeatation}
+                </Text>
+              )}
+              <View style={{ flex: 0.4 }}>
+                <View style={styles.pickerWrapper}>
+                  <Picker
+                    testID="pickerRepeatation"
+                    mode={Platform.OS === "ios" ? "modal" : "dropdown"}
+                    style={{
+                      fontFamily: "OpenSans-Regular",
+                      borderRadius: "100%",
+                      flex: 1,
+                      marginRight: -30,
+                      color: "transparent",
+                    }}
+                    enabled={true}
+                    onValueChange={(value) => setRepeatation(value)}
+                    selectedValue={repeatation}
+                  >
+                    <Picker.Item label="NON" value="NON" />
+                    <Picker.Item label="OUI" value="OUI" />
+                  </Picker>
+                  <Ionicons
+                    name="md-arrow-down-circle"
+                    size={30}
                     color={colors.primary}
                   />
-                )}
-                style={{
-                  inputIOS: {
-                    fontSize: 20, // Assuming 'text-xl' in Tailwind CSS is equivalent to 20px font size
-                    color: colors.primary,
-                    paddingRight: 50, // Add right padding to make space for the icon
-                  },
-                  inputAndroid: {
-                    fontSize: 20,
-                    color: colors.primary,
-                    paddingRight: 30,
-                  },
-                  iconContainer: {
-                    top: 0,
-                    right: 2,
-                    position: "absolute",
-                  },
-                }}
-                fixAndroidTouchableBug={true}
-                useNativeAndroidPickerStyle={false}
-                items={[
-                  { label: "NON", value: "NON" },
-                  { label: "OUI", value: "OUI" },
-                ]}
-                placeholder={{
-                  label: "Choose",
-                }}
-              />
-            </CustomInput>
+                </View>
+              </View>
+            </View>
 
             <CustomInput name="Notes"></CustomInput>
 
@@ -394,9 +414,10 @@ const AddBudgetMovement = (props) => {
                 fontFamily: "OpenSans-Regular",
                 backgroundColor: colors.lightGray,
                 borderRadius: 10,
-                padding: 10,
+                paddingHorizontal: 20,
+                justifyContent: "flex-start",
                 alignItems: "flex-start",
-                height: 150,
+                minHeight: 150,
               }}
               value={notes}
               onChangeText={setNotes}
@@ -410,5 +431,11 @@ const AddBudgetMovement = (props) => {
     </KeyboardAvoidingView>
   );
 };
+const styles = StyleSheet.create({
+  pickerWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+});
 
 export default AddBudgetMovement;

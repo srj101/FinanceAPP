@@ -1,98 +1,57 @@
 import { AntDesign } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import {
-  Linking,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import RNPickerSelect from "react-native-picker-select";
+import { Linking, StyleSheet, Text, TouchableOpacity } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  setCurrency,
-  setDecimalEnabled,
-} from "../providers/state/reducers/settings";
+import { setDecimalEnabled } from "../providers/state/reducers/settings";
 import colors from "../utils/colors";
 import { downloadJSON } from "../utils/funtions";
 
 const SettingItem = (props) => {
-  const { item, navigation } = props;
+  const navigation = useNavigation();
+  const { item } = props;
 
   const { title, icon } = item;
 
-  const { decimalEnabled, currency, currencies } = useSelector(
-    (state) => state.settings
-  );
+  const { decimalEnabled } = useSelector((state) => state.settings);
 
   const { movements } = useSelector((state) => state.movement);
   const { worths } = useSelector((state) => state.worth);
 
   const dispatch = useDispatch();
 
-  const handlePress = async () => {
+  const handlePress = () => {
     if (item.id === "5") {
       dispatch(setDecimalEnabled(!decimalEnabled));
+    } else if (item.id === "2") {
+      // CurrencyList
+      navigation.navigate("CurrencyList");
     } else if (item.id === "3") {
       // mail to
-      await Linking.openURL("mailto:themoneyvisor@gmail.com");
+      Linking.openURL("mailto:themoneyvisor@gmail.com");
     } else if (item.id === "4") {
       // mail to
-      await Linking.openURL("http://www.themoneyvisor.com/");
+      Linking.openURL("http://www.themoneyvisor.com/");
     } else if (item.id === "1") {
       // CategoryList
       navigation.navigate("CategoryList");
     } else if (item.id === "6") {
+      // Set Pincode
+      navigation.navigate("NewPin");
+    } else if (item.id === "7") {
       // Export all data to Excel
-      await downloadJSON({
+      downloadJSON({
         movements,
         worths,
-      });
+      })
+        .then((res) => {
+          alert("Exported successfully");
+        })
+        .catch((err) => {
+          alert("Export failed");
+        });
     }
   };
-
-  const updateCurrency = (value) => {
-    dispatch(setCurrency(value));
-  };
-
-  if (item.id === "2") {
-    return (
-      <View style={styles.settingItem} className="justify-center">
-        <RNPickerSelect
-          onValueChange={updateCurrency}
-          value={currency}
-          placeholder={{}}
-          Icon={() => (
-            <AntDesign name={"bank"} size={25} color={colors.black} />
-          )}
-          style={{
-            inputIOS: {
-              fontFamily: "TheHand-Bold",
-              color: colors.black,
-              fontSize: 36,
-              paddingLeft: 45,
-              paddingVertical: 0,
-            },
-            inputAndroid: {
-              fontFamily: "TheHand-Bold",
-              color: colors.black,
-              fontSize: 25,
-              paddingLeft: 45,
-              paddingVertical: 0,
-            },
-            iconContainer: {
-              position: "absolute",
-              left: 0,
-              top: 0,
-            },
-          }}
-          fixAndroidTouchableBug={true}
-          useNativeAndroidPickerStyle={false}
-          items={currencies}
-        />
-      </View>
-    );
-  }
 
   return (
     <TouchableOpacity

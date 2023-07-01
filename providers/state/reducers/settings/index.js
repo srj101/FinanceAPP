@@ -1,12 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  currency: "€",
+  currency: "EUR",
+  exchangeRate: 1,
   decimalEnabled: true,
-  currencies: [
-    { label: "Euro", value: "€" },
-    { label: "USD", value: "$" },
-  ],
+  pinCode: null,
 };
 
 export const settingsSlice = createSlice({
@@ -14,17 +12,18 @@ export const settingsSlice = createSlice({
   initialState: initialState,
   reducers: {
     setCurrency: (state, action) => {
-      state.currency = action.payload;
+      state.currency = action.payload.currency;
+      state.exchangeRate = action.payload.exchangeRate;
     },
     setDecimalEnabled: (state, action) => {
       state.decimalEnabled = action.payload;
     },
-    setCurrencies: (state, action) => {
-      state.currencies = action.payload;
+    setPinCode: (state, action) => {
+      state.pinCode = action.payload;
     },
   },
 });
 
-export const { setCurrency, setDecimalEnabled, setCurrencies } =
+export const { setCurrency, setDecimalEnabled, setPinCode } =
   settingsSlice.actions;
 export default settingsSlice.reducer;

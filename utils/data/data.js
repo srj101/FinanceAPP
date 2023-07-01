@@ -18,7 +18,7 @@ export const netWorthOptions = [
 export const initialCategories = [
   {
     id: 1,
-    name: "Book",
+    name: "Salaire",
     color: {
       id: 1,
       color: colors.primary,
@@ -32,7 +32,7 @@ export const initialCategories = [
   },
   {
     id: 2,
-    name: "Share",
+    name: "Imprévu",
     color: {
       id: 1,
       color: colors.primary,
@@ -40,13 +40,13 @@ export const initialCategories = [
     },
     icon: {
       id: 1,
-      icon: "sharealt",
-      name: "sharealt",
+      icon: "home",
+      name: "home",
     },
   },
   {
     id: 3,
-    name: "Investment",
+    name: "Epargnes",
     color: {
       id: 1,
       color: colors.primary,
@@ -60,7 +60,7 @@ export const initialCategories = [
   },
   {
     id: 4,
-    name: "Shopping",
+    name: "Logement",
     color: {
       id: 1,
       color: colors.primary,
@@ -74,7 +74,7 @@ export const initialCategories = [
   },
   {
     id: 5,
-    name: "Video",
+    name: "Transport",
     color: {
       id: 1,
       color: colors.primary,
@@ -88,7 +88,7 @@ export const initialCategories = [
   },
   {
     id: 6,
-    name: "Risk",
+    name: "Internet",
     color: {
       id: 1,
       color: colors.primary,
@@ -102,7 +102,7 @@ export const initialCategories = [
   },
   {
     id: 7,
-    name: "Star",
+    name: "Alimentation",
     color: {
       id: 1,
       color: colors.primary,
@@ -116,7 +116,7 @@ export const initialCategories = [
   },
   {
     id: 8,
-    name: "Finance",
+    name: "Loisirs",
     color: {
       id: 1,
       color: colors.primary,
@@ -128,9 +128,10 @@ export const initialCategories = [
       name: "laptop",
     },
   },
+
   {
     id: 9,
-    name: "Home",
+    name: "Autres revenus",
     color: {
       id: 1,
       color: colors.primary,
@@ -138,92 +139,8 @@ export const initialCategories = [
     },
     icon: {
       id: 1,
-      icon: "home",
-      name: "home",
-    },
-  },
-  {
-    id: 10,
-    name: "Analysis",
-    color: {
-      id: 1,
-      color: colors.primary,
-      name: "Primary",
-    },
-    icon: {
-      id: 1,
-      icon: "linechart",
-      name: "linechart",
-    },
-  },
-  {
-    id: 11,
-    name: "Email",
-    color: {
-      id: 1,
-      color: colors.primary,
-      name: "Primary",
-    },
-    icon: {
-      id: 1,
-      icon: "mail",
-      name: "mail",
-    },
-  },
-  {
-    id: 12,
-    name: "Exchange",
-    color: {
-      id: 1,
-      color: colors.primary,
-      name: "Primary",
-    },
-    icon: {
-      id: 1,
-      icon: "swap",
-      name: "swap",
-    },
-  },
-  {
-    id: 13,
-    name: "Loss",
-    color: {
-      id: 1,
-      color: colors.primary,
-      name: "Primary",
-    },
-    icon: {
-      id: 1,
-      icon: "frown",
-      name: "frown",
-    },
-  },
-  {
-    id: 14,
-    name: "Time",
-    color: {
-      id: 1,
-      color: colors.primary,
-      name: "Primary",
-    },
-    icon: {
-      id: 1,
-      icon: "clockcircleo",
-      name: "clockcircleo",
-    },
-  },
-  {
-    id: 15,
-    name: "Menu",
-    color: {
-      id: 1,
-      color: colors.primary,
-      name: "Primary",
-    },
-    icon: {
-      id: 1,
-      icon: "bars",
-      name: "bars",
+      icon: "sharealt",
+      name: "sharealt",
     },
   },
 ];

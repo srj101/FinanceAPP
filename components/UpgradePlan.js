@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 50,
     paddingHorizontal: 20,
-    paddingVertical: 25,
+    paddingVertical: 20,
     fontFamily: "OpenSans-Light",
     opacity: 0.8,
   },

@@ -1,6 +1,6 @@
 import { AntDesign, Ionicons, Octicons } from "@expo/vector-icons";
 import moment from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Alert,
   SafeAreaView,
@@ -38,8 +38,7 @@ const AddNetWorthMovement = () => {
   );
 
   const handleAmountChange = (value) => {
-    // Remove the "€" symbol from the value before storing it in the state
-    const numericValue = parseFloat(value.replace("€", ""));
+    const numericValue = parseFloat(value);
     setAmount(numericValue);
   };
 
@@ -98,16 +97,12 @@ const AddNetWorthMovement = () => {
       ];
     }
 
-    console.log("selectedMonth", selectedMonth);
-
     const newNetWorth = worths.map((month, index) => {
       if (index === selectedMonthIndex) {
         return selectedMonth;
       }
       return month;
     });
-
-    console.log("newNetWorth", newNetWorth);
 
     dispatch(setWorths(newNetWorth));
     alert("Net item added successfully");
@@ -121,6 +116,11 @@ const AddNetWorthMovement = () => {
 
     navigation.goBack();
   };
+
+  useEffect(() => {
+    dispatch(setCategory(null));
+    dispatch(setDate(new Date().toISOString().split("T")[0]));
+  }, []);
 
   return (
     <SafeAreaView style={{ flex: 1 }} className="mx-4">

@@ -55,7 +55,7 @@ const SelectCategory = () => {
 
       <View className="py-5">
         <TextInput
-          placeholder="Select Category"
+          placeholder="Recherche"
           value={selectedCategory ? selectedCategory.name : ""}
           disableFullscreenUI={true}
           aria-disabled={true}
@@ -104,7 +104,7 @@ const SelectCategory = () => {
               }}
               className="text-2xl uppercase"
             >
-              New Category
+              NOUVELLE CATÉGORIE
             </Text>
           </View>
         </TouchableOpacity>

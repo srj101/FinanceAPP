@@ -19,7 +19,7 @@ const Home = () => {
         style={{
           marginBottom: 25,
         }}
-        className="absolute top-10"
+        className="absolute top-20"
       >
         <Image
           source={require("../assets/logo.png")}

@@ -22,15 +22,6 @@ const MovementDatePicker = () => {
 
   const handleDateChange = useCallback(
     (event, selectedDate) => {
-      if (selectedDate === undefined) {
-        navigation.goBack();
-        return;
-      }
-
-      if (event.type === "dismissed" || event.type === "set") {
-        navigation.goBack();
-      }
-
       // Check if the date is within the current year
 
       const date = new Date();
