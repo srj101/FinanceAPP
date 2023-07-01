@@ -7,7 +7,9 @@ import { NumberFormat } from "../../utils/funtions";
 
 const NetWorth = () => {
   const { currentMonth, worths } = useSelector((state) => state.worth);
-  const { currency, decimalEnabled } = useSelector((state) => state.settings);
+  const { currency, decimalEnabled, exchangeRate } = useSelector(
+    (state) => state.settings
+  );
 
   const currentMonthAssets = useMemo(() => {
     return worths[currentMonth].assets;
@@ -59,7 +61,9 @@ const NetWorth = () => {
             Actifs
           </Text>
 
-          <Text>{NumberFormat(totalAssets, currency, decimalEnabled)}</Text>
+          <Text>
+            {NumberFormat(totalAssets, currency, exchangeRate, decimalEnabled)}
+          </Text>
         </View>
 
         <DashedBorder />
@@ -74,7 +78,14 @@ const NetWorth = () => {
             Passifs
           </Text>
 
-          <Text>{NumberFormat(totalPassives, currency, decimalEnabled)}</Text>
+          <Text>
+            {NumberFormat(
+              totalPassives,
+              currency,
+              exchangeRate,
+              decimalEnabled
+            )}
+          </Text>
         </View>
       </View>
 
@@ -93,7 +104,7 @@ const NetWorth = () => {
           fontFamily: "OpenSans-Bold",
         }}
       >
-        {NumberFormat(netWorth, currency, decimalEnabled)}
+        {NumberFormat(netWorth, currency, exchangeRate, decimalEnabled)}
       </Text>
 
       <Text

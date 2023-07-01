@@ -10,7 +10,9 @@ const MonthBudgetCard = ({
   expense = 0,
   balance = 0,
 }) => {
-  const { currency, decimalEnabled } = useSelector((state) => state.settings);
+  const { currency, decimalEnabled, exchangeRate } = useSelector(
+    (state) => state.settings
+  );
   return (
     <View className="pb-4">
       <Text
@@ -39,7 +41,7 @@ const MonthBudgetCard = ({
               fontFamily: "OpenSans-SemiBold",
             }}
           >
-            {NumberFormat(revenue, currency, decimalEnabled)}
+            {NumberFormat(revenue, currency, exchangeRate, decimalEnabled)}
           </Text>
         </View>
         <DashedBorder />
@@ -58,7 +60,7 @@ const MonthBudgetCard = ({
               fontFamily: "OpenSans-SemiBold",
             }}
           >
-            {NumberFormat(expense, currency, decimalEnabled)}
+            {NumberFormat(expense, currency, exchangeRate, decimalEnabled)}
           </Text>
         </View>
         <DashedBorder />
@@ -77,7 +79,7 @@ const MonthBudgetCard = ({
               fontFamily: "OpenSans-SemiBold",
             }}
           >
-            {NumberFormat(balance, currency, decimalEnabled)}
+            {NumberFormat(balance, currency, exchangeRate, decimalEnabled)}
           </Text>
         </View>
       </View>

@@ -71,11 +71,11 @@ const Analysis = () => {
   }, [currentMonthEstBudgets, currentMonthActBudgets]);
 
   return (
-    <View className="px-4">
+    <View className="px-4 py-3">
       <Text
-        className="capitalize text-2xl font-extrabold pt-4"
+        className="capitalize text-4xl pt-4 pb-6"
         style={{
-          fontFamily: "OpenSans-Bold",
+          fontFamily: "DancingScript-SemiBold",
         }}
       >
         Mon analyse de fin de mois
@@ -93,7 +93,7 @@ const Analysis = () => {
           />
         ))
       ) : (
-        <NoMovement type="revenue" />
+        <NoMovement type="revenue" analysis={true} />
       )}
     </View>
   );

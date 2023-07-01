@@ -9,7 +9,9 @@ import { NumberFormat } from "../../../utils/funtions";
 const MovementItem = ({ item }) => {
   const { icon, id, amount, color, date, category, notes } = item;
 
-  const { currency, decimalEnabled } = useSelector((state) => state.settings);
+  const { currency, decimalEnabled, exchangeRate } = useSelector(
+    (state) => state.settings
+  );
   return (
     <View>
       <View className="flex flex-row justify-between items-center py-4">
@@ -29,7 +31,9 @@ const MovementItem = ({ item }) => {
           </Text>
         </View>
 
-        <Text>{NumberFormat(amount, currency, decimalEnabled)}</Text>
+        <Text>
+          {NumberFormat(amount, currency, exchangeRate, decimalEnabled)}
+        </Text>
       </View>
 
       <DashedBorder vertical={false} />

@@ -1,8 +1,13 @@
 import { Text, StyleSheet, ScrollView } from "react-native";
 import React from "react";
 import colors from "../utils/colors";
+import { NumberFormat } from "../utils/funtions";
+import { useSelector } from "react-redux";
 
 const UpgradePlan = ({ textColor }) => {
+  const { currency, decimalEnabled, exchangeRate } = useSelector(
+    (state) => state.settings
+  );
   return (
     <ScrollView className="px-5 py-4">
       <Text
@@ -21,7 +26,7 @@ const UpgradePlan = ({ textColor }) => {
             fontFamily: "OpenSans-Bold",
           }}
         >
-          15,99 €
+          {NumberFormat(15.99, currency, exchangeRate, decimalEnabled)}
         </Text>{" "}
         pour passer à la version premium{" "}
       </Text>

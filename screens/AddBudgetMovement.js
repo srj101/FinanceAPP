@@ -1,6 +1,6 @@
 import { AntDesign, Ionicons, Octicons } from "@expo/vector-icons";
 import moment from "moment";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Alert,
   Platform,
@@ -29,9 +29,22 @@ import {
 import { setDate } from "../providers/state/reducers/worth";
 import colors from "../utils/colors";
 import { initalOptions } from "../utils/data/data";
-import { NumberFormat } from "../utils/funtions";
 
 const AddBudgetMovement = (props) => {
+  // route params
+  const type = props?.route?.params?.type;
+
+  const typeValue = useMemo(() => {
+    if (!type) {
+      return "Dépense";
+    }
+    if (type === "expense") {
+      return "Dépense";
+    } else {
+      return "Revenu";
+    }
+  }, [type]);
+
   const inputRef = React.useRef(null);
   const navigation = useNavigation();
   const dispatch = useDispatch();
@@ -40,20 +53,24 @@ const AddBudgetMovement = (props) => {
     useSelector((state) => state.movement);
   const { currency, decimalEnabled } = useSelector((state) => state.settings);
 
-  const [selectedOption, setSelectedOption] = useState(0);
+  const [selectedOption, setSelectedOption] = useState(typeValue);
   const [repeatation, setRepeatation] = useState("NON");
   const [amount, setAmount] = useState(0);
   const [notes, setNotes] = useState("");
   const [selectedCurrentDate, setSelectedCurrentDate] = useState(new Date());
 
   const handleAmountChange = (value) => {
-    if (decimalEnabled) {
-      const numericValue = parseInt(value);
-
-      setAmount(numericValue);
+    // check if the value is too long
+    if (value.length > 10) {
+      return;
     } else {
-      const numericValue = parseFloat(value);
-      setAmount(numericValue);
+      if (decimalEnabled) {
+        const numericValue = parseFloat(value);
+        setAmount(numericValue);
+      } else {
+        const numericValue = parseInt(value);
+        setAmount(numericValue);
+      }
     }
   };
 
@@ -109,6 +126,11 @@ const AddBudgetMovement = (props) => {
       setShowDatePicker(true);
     }
   };
+
+  useEffect(() => {
+    dispatch(setSelectedCategory(null));
+    dispatch(setSelectedDate(new Date().toISOString().split("T")[0]));
+  }, []);
 
   const onSubmit = () => {
     if (!repeatation) {
@@ -271,26 +293,40 @@ const AddBudgetMovement = (props) => {
               setSelected={setSelectedOption}
             />
 
-            <TextInput
-              ref={inputRef}
-              onFocus={handleTextInputFocus}
-              keyboardType={decimalEnabled ? "numeric" : "number-pad"}
-              placeholder={`0.00 ${currency}`}
-              value={`${NumberFormat(amount, currency, decimalEnabled)}`}
-              onChangeText={handleAmountChange}
-              style={{
-                fontFamily: "OpenSans-Bold",
-              }}
-              onKeyPress={({ nativeEvent }) => {
-                if (
-                  nativeEvent.key === "Backspace" ||
-                  nativeEvent.key === "del"
-                ) {
-                  setAmount(0);
-                }
-              }}
-              className="text-center text-4xl my-5"
-            />
+            <View className="flex flex-row items-center justify-center">
+              <TextInput
+                ref={inputRef}
+                onFocus={handleTextInputFocus}
+                keyboardType={decimalEnabled ? "numeric" : "number-pad"}
+                placeholder={`0.00`}
+                maxLength={10}
+                value={amount}
+                onChangeText={handleAmountChange}
+                style={{
+                  fontFamily: "OpenSans-Bold",
+                }}
+                onKeyPress={({ nativeEvent }) => {
+                  if (
+                    nativeEvent.key === "Backspace" ||
+                    nativeEvent.key === "del"
+                  ) {
+                    setAmount(0);
+                  }
+                }}
+                className="text-center text-4xl my-5"
+              />
+
+              <Text
+                style={{
+                  fontFamily: "OpenSans-Bold",
+                  fontSize: 30,
+                  color: colors.black,
+                  marginLeft: 10,
+                }}
+              >
+                {currency}
+              </Text>
+            </View>
 
             <CustomInput name="Catégorie">
               <TouchableOpacity

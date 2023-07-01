@@ -42,6 +42,11 @@ const MonthlyBudget = () => {
     dispatch(setCurrentMonth(0));
   }, []);
 
+  useEffect(() => {
+    const movementTypes = ["ESTIMATED_BUDGET", "REAL_BUDGET"];
+    dispatch(setMovementType(movementTypes[currentIndex]));
+  }, [currentIndex]);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View
@@ -101,8 +106,6 @@ const MonthlyBudget = () => {
         <TouchableOpacity
           className="absolute bottom-8 right-5"
           onPress={() => {
-            const movementTypes = ["ESTIMATED_BUDGET", "REAL_BUDGET"];
-            dispatch(setMovementType(movementTypes[currentIndex]));
             navigation.navigate("AddMovement");
           }}
         >

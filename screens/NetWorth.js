@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   Animated,
   FlatList,
+  ScrollView,
 } from "react-native";
 import React, { useEffect } from "react";
 import { AntDesign, Feather, Ionicons } from "@expo/vector-icons";
@@ -42,23 +43,23 @@ const NetWorth = () => {
   }, []);
 
   useEffect(() => {
-    let type = "";
-    if (currentIndex === 1 || currentIndex === 0) {
-      type = "ASSETS";
-    }
-    if (currentIndex === 2) {
-      type = "LIABILITIES";
-    }
+    let types = ["ASSETS", "ASSETS", "LIABILITIES"];
+
+    let type = types[currentIndex];
+
     dispatch(setWorthType(type));
   }, [currentIndex]);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <View className="flex relative flex-row justify-between items-center mx-4 my-3">
+      <View
+        className="flex relative flex-row justify-between items-center mx-4 my-3"
+        style={{}}
+      >
         <TouchableOpacity onPress={() => navigation.navigate("Home")}>
           <Ionicons
             name="ios-arrow-back-outline"
-            size={30}
+            size={25}
             color={colors.black}
           />
         </TouchableOpacity>
@@ -68,11 +69,11 @@ const NetWorth = () => {
         </View>
 
         <TouchableOpacity onPress={() => navigation.navigate("Settings")}>
-          <Feather name="settings" size={30} color={colors.black} />
+          <Feather name="circle" size={25} color={colors.black} />
         </TouchableOpacity>
       </View>
 
-      <View>
+      <ScrollView>
         <FlatList
           data={netWorthPages}
           keyExtractor={(item) => item.id.toString()}
@@ -94,7 +95,7 @@ const NetWorth = () => {
           viewabilityConfig={viewabilityConfig}
           ref={netWorthRef}
         />
-      </View>
+      </ScrollView>
 
       <View className="absolute bottom-5 flex flex-row justify-center w-full items-center ">
         <Paginator

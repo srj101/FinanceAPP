@@ -5,12 +5,16 @@ import colors from "../../../utils/colors";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
-const NoMovement = ({ type }) => {
-  console.log("type", type);
+const NoMovement = ({ type, analysis = false }) => {
   const navigation = useNavigation();
   return (
     <TouchableOpacity
-      onPress={() => navigation.navigate("AddMovement")}
+      onPress={() => {
+        if (analysis) {
+          return;
+        }
+        navigation.navigate("AddMovement", { type });
+      }}
       style={{
         flex: 1,
         borderWidth: 1,
@@ -21,11 +25,13 @@ const NoMovement = ({ type }) => {
       }}
     >
       <View className=" flex-1 flex-row pr-24 items-center gap-4 pl-4 py-5">
-        <MaterialCommunityIcons
-          name="plus-circle"
-          size={35}
-          color={type === "expense" ? colors.red : colors.green}
-        />
+        {analysis === false && (
+          <MaterialCommunityIcons
+            name="plus-circle"
+            size={35}
+            color={type === "expense" ? colors.red : colors.green}
+          />
+        )}
         <Text
           className="text-lg"
           style={{

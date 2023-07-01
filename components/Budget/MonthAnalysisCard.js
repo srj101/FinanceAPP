@@ -11,14 +11,17 @@ const MonthAnalysisCard = ({
   gap = 0,
   color = "#000",
 }) => {
-  const { currency, decimalEnabled } = useSelector((state) => state.settings);
+  const { currency, decimalEnabled, exchangeRate } = useSelector(
+    (state) => state.settings
+  );
 
   return (
     <View className="py-4">
       <Text
-        className="capitalize text-xl font-extrabold py-4"
+        className="text-3xl pb-4"
         style={{
-          fontFamily: "OpenSans-Bold",
+          fontFamily: "DancingScript-SemiBold",
+          letterSpacing: 0.1,
         }}
       >
         {title}
@@ -35,7 +38,9 @@ const MonthAnalysisCard = ({
             Prévu
           </Text>
 
-          <Text>{NumberFormat(forseen, currency, decimalEnabled)}</Text>
+          <Text>
+            {NumberFormat(forseen, currency, exchangeRate, decimalEnabled)}
+          </Text>
         </View>
         <DashedBorder />
         <View className="flex flex-col items-center justify-center gap-4">
@@ -48,7 +53,9 @@ const MonthAnalysisCard = ({
           >
             Réalisé
           </Text>
-          <Text>{NumberFormat(accomplished, currency, decimalEnabled)}</Text>
+          <Text>
+            {NumberFormat(accomplished, currency, exchangeRate, decimalEnabled)}
+          </Text>
         </View>
         <DashedBorder />
         <View className="flex flex-col items-center justify-center gap-4">
@@ -60,7 +67,9 @@ const MonthAnalysisCard = ({
           >
             Ecart
           </Text>
-          <Text>{NumberFormat(gap, currency, decimalEnabled)}</Text>
+          <Text>
+            {NumberFormat(gap, currency, exchangeRate, decimalEnabled)}
+          </Text>
         </View>
       </View>
     </View>
