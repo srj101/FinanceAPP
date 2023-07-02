@@ -27,8 +27,8 @@ export const initialCategories = [
     },
     icon: {
       id: 1,
-      icon: "book",
-      name: "book",
+      icon: "pay-circle-o1",
+      name: "pay",
     },
   },
   {
@@ -41,8 +41,8 @@ export const initialCategories = [
     },
     icon: {
       id: 1,
-      icon: "home",
-      name: "home",
+      icon: "wallet",
+      name: "wallet",
     },
   },
   {
@@ -55,8 +55,8 @@ export const initialCategories = [
     },
     icon: {
       id: 1,
-      icon: "team",
-      name: "team",
+      icon: "aliwangwang-o1",
+      name: "aliwangwang-o1",
     },
   },
   {
@@ -69,8 +69,8 @@ export const initialCategories = [
     },
     icon: {
       id: 1,
-      icon: "shoppingcart",
-      name: "shoppingcart",
+      icon: "home",
+      name: "home",
     },
   },
   {
@@ -83,8 +83,8 @@ export const initialCategories = [
     },
     icon: {
       id: 1,
-      icon: "videocamera",
-      name: "videocamera",
+      icon: "car",
+      name: "car",
     },
   },
   {
@@ -97,8 +97,8 @@ export const initialCategories = [
     },
     icon: {
       id: 1,
-      icon: "meho",
-      name: "meho",
+      icon: "cloudo",
+      name: "cloudo",
     },
   },
   {
@@ -111,8 +111,8 @@ export const initialCategories = [
     },
     icon: {
       id: 1,
-      icon: "star",
-      name: "star",
+      icon: "apple-o",
+      name: "apple",
     },
   },
   {
@@ -125,8 +125,8 @@ export const initialCategories = [
     },
     icon: {
       id: 1,
-      icon: "laptop",
-      name: "laptop",
+      icon: "smileo",
+      name: "smileo",
     },
   },
 
@@ -140,8 +140,8 @@ export const initialCategories = [
     },
     icon: {
       id: 1,
-      icon: "sharealt",
-      name: "sharealt",
+      icon: "meh",
+      name: "meh",
     },
   },
 ];

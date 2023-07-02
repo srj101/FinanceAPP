@@ -69,7 +69,7 @@ const AddBudgetMovement = (props) => {
     () => new Date(currentYear, 11, 31),
     []
   );
-  const firstDateOfCurrentYear = useMemo(() => new Date(currentYear, 0, 1), []);
+  const FirstDateOfCurrentYear = useMemo(() => new Date(currentYear, 0, 1), []);
   const type = props?.route?.params?.type;
   const typeValue = useMemo(
     () => (type === "expense" ? "Dépense" : "Revenu"),
@@ -187,14 +187,14 @@ const AddBudgetMovement = (props) => {
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
-                gap: 10,
+                gap: 5,
               }}
             >
               <TextInput
                 keyboardType={decimalEnabled ? "numeric" : "number-pad"}
                 placeholder={`0.00`}
                 maxLength={10}
-                value={amount.toString()}
+                value={amount > 0 ? amount.toString() : undefined}
                 onChangeText={handleAmountChange}
                 style={{
                   fontFamily: "OpenSans-Bold",
@@ -203,7 +203,7 @@ const AddBudgetMovement = (props) => {
               />
 
               <Text
-                className="text-4xl mt-2"
+                className="text-4xl"
                 style={{
                   fontFamily: "OpenSans-Bold",
                   color: colors.black,
