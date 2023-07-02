@@ -5,12 +5,22 @@ import { useDispatch, useSelector } from "react-redux";
 import MovementDatePicker from "../components/AddBudgetMovement/MovementDatePicker";
 import AppLoading from "../components/AppLoading";
 import { setCategories } from "../providers/state/reducers/categories";
-import { setMovements } from "../providers/state/reducers/movement";
-import { setInitialWorths } from "../providers/state/reducers/worth";
 import {
-  initalNetWorth,
+  setActualMovements,
+  setEstimaedMovements,
+  setMovements,
+} from "../providers/state/reducers/movement";
+import {
+  setAssetWorths,
+  setInitialWorths,
+  setLiabilityWorths,
+} from "../providers/state/reducers/worth";
+import {
+  initalLiabilitiesWorth,
+  initialActualMovements,
+  initialAssetWorths,
   initialCategories,
-  initialMovements,
+  initialEstimatedBudgets,
 } from "../utils/data/data";
 import { getValueFor } from "../utils/secureStorage";
 import AddBudgetMovement from "./AddBudgetMovement";
@@ -32,8 +42,10 @@ const Stack = createNativeStackNavigator();
 const Root = () => {
   const [isFirstLaunch, setIsFirstLaunch] = React.useState(null);
   const { categories } = useSelector((state) => state.categories);
-  const { movements } = useSelector((state) => state.movement);
-  const { worths } = useSelector((state) => state.worth);
+  const { actualMovements, estimatedMovements } = useSelector(
+    (state) => state.movement
+  );
+  const { liabilityWorths, assetWorths } = useSelector((state) => state.worth);
   const { pinCode } = useSelector((state) => state.settings);
 
   const dispatch = useDispatch();
@@ -51,20 +63,31 @@ const Root = () => {
 
   React.useEffect(() => {
     if (
-      isFirstLaunch === true ||
-      categories.length === 0 ||
-      movements.length === 0 ||
-      worths.length === 0
+      isFirstLaunch === true &&
+      (estimatedMovements.length < 12 ||
+        assetWorths.length < 12 ||
+        liabilityWorths.length < 12 ||
+        actualMovements.length < 12)
     ) {
       dispatch(setCategories(initialCategories));
-      dispatch(setMovements(initialMovements));
-      dispatch(setInitialWorths(initalNetWorth));
+
+      dispatch(setEstimaedMovements(initialEstimatedBudgets));
+      dispatch(setActualMovements(initialActualMovements));
+      dispatch(setAssetWorths(initialAssetWorths));
+      dispatch(setLiabilityWorths(initalLiabilitiesWorth));
     }
 
     if (categories.length < 5) {
       dispatch(setCategories(initialCategories));
     }
-  }, [categories, movements, worths, isFirstLaunch]);
+  }, [
+    categories,
+    estimatedMovements,
+    actualMovements,
+    assetWorths,
+    liabilityWorths,
+    isFirstLaunch,
+  ]);
 
   if (isFirstLaunch === null) {
     return <AppLoading />;

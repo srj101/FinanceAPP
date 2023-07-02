@@ -1,14 +1,9 @@
-import {
-  View,
-  useWindowDimensions,
-  StyleSheet,
-  ScrollView,
-} from "react-native";
 import React from "react";
+import { ScrollView, StyleSheet, useWindowDimensions } from "react-native";
 import AppLoading from "../AppLoading";
-import NetWorth from "./NetWorth";
 import Assets from "./Assets";
 import Liabilities from "./Liabilities";
+import NetWorth from "./NetWorth";
 
 const NetWorthPage = ({ item, currentIndex }) => {
   const { width, height } = useWindowDimensions();

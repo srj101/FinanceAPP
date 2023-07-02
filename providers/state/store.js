@@ -10,9 +10,10 @@ import {
   REGISTER,
   REHYDRATE,
 } from "redux-persist";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import monthsReducer from "./reducers/months"; // Adjust the import path if needed
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import FSStorage from "./ExpoStorage";
+
 import categoriesReducer from "./reducers/categories";
 import movementReducer from "./reducers/movement";
 import settingsReducer from "./reducers/settings";
@@ -31,13 +32,17 @@ const persistConfig = {
   storage: AsyncStorage,
 };
 
+const persistConfigFileBased = {
+  key: "root",
+  storage: FSStorage,
+};
+
 // Combine them together
 const rootReducer = combineReducers({
-  months: persistReducer(persistConfig, monthsReducer),
-  categories: persistReducer(persistConfig, categoriesReducer),
-  movement: persistReducer(persistConfig, movementReducer),
+  categories: persistReducer(persistConfigFileBased, categoriesReducer),
+  movement: persistReducer(persistConfigFileBased, movementReducer),
   settings: persistReducer(persistConfig, settingsReducer),
-  worth: persistReducer(persistConfig, worthReducer),
+  worth: persistReducer(persistConfigFileBased, worthReducer),
 });
 
 let store = configureStore({

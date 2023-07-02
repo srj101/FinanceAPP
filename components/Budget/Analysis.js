@@ -6,15 +6,17 @@ import { useSelector } from "react-redux";
 import NoMovement from "./movement/NoMovement";
 
 const Analysis = () => {
-  const { currentMonth, movements } = useSelector((state) => state.movement);
+  const { currentMonth, actualMovements, estimatedMovements } = useSelector(
+    (state) => state.movement
+  );
 
   const currentMonthEstBudgets = useMemo(() => {
-    return movements[currentMonth].estimatedBudgets;
-  }, [currentMonth]);
+    return estimatedMovements[currentMonth].data;
+  }, [currentMonth, estimatedMovements]);
 
   const currentMonthActBudgets = useMemo(() => {
-    return movements[currentMonth].actualBudgets;
-  }, [currentMonth]);
+    return actualMovements[currentMonth].data;
+  }, [currentMonth, actualMovements]);
 
   const categories = useMemo(() => {
     let categories = [];

@@ -5,11 +5,15 @@ import Movement from "./movement/movementCard";
 import { useSelector } from "react-redux";
 
 const EstimatedBudget = () => {
-  const { currentMonth, movements } = useSelector((state) => state.movement);
+  const { currentMonth, estimatedMovements } = useSelector(
+    (state) => state.movement
+  );
+
+  console.log("currentMonth", currentMonth);
 
   const currentMonthEstBudgets = useMemo(() => {
-    return movements[currentMonth].estimatedBudgets;
-  }, [currentMonth]);
+    return estimatedMovements[currentMonth].data;
+  }, [currentMonth, estimatedMovements]);
 
   const currentMonthExpense = useMemo(() => {
     return currentMonthEstBudgets.filter((b) => b.type === "Dépense");

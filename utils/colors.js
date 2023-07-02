@@ -1,7 +1,7 @@
 import { rgbToHex } from "./funtions";
 
 export default COLORS = {
-  primary: rgbToHex(54, 54, 56),
+  primary: rgbToHex(54, 54, 56), // which is #363638
   secondary: "#5271FF",
   white: "#FFFFFF",
   black: "#242426",

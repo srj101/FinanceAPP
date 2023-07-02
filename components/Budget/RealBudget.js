@@ -6,11 +6,13 @@ import { useSelector } from "react-redux";
 import { incomeMovements } from "../../utils/data/data";
 
 const RealBudget = () => {
-  const { currentMonth, movements } = useSelector((state) => state.movement);
+  const { currentMonth, actualMovements } = useSelector(
+    (state) => state.movement
+  );
 
   const currentMonthActBudgets = useMemo(() => {
-    return movements[currentMonth].actualBudgets;
-  }, [currentMonth]);
+    return actualMovements[currentMonth].data;
+  }, [currentMonth, actualMovements]);
 
   const currentMonthExpense = useMemo(() => {
     return currentMonthActBudgets.filter((b) => b.type === "Dépense");

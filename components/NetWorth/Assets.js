@@ -4,11 +4,11 @@ import MovementItem from "../Budget/movement/movementItem";
 import { useSelector } from "react-redux";
 
 const Assets = () => {
-  const { currentMonth, worths } = useSelector((state) => state.worth);
+  const { currentMonth, assetWorths } = useSelector((state) => state.worth);
 
   const currentMonthAssets = useMemo(() => {
-    return worths[currentMonth].assets;
-  }, [currentMonth]);
+    return assetWorths[currentMonth].data;
+  }, [currentMonth, assetWorths]);
 
   return (
     <View className="mx-6">

@@ -1,86 +1,29 @@
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
+import moment from "moment";
 
 export const rgbToHex = (r, g, b) =>
   "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 
 export const downloadJSON = async (data) => {
-  const { movements, worths } = data;
+  const { actualMovements, estimatedMovements, assetWorths, liabilityWorths } =
+    data;
 
-  const budgetData = movements.map((movement) => {
-    const { estimatedBudgets, actualBudgets } = movement;
-    const { month, year } = movement;
+  console.log("actualMovements", actualMovements.length);
+  console.log("estimatedMovements", estimatedMovements.length);
+  console.log("assetWorths", assetWorths.length);
+  console.log("liabilityWorths", liabilityWorths.length);
 
-    const estimatedBudgetsData = estimatedBudgets.map((budget) => {
-      const { amount, category, date, type, notes } = budget;
+  //
+  const budgetData = {
+    actualMovements,
+    estimatedMovements,
+  };
 
-      const name = category.name;
-
-      return {
-        amount,
-        name,
-        date,
-        type,
-        notes,
-        month,
-      };
-    });
-
-    const actualBudgetsData = actualBudgets.map((budget) => {
-      const { amount, category, date, type, notes } = budget;
-
-      const name = category.name;
-
-      return {
-        amount,
-        name,
-        date,
-        type,
-        notes,
-        month,
-      };
-    });
-
-    return {
-      estimatedBudgetsData,
-      actualBudgetsData,
-    };
-  });
-
-  const worthData = worths.map((worth) => {
-    const { month, assets, liabilities } = worth;
-
-    const assetsData = assets.map((asset) => {
-      const { amount, category, type } = asset;
-
-      const name = category.name;
-
-      return {
-        amount,
-        name,
-        month,
-        type,
-      };
-    });
-
-    const liabilitiesData = liabilities.map((liability) => {
-      const { amount, category, type } = liability;
-
-      const name = category.name;
-
-      return {
-        amount,
-        name,
-        month,
-        type,
-      };
-    });
-
-    return {
-      assetsData,
-      liabilitiesData,
-    };
-  });
+  const worthData = {
+    assetWorths,
+    liabilityWorths,
+  };
 
   const json = JSON.stringify({ budgetData, worthData });
 
@@ -115,157 +58,167 @@ const convertToCSVFunc = async (jsonData) => {
 
   const { budgetData, worthData } = json;
 
-  const budgetDataCSV = budgetData.map((data) => {
-    const { estimatedBudgetsData, actualBudgetsData } = data;
+  const { actualMovements, estimatedMovements } = budgetData;
 
-    const estimatedBudgetsDataCSV = estimatedBudgetsData.map((data) => {
-      const { amount, name, date, type, notes, month } = data;
+  const { assetWorths, liabilityWorths } = worthData;
 
-      return {
+  console.log("actualMovements", actualMovements[0]);
+
+  const actualMovementsCSV = actualMovements.map((item) => {
+    const { id, month, data } = item;
+
+    const movement = data.map((item) => {
+      const {
         amount,
-        name,
+        category: { name },
         date,
-        type,
         notes,
+        type,
+      } = item;
+
+      return {
+        id,
         month,
+        amount,
+        category: name,
+        date: moment(date).format("DD/MM/YYYY"),
+        notes,
+        type,
       };
     });
 
-    const actualBudgetsDataCSV = actualBudgetsData.map((data) => {
-      const { amount, name, date, type, notes, month } = data;
+    return movement;
+  });
 
-      return {
+  const estimatedMovementsCSV = estimatedMovements.map((item) => {
+    const { id, month, data } = item;
+
+    const movement = data.map((item) => {
+      const {
         amount,
-        name,
+        category: { name },
         date,
-        type,
         notes,
-        month,
-      };
-    });
-
-    return {
-      estimatedBudgetsDataCSV,
-      actualBudgetsDataCSV,
-    };
-  });
-
-  const worthDataCSV = worthData.map((data) => {
-    const { assetsData, liabilitiesData } = data;
-
-    const assetsDataCSV = assetsData.map((data) => {
-      const { amount, name, month, type } = data;
+        type,
+      } = item;
 
       return {
-        amount,
-        name,
+        id,
         month,
+        amount,
+        category: name,
+        date: moment(date).format("DD/MM/YYYY"),
+        notes,
         type,
       };
     });
 
-    const liabilitiesDataCSV = liabilitiesData.map((data) => {
-      const { amount, name, month, type } = data;
+    return movement;
+  });
+
+  const assetWorthsCSV = assetWorths.map((item) => {
+    const { id, month, data } = item;
+
+    const asset = data.map((item) => {
+      const {
+        amount,
+        category: { name },
+        date,
+        notes,
+        type,
+      } = item;
 
       return {
-        amount,
-        name,
+        id,
         month,
+        amount,
+        category: name,
+        date: moment(date).format("DD/MM/YYYY"),
+        notes,
         type,
       };
     });
 
-    return {
-      assetsDataCSV,
-      liabilitiesDataCSV,
-    };
+    return asset;
   });
 
-  // construct the csv string
+  const liabilityWorthsCSV = liabilityWorths.map((item) => {
+    const { id, month, data } = item;
 
-  // budget data
+    const liability = data.map((item) => {
+      const {
+        amount,
+        category: { name },
+        date,
+        notes,
+        type,
+      } = item;
 
-  let csv = "";
+      return {
+        id,
+        month,
+        amount,
+        category: name,
+        date: moment(date).format("DD/MM/YYYY"),
+        notes,
+        type,
+      };
+    });
 
-  // Add Heading
+    return liability;
+  });
 
-  csv += "Budget Data\n\n";
+  // lets construct the csv string
 
-  csv += "Estimated Budgets\n\n";
+  let csvString = "";
 
-  // Add Estimated Budgets columns
+  // add the headers
+  csvString += "Actual Movements\n";
+  csvString += "ID,Month,Amount,Category,Date,Notes,Type\n";
 
-  csv += "Amount,Name,Date,Type,Notes,Month\n";
-
-  budgetDataCSV.forEach((data) => {
-    const { estimatedBudgetsDataCSV } = data;
-
-    estimatedBudgetsDataCSV.forEach((data) => {
-      const { amount, name, date, type, notes, month } = data;
-
-      csv += `${amount},${name},${date},${type},${notes},${month}\n`;
+  // add the data
+  actualMovementsCSV.forEach((item) => {
+    item.forEach((movement) => {
+      csvString += `${movement.id},${movement.month},${movement.amount},${movement.category},${movement.date},${movement.notes},${movement.type}\n`;
     });
   });
 
-  csv += "\n\n";
+  // add the headers
+  csvString += "\n\nEstimated Movements\n";
+  csvString += "ID,Month,Amount,Category,Date,Notes,Type\n";
 
-  csv += "Actual Budgets\n\n";
-
-  // Add Actual Budgets columns
-
-  csv += "Amount,Name,Date,Type,Notes,Month\n";
-
-  budgetDataCSV.forEach((data) => {
-    const { actualBudgetsDataCSV } = data;
-
-    actualBudgetsDataCSV.forEach((data) => {
-      const { amount, name, date, type, notes, month } = data;
-
-      csv += `${amount},${name},${date},${type},${notes},${month}\n`;
+  // add the data
+  estimatedMovementsCSV.forEach((item) => {
+    item.forEach((movement) => {
+      csvString += `${movement.id},${movement.month},${movement.amount},${movement.category},${movement.date},${movement.notes},${movement.type}\n`;
     });
   });
 
-  csv += "\n\n";
+  // add the headers
+  csvString += "\n\nAssets\n";
 
-  // worth data
+  csvString += "ID,Month,Amount,Category,Date,Notes,Type\n";
 
-  csv += "Net Worth Data\n\n";
-
-  csv += "Assets\n\n";
-
-  // Add Assets columns
-
-  csv += "Amount,Name,Month,Type\n";
-
-  worthDataCSV.forEach((data) => {
-    const { assetsDataCSV } = data;
-
-    assetsDataCSV.forEach((data) => {
-      const { amount, name, month, type } = data;
-
-      csv += `${amount},${name},${month},${type}\n`;
+  // add the data
+  assetWorthsCSV.forEach((item) => {
+    item.forEach((movement) => {
+      csvString += `${movement.id},${movement.month},${movement.amount},${movement.category},${movement.date},${movement.notes},${movement.type}\n`;
     });
   });
 
-  csv += "\n\n";
+  // add the headers
+  csvString += "\n\nLiabilities\n";
 
-  csv += "Liabilities\n\n";
+  csvString += "ID,Month,Amount,Category,Date,Notes,Type\n";
 
-  // Add Liabilities columns
-
-  csv += "Amount,Name,Month,Type\n";
-
-  worthDataCSV.forEach((data) => {
-    const { liabilitiesDataCSV } = data;
-
-    liabilitiesDataCSV.forEach((data) => {
-      const { amount, name, month, type } = data;
-
-      csv += `${amount},${name},${month},${type}\n`;
+  // add the data
+  liabilityWorthsCSV.forEach((item) => {
+    item.forEach((movement) => {
+      csvString += `${movement.id},${movement.month},${movement.amount},${movement.category},${movement.date},${movement.notes},${movement.type}\n`;
     });
   });
 
-  return csv;
+  return csvString;
 };
 
 const getDocumentDirectory = async () => {

@@ -13,52 +13,49 @@ import {
   View,
 } from "react-native";
 
+import RNDateTimePicker from "@react-native-community/datetimepicker";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import Options from "../components/AddBudgetMovement/Options";
 import CustomInput from "../components/shared/CustomInput";
 import {
-  setCategory,
-  setDate,
-  setWorths,
-} from "../providers/state/reducers/worth";
-import colors from "../utils/colors";
-import { netWorthOptions } from "../utils/data/data";
-import { NumberFormat } from "../utils/funtions";
-import {
   setSelectedCategory,
   setSelectedDate,
 } from "../providers/state/reducers/movement";
-import RNDateTimePicker from "@react-native-community/datetimepicker";
+import {
+  setCategory,
+  setDate,
+  updateWorths,
+} from "../providers/state/reducers/worth";
+import colors from "../utils/colors";
+import { netWorthOptions } from "../utils/data/data";
 
 const AddNetWorthMovement = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
   const { currency, decimalEnabled } = useSelector((state) => state.settings);
-  const inputRef = React.useRef(null);
   const [selectedOption, setSelectedOption] = useState("Actif");
   const [amount, setAmount] = useState(0);
   const [notes, setNotes] = useState("");
   const [selectedCurrentDate, setSelectedCurrentDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
 
-  const { selectedCategory, selectedDate, worths, worthType } = useSelector(
+  const { selectedCategory, selectedDate } = useSelector(
     (state) => state.worth
   );
 
   const handleAmountChange = (value) => {
+    // remove trailing zeros
+    value = value.replace(/^0+/, "");
+
     // check if the value is too long
     if (value.length > 10) {
       return;
     } else {
-      if (decimalEnabled) {
-        const numericValue = parseInt(value);
-
-        setAmount(numericValue);
-      } else {
-        const numericValue = parseFloat(value);
-        setAmount(numericValue);
+      // check if the value is a number
+      if (!isNaN(value)) {
+        setAmount(value);
       }
     }
   };
@@ -72,21 +69,12 @@ const AddNetWorthMovement = () => {
     }
   };
 
-  const lastDateOfCurrentYear = useMemo(() => {
-    const date = new Date();
-    const currentYear = date.getFullYear();
-    const lastDateOfCurrentYear = new Date(currentYear, 11, 31);
-
-    return lastDateOfCurrentYear;
-  }, []);
-
-  const FirstDateOfCurrentYear = useMemo(() => {
-    const date = new Date();
-    const currentYear = date.getFullYear();
-    const FirstDateOfCurrentYear = new Date(currentYear, 0, 1);
-
-    return FirstDateOfCurrentYear;
-  }, []);
+  const currentYear = new Date().getFullYear();
+  const lastDateOfCurrentYear = useMemo(
+    () => new Date(currentYear, 11, 31),
+    []
+  );
+  const FirstDateOfCurrentYear = useMemo(() => new Date(currentYear, 0, 1), []);
 
   const handleDateChange = useCallback(
     (event, selectedDate) => {
@@ -94,98 +82,57 @@ const AddNetWorthMovement = () => {
         setShowDatePicker(false);
       }
 
-      // Check if the date is within the current year
-
-      const date = new Date();
-      const currentYear = date.getFullYear();
-      const lastDateOfCurrentYear = new Date(currentYear, 11, 31);
-
       if (selectedDate > lastDateOfCurrentYear) {
         alert("The date must be within the current year");
         return;
       }
 
-      let currentDate = selectedDate || date;
-
+      const currentDate = selectedDate || new Date();
       setSelectedCurrentDate(currentDate);
 
-      currentDate = currentDate.toISOString();
-      dispatch(setSelectedDate(currentDate));
-      dispatch(setDate(currentDate));
+      const isoDate = currentDate.toISOString();
+      dispatch(setSelectedDate(isoDate));
+      dispatch(setDate(isoDate));
     },
     [selectedDate]
   );
 
   const onSubmit = () => {
-    if (amount === 0) {
-      Alert.alert("Amount cannot be 0");
-      return;
-    }
-    if (!selectedCategory) {
-      Alert.alert("Please select a category");
-      return;
-    }
-    if (!selectedDate) {
-      Alert.alert("Please select a date");
+    const ammmount = decimalEnabled ? parseFloat(amount) : parseInt(amount);
+
+    if (ammmount === 0 || !selectedCategory || !selectedDate) {
+      Alert.alert("Please enter an amount, select a category and a date");
       return;
     }
 
-    // list of all 12 months
-    const months = moment.months();
+    const selectedMonthIndex = moment
+      .months()
+      .indexOf(moment(selectedDate).format("MMMM"));
 
-    // get the index of the selected month
-    const selectedMonthIndex = months.indexOf(
-      moment(selectedDate).format("MMMM")
+    const id = Math.random().toString();
+    const item = {
+      id,
+      amount: ammmount,
+      category: selectedCategory,
+      date: selectedDate,
+      notes,
+      type: selectedOption,
+      month: moment(selectedDate).format("MMMM"),
+    };
+
+    dispatch(
+      updateWorths({
+        item,
+        selectedMonthIndex,
+        worthType: selectedOption,
+      })
     );
 
-    // get the selected month
-    let selectedMonth = worths[selectedMonthIndex];
-
-    if (selectedOption === "Actif") {
-      // Asset
-      const { assets } = selectedMonth;
-      selectedMonth["assets"] = [
-        ...assets,
-        {
-          id: Math.random().toString(),
-          amount,
-          category: selectedCategory,
-          date: selectedDate,
-          type: selectedOption,
-          notes,
-        },
-      ];
-    } else if (selectedOption === "Passif") {
-      // Liability
-      const { liabilities } = selectedMonth;
-      selectedMonth["liabilities"] = [
-        ...liabilities,
-        {
-          id: Math.random().toString(),
-          amount,
-          category: selectedCategory,
-          date: selectedDate,
-          notes,
-          type: selectedOption,
-        },
-      ];
-    }
-
-    // Update the selected month
-    const newNetWorth = worths.map((month, index) => {
-      if (index === selectedMonthIndex) {
-        return selectedMonth;
-      }
-      return month;
-    });
-
-    dispatch(setWorths(newNetWorth));
     alert("Net item added successfully");
 
-    // Reset state
     setAmount(0);
     setNotes("");
-    setSelectedOption(0);
+    setSelectedOption("Actif");
     dispatch(setCategory(null));
     dispatch(setDate(new Date().toISOString().split("T")[0]));
 
@@ -206,15 +153,9 @@ const AddNetWorthMovement = () => {
     navigation.goBack();
   };
 
-  const handleTextInputFocus = () => {
-    // Set the selection to the beginning of the text input
-    inputRef.current?.setSelection({ start: 0, end: 0 });
-  };
-
   return (
     <KeyboardAvoidingView
       style={{ flexGrow: 1 }}
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
       contentContainerStyle={{ flexGrow: 1 }}
     >
       <ScrollView contentContainerStyle={{ flexGrow: 1 }} bounces={false}>
@@ -237,41 +178,37 @@ const AddNetWorthMovement = () => {
             setSelected={setSelectedOption}
           />
 
-          <View className="flex flex-row items-center justify-center">
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: 10,
+            }}
+          >
             <TextInput
-              ref={inputRef}
-              onFocus={handleTextInputFocus}
               keyboardType={decimalEnabled ? "numeric" : "number-pad"}
               placeholder={`0.00`}
               maxLength={10}
-              value={String(amount)}
+              value={amount.toString()}
               onChangeText={handleAmountChange}
               style={{
                 fontFamily: "OpenSans-Bold",
               }}
-              onKeyPress={({ nativeEvent }) => {
-                if (
-                  nativeEvent.key === "Backspace" ||
-                  nativeEvent.key === "del"
-                ) {
-                  setAmount(0);
-                }
-              }}
-              className="text-center text-4xl my-5"
+              className="text-4xl"
             />
 
             <Text
-              className="text-4xl"
+              className="text-4xl mt-2"
               style={{
                 fontFamily: "OpenSans-Bold",
-
                 color: colors.black,
-                marginLeft: 10,
               }}
             >
               {currency}
             </Text>
           </View>
+
           <CustomInput name="Catégories">
             <TouchableOpacity
               className="flex flex-row justify-end items-center gap-2"

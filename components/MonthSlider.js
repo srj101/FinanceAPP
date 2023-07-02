@@ -4,7 +4,6 @@ import { Animated, FlatList, StyleSheet, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import colors from "../utils/colors";
 import MonthItem from "./MonthItem";
-import { setCurrentMonthID } from "../providers/state/reducers/months";
 import { setCurrentMonth } from "../providers/state/reducers/movement";
 import moment from "moment";
 import { setCurrentMonthIdx } from "../providers/state/reducers/worth";
@@ -12,7 +11,14 @@ import { setCurrentMonthIdx } from "../providers/state/reducers/worth";
 const MonthSlider = () => {
   const dispatch = useDispatch();
 
-  const { months, currentMonthID } = useSelector((state) => state.months);
+  const months = React.useMemo(() => {
+    return moment.months().map((m, i) => {
+      return {
+        id: i.toString(),
+        month: m,
+      };
+    });
+  }, []);
 
   const [currentIndex, setCurrentIndex] = React.useState(0);
 

@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import colors from "../../../../utils/colors";
 
 const initialState = {
   categories: [],

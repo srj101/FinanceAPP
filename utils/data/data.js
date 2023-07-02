@@ -1,4 +1,5 @@
 import colors from "../colors";
+import { rgbToHex } from "../funtions";
 
 export const netWorthOptions = [
   {
@@ -149,37 +150,37 @@ export const colorOptions = [
   {
     id: 1,
     name: "red",
-    color: "#FF8787",
+    color: rgbToHex(255, 59, 48), // which is #FF3B30
   },
   {
     id: 2,
     name: "blue",
-    color: "#98A8F8",
+    color: rgbToHex(0, 122, 255), // which is #007AFF
   },
   {
     id: 3,
     name: "green",
-    color: "#1B9C85",
+    color: rgbToHex(52, 199, 89), // which is #34C759
   },
   {
     id: 4,
     name: "yellow",
-    color: "#FFE194",
+    color: rgbToHex(255, 204, 0), // which is #FFCC00
   },
   {
     id: 5,
     name: "purple",
-    color: "#F266AB",
+    color: rgbToHex(175, 82, 222), // which is #AF52DE
   },
   {
     id: 6,
     name: "orange",
-    color: "#FFB84C",
+    color: rgbToHex(255, 149, 0), // which is #FF9500
   },
   {
     id: 7,
     name: "pink",
-    color: "#E893CF",
+    color: rgbToHex(255, 45, 85), // which is #FF2D55
   },
 ];
 
@@ -582,78 +583,129 @@ export const currencies = [
   { label: "Euro", value: "€" },
 ];
 
-export const initialMovements = [
+export const initialEstimatedBudgets = [
   {
     id: "1",
     month: "January",
-    estimatedBudgets: [],
-    actualBudgets: [],
+    data: [],
   },
   {
     id: "2",
     month: "February",
-    estimatedBudgets: [],
-    actualBudgets: [],
+    data: [],
   },
   {
     id: "3",
     month: "March",
-    estimatedBudgets: [],
-    actualBudgets: [],
+    data: [],
   },
   {
     id: "4",
     month: "April",
-    estimatedBudgets: [],
-    actualBudgets: [],
+    data: [],
   },
   {
     id: "5",
     month: "May",
-    estimatedBudgets: [],
-    actualBudgets: [],
+    data: [],
   },
   {
     id: "6",
     month: "June",
-    estimatedBudgets: [],
-    actualBudgets: [],
+    data: [],
   },
   {
     id: "7",
     month: "July",
-    estimatedBudgets: [],
-    actualBudgets: [],
+    data: [],
   },
   {
     id: "8",
     month: "August",
-    estimatedBudgets: [],
-    actualBudgets: [],
+    data: [],
   },
   {
     id: "9",
     month: "September",
-    estimatedBudgets: [],
-    actualBudgets: [],
+    data: [],
   },
   {
     id: "10",
     month: "October",
-    estimatedBudgets: [],
-    actualBudgets: [],
+    data: [],
   },
   {
     id: "11",
     month: "November",
-    estimatedBudgets: [],
-    actualBudgets: [],
+    data: [],
   },
   {
     id: "12",
     month: "December",
-    estimatedBudgets: [],
-    actualBudgets: [],
+    data: [],
+  },
+];
+
+export const initialActualMovements = [
+  {
+    id: "1",
+    month: "January",
+    data: [],
+  },
+  {
+    id: "2",
+    month: "February",
+    data: [],
+  },
+  {
+    id: "3",
+    month: "March",
+    data: [],
+  },
+  {
+    id: "4",
+    month: "April",
+    data: [],
+  },
+  {
+    id: "5",
+    month: "May",
+    data: [],
+  },
+  {
+    id: "6",
+    month: "June",
+    data: [],
+  },
+  {
+    id: "7",
+    month: "July",
+    data: [],
+  },
+  {
+    id: "8",
+    month: "August",
+    data: [],
+  },
+  {
+    id: "9",
+    month: "September",
+    data: [],
+  },
+  {
+    id: "10",
+    month: "October",
+    data: [],
+  },
+  {
+    id: "11",
+    month: "November",
+    data: [],
+  },
+  {
+    id: "12",
+    month: "December",
+    data: [],
   },
 ];
 
@@ -672,78 +724,129 @@ export const initalOptions = [
   },
 ];
 
-export const initalNetWorth = [
+export const initalLiabilitiesWorth = [
   {
     id: "1",
     month: "January",
-    assets: [],
-    liabilities: [],
+    data: [],
   },
   {
     id: "2",
     month: "February",
-    assets: [],
-    liabilities: [],
+    data: [],
   },
   {
     id: "3",
     month: "March",
-    assets: [],
-    liabilities: [],
+    data: [],
   },
   {
     id: "4",
     month: "April",
-    assets: [],
-    liabilities: [],
+    data: [],
   },
   {
     id: "5",
     month: "May",
-    assets: [],
-    liabilities: [],
+    data: [],
   },
   {
     id: "6",
     month: "June",
-    assets: [],
-    liabilities: [],
+    data: [],
   },
   {
     id: "7",
     month: "July",
-    assets: [],
-    liabilities: [],
+    data: [],
   },
   {
     id: "8",
     month: "August",
-    assets: [],
-    liabilities: [],
+    data: [],
   },
   {
     id: "9",
     month: "September",
-    assets: [],
-    liabilities: [],
+    data: [],
   },
   {
     id: "10",
     month: "October",
-    assets: [],
-    liabilities: [],
+    data: [],
   },
   {
     id: "11",
     month: "November",
-    assets: [],
-    liabilities: [],
+    data: [],
   },
   {
     id: "12",
     month: "December",
-    assets: [],
-    liabilities: [],
+    data: [],
+  },
+];
+
+export const initialAssetWorths = [
+  {
+    id: "1",
+    month: "January",
+    data: [],
+  },
+  {
+    id: "2",
+    month: "February",
+    data: [],
+  },
+  {
+    id: "3",
+    month: "March",
+    data: [],
+  },
+  {
+    id: "4",
+    month: "April",
+    data: [],
+  },
+  {
+    id: "5",
+    month: "May",
+    data: [],
+  },
+  {
+    id: "6",
+    month: "June",
+    data: [],
+  },
+  {
+    id: "7",
+    month: "July",
+    data: [],
+  },
+  {
+    id: "8",
+    month: "August",
+    data: [],
+  },
+  {
+    id: "9",
+    month: "September",
+    data: [],
+  },
+  {
+    id: "10",
+    month: "October",
+    data: [],
+  },
+  {
+    id: "11",
+    month: "November",
+    data: [],
+  },
+  {
+    id: "12",
+    month: "December",
+    data: [],
   },
 ];
 

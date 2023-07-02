@@ -6,18 +6,20 @@ import { useSelector } from "react-redux";
 import { NumberFormat } from "../../utils/funtions";
 
 const NetWorth = () => {
-  const { currentMonth, worths } = useSelector((state) => state.worth);
+  const { currentMonth, liabilityWorths, assetWorths } = useSelector(
+    (state) => state.worth
+  );
   const { currency, decimalEnabled, exchangeRate } = useSelector(
     (state) => state.settings
   );
 
   const currentMonthAssets = useMemo(() => {
-    return worths[currentMonth].assets;
-  }, [currentMonth]);
+    return assetWorths[currentMonth].data;
+  }, [currentMonth, assetWorths]);
 
   const currentMonthLiabilities = useMemo(() => {
-    return worths[currentMonth].liabilities;
-  }, [currentMonth]);
+    return liabilityWorths[currentMonth].data;
+  }, [currentMonth, liabilityWorths]);
 
   const totalAssets = useMemo(() => {
     return currentMonthAssets.reduce((acc, cur) => acc + cur.amount, 0);

@@ -9,6 +9,8 @@
     "splash": {
       "backgroundColor": "#ffffff"
     },
+    "jsEngine": "hermes",
+
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,

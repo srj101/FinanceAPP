@@ -43,7 +43,7 @@ const MonthlyBudget = () => {
   }, []);
 
   useEffect(() => {
-    const movementTypes = ["ESTIMATED_BUDGET", "REAL_BUDGET"];
+    const movementTypes = ["estimatedBudgets", "actualBudgets"];
     dispatch(setMovementType(movementTypes[currentIndex]));
   }, [currentIndex]);
 

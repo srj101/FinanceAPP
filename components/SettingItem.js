@@ -15,8 +15,10 @@ const SettingItem = (props) => {
 
   const { decimalEnabled } = useSelector((state) => state.settings);
 
-  const { movements } = useSelector((state) => state.movement);
-  const { worths } = useSelector((state) => state.worth);
+  const { actualMovements, estimatedMovements } = useSelector(
+    (state) => state.movement
+  );
+  const { assetWorths, liabilityWorths } = useSelector((state) => state.worth);
 
   const dispatch = useDispatch();
 
@@ -41,13 +43,16 @@ const SettingItem = (props) => {
     } else if (item.id === "7") {
       // Export all data to Excel
       downloadJSON({
-        movements,
-        worths,
+        actualMovements,
+        estimatedMovements,
+        assetWorths,
+        liabilityWorths,
       })
         .then((res) => {
           alert("Exported successfully");
         })
         .catch((err) => {
+          console.log(err);
           alert("Export failed");
         });
     }

@@ -1,7 +1,13 @@
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { FlatList, Text, TouchableOpacity, View } from "react-native";
+import {
+  FlatList,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import SettingItem from "../components/SettingItem";
 import colors from "../utils/colors";
 const settings = [
@@ -47,7 +53,7 @@ const settings = [
 const Settings = () => {
   const navigation = useNavigation();
   return (
-    <View className="mx-4 relative flex-1">
+    <SafeAreaView className="mx-4 relative flex-1">
       <TouchableOpacity onPress={navigation.goBack}>
         <Ionicons
           name="ios-arrow-back-outline"
@@ -69,7 +75,7 @@ const Settings = () => {
           themoneyvisor@gmail.com
         </Text>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

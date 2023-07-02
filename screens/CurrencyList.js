@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import React, { memo, useState } from "react";
 import {
   FlatList,
+  SafeAreaView,
   Text,
   TextInput,
   TouchableOpacity,
@@ -127,7 +128,7 @@ export default function CurrencyList() {
   );
 
   return (
-    <View
+    <SafeAreaView
       style={{
         padding: 10,
         flex: 1,
@@ -182,6 +183,6 @@ export default function CurrencyList() {
         )}
         keyExtractor={(item) => item.name}
       />
-    </View>
+    </SafeAreaView>
   );
 }

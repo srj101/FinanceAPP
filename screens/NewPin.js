@@ -7,9 +7,10 @@ import {
   StatusBar,
   TouchableOpacity,
   Animated,
+  SafeAreaView,
 } from "react-native";
 import PinBoxList from "../components/PinCode/PinBoxList";
-import { AntDesign } from "@expo/vector-icons";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 import colors from "../utils/colors";
 import { useDispatch } from "react-redux";
 import { setPinCode } from "../providers/state/reducers/settings";
@@ -95,7 +96,20 @@ const NewPin = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
+      <View
+        className="flex relative flex-row justify-between items-center mx-4 my-3"
+        style={{}}
+      >
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Ionicons
+            name="ios-arrow-back-outline"
+            size={25}
+            color={colors.black}
+          />
+        </TouchableOpacity>
+      </View>
+
       <View style={styles.pinView}>
         <Text style={styles.pinPromptText}>Enter a passcode</Text>
         <PinBoxList
@@ -129,7 +143,7 @@ const NewPin = () => {
         onChangeText={onPinEntry}
         style={styles.input}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
