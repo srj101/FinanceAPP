@@ -6,7 +6,7 @@ const NextButton = ({ data, scrollTo }) => {
   return (
     <TouchableOpacity
       onPress={scrollTo}
-      className="px-20 py-4 rounded-full my-5"
+      className="px-14 py-3 rounded-md my-5"
       style={{
         backgroundColor: colors.primary,
       }}

@@ -20,7 +20,7 @@ const MonthAnalysisCard = ({
       <Text
         className="text-3xl pb-4"
         style={{
-          fontFamily: "DancingScript-SemiBold",
+          fontFamily: "TheHand-Bold",
           letterSpacing: 0.1,
         }}
       >
@@ -38,8 +38,30 @@ const MonthAnalysisCard = ({
             Prévu
           </Text>
 
-          <Text>
+          <Text
+            style={{
+              fontFamily: "OpenSans-Regular",
+            }}
+          >
             {NumberFormat(forseen, currency, exchangeRate, decimalEnabled)}
+          </Text>
+        </View>
+        <DashedBorder />
+        <View className="flex flex-col items-center justify-center gap-4">
+          <Text
+            className="text-sm font-semibold"
+            style={{
+              fontFamily: "OpenSans-SemiBold",
+            }}
+          >
+            Réalisé
+          </Text>
+          <Text
+            style={{
+              fontFamily: "OpenSans-Regular",
+            }}
+          >
+            {NumberFormat(accomplished, currency, exchangeRate, decimalEnabled)}
           </Text>
         </View>
         <DashedBorder />
@@ -51,23 +73,13 @@ const MonthAnalysisCard = ({
               color: color,
             }}
           >
-            Réalisé
-          </Text>
-          <Text>
-            {NumberFormat(accomplished, currency, exchangeRate, decimalEnabled)}
-          </Text>
-        </View>
-        <DashedBorder />
-        <View className="flex flex-col items-center justify-center gap-4">
-          <Text
-            className="text-sm font-semibold"
-            style={{
-              fontFamily: "OpenSans-SemiBold",
-            }}
-          >
             Ecart
           </Text>
-          <Text>
+          <Text
+            style={{
+              fontFamily: "OpenSans-Regular",
+            }}
+          >
             {NumberFormat(gap, currency, exchangeRate, decimalEnabled)}
           </Text>
         </View>

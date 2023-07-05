@@ -228,7 +228,7 @@ const getDocumentDirectory = async () => {
 
 export const NumberFormat = (
   amount = 0,
-  currency = "EUR",
+  currency = "€",
   exchangeRate = 1.0,
   decimalEnabled = false
 ) => {
@@ -240,13 +240,34 @@ export const NumberFormat = (
     }
   }
   if (decimalEnabled) {
-    return `${(amount * exchangeRate)
+    return `${amount
       .toFixed(2)
-      .replace(/\d(?=(\d{3})+\.)/g, "$&,")} ${currency}`;
+      .replace(/\d(?=(\d{3})+\.)/g, "$&,")} ${currency}`; // 12,345.67
   } else {
-    return `${parseInt(amount * exchangeRate).replace(
-      /\d(?=(\d{3})+$)/g,
-      "$&,"
-    )} ${currency}`;
+    return `${parseInt(amount).replace(/\d(?=(\d{3})+$)/g, "$&,")} ${currency}`; // 12,345
   }
 };
+
+/**
+ * replaces /$#d\+/ symbol with actual symbols in the given string
+ *
+ * Returns given string with symbol code replaced with actual symbol
+ *
+ * @param {string} name
+ */
+export function convertSymbolsFromCode(name = "") {
+  let final = null;
+  if (name) {
+    const val = name.match(/&#\d+;/) ? name.match(/&#\d+;/)[0] : false; // need to check whether it is an actual symbol code
+    if (val) {
+      const num = val.match(/\d+;/) ? val.match(/\d+;/)[0] : false; // if symbol, then get numeric code
+      if (num) {
+        final = num.replace(/;/g, "");
+      }
+    }
+    if (final) {
+      name = name.replace(/&#\d+;/g, String.fromCharCode(final));
+    }
+  }
+  return name;
+}

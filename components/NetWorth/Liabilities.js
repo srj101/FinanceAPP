@@ -14,7 +14,7 @@ const Liabilities = () => {
     <View className="mx-6">
       <Text
         style={{
-          fontFamily: "OpenSans-Bold",
+          fontFamily: "OpenSans-Regular",
         }}
         className="text-2xl text-center my-10"
       >
@@ -35,7 +35,7 @@ const Liabilities = () => {
               fontFamily: "OpenSans-Regular",
             }}
           >
-            aucun actif ajouté pour le moment
+            Aucun passif ajouté pour le moment
           </Text>
         )}
       </View>

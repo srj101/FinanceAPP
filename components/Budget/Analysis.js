@@ -77,7 +77,7 @@ const Analysis = () => {
       <Text
         className="capitalize text-4xl pt-4 pb-6"
         style={{
-          fontFamily: "DancingScript-SemiBold",
+          fontFamily: "TheHand-Bold",
         }}
       >
         Mon analyse de fin de mois

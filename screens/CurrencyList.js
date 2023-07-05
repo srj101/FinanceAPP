@@ -1,6 +1,5 @@
 import { Ionicons, Octicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { useQuery } from "@tanstack/react-query";
 import React, { memo, useState } from "react";
 import {
   FlatList,
@@ -10,51 +9,11 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useDispatch } from "react-redux";
-import AppLoading from "../components/AppLoading";
+import { useDispatch, useSelector } from "react-redux";
 import { setCurrency } from "../providers/state/reducers/settings";
 import colors from "../utils/colors";
-
-const fetchCurrencies = async () => {
-  const res = await fetch("https://restcountries.com/v3.1/all");
-  const data = await res.json();
-  const seen = new Set();
-  const currencies = [];
-
-  data.forEach((country) => {
-    if (country.currencies) {
-      Object.entries(country.currencies).forEach(([code, currency]) => {
-        if (currency.name && !seen.has(currency.name)) {
-          seen.add(currency.name);
-          currencies.push({
-            name: currency.name,
-            symbol: currency.symbol,
-            code: code,
-          });
-        }
-      });
-    }
-  });
-
-  return currencies;
-};
-
-const fetchExchangeRate = async (selectedCurrency, dispatch, navigation) => {
-  const res = await fetch(`https://api.exchangerate-api.com/v4/latest/EUR`);
-  const data = await res.json();
-
-  console.log("selectedCurrency", selectedCurrency);
-  console.log("exchangeRate", data.rates[selectedCurrency]);
-
-  dispatch(
-    setCurrency({
-      currency: selectedCurrency,
-      exchangeRate: data.rates[selectedCurrency],
-    })
-  );
-
-  return data.rates[selectedCurrency];
-};
+import currrencyJSON from "../assets/currencies.json";
+import { convertSymbolsFromCode } from "../utils/funtions";
 
 const CurrencyItem = memo(({ item, onPress }) => (
   <TouchableOpacity onPress={onPress}>
@@ -63,27 +22,28 @@ const CurrencyItem = memo(({ item, onPress }) => (
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",
-        padding: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 25,
         borderBottomWidth: 1,
         borderBottomColor: colors.lightGray,
       }}
     >
       <Text
-        className="text-xl"
+        className="text-3xl"
         style={{
-          fontFamily: "OpenSans-Regular",
+          fontFamily: "TheHand-Regular",
           color: colors.black,
         }}
       >
-        {item.name}
+        {item.CountryName}
       </Text>
       <Text
-        className="text-xl"
+        className="text-2xl"
         style={{
-          fontFamily: "OpenSans-Bold",
+          fontFamily: "TheHand-Regular",
         }}
       >
-        {item.symbol}
+        {convertSymbolsFromCode(item.Symbol)}
       </Text>
     </View>
   </TouchableOpacity>
@@ -91,40 +51,13 @@ const CurrencyItem = memo(({ item, onPress }) => (
 
 export default function CurrencyList() {
   const [search, setSearch] = useState("");
+  const [currencies, setCurrencies] = useState(currrencyJSON);
+  const { currency } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  // default is EURO symbol
-  const [selectedCurrency, setSelectedCurrency] = useState("EUR");
-
-  const {
-    data: currencies,
-    isLoading,
-    isError,
-  } = useQuery(["currencies"], fetchCurrencies);
-
-  const {
-    data: exchangeRate,
-    isLoading: isExchangeRateLoading,
-    isError: isExchangeRateError,
-  } = useQuery(
-    ["exchangeRate", selectedCurrency],
-    () => fetchExchangeRate(selectedCurrency, dispatch, navigation),
-    {
-      enabled: !!selectedCurrency,
-    }
-  );
-
-  if (isLoading || isExchangeRateLoading) {
-    return <AppLoading />;
-  }
-
-  if (isError || isExchangeRateError) {
-    return <Text>An error occurred</Text>;
-  }
-
   const filteredCurrencies = currencies.filter((currency) =>
-    currency.name.toLowerCase().includes(search.toLowerCase())
+    currency.CountryName.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -149,9 +82,9 @@ export default function CurrencyList() {
         <View>
           <Text
             className="text-xl text-center"
-            style={{ fontFamily: "OpenSans-Bold" }}
+            style={{ fontFamily: "OpenSans-Regular" }}
           >
-            {selectedCurrency}
+            {currency}
           </Text>
         </View>
 
@@ -164,7 +97,8 @@ export default function CurrencyList() {
         onChangeText={setSearch}
         placeholder="Search Currencies"
         style={{
-          padding: 10,
+          paddingHorizontal: 25,
+          paddingVertical: 10,
           borderWidth: 1,
           borderColor: colors.lightGray,
           borderRadius: 10,
@@ -177,11 +111,16 @@ export default function CurrencyList() {
           <CurrencyItem
             item={item}
             onPress={() => {
-              setSelectedCurrency(item.code);
+              dispatch(
+                setCurrency({
+                  currency: item.Symbol,
+                  exchangeRate: 1.0,
+                })
+              );
             }}
           />
         )}
-        keyExtractor={(item) => item.name}
+        keyExtractor={(item) => item.CountryName}
       />
     </SafeAreaView>
   );

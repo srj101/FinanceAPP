@@ -9,8 +9,6 @@ const EstimatedBudget = () => {
     (state) => state.movement
   );
 
-  console.log("currentMonth", currentMonth);
-
   const currentMonthEstBudgets = useMemo(() => {
     return estimatedMovements[currentMonth].data;
   }, [currentMonth, estimatedMovements]);

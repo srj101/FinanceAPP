@@ -55,15 +55,20 @@ const NetWorth = () => {
       <View className="flex flex-row justify-center items-center pb-10">
         <View className="flex flex-col items-center justify-center px-10 gap-4">
           <Text
-            className="text-xl font-semibold"
+            className="text-xl"
             style={{
-              fontFamily: "OpenSans-SemiBold",
+              fontFamily: "OpenSans-Regular",
             }}
           >
             Actifs
           </Text>
 
-          <Text>
+          <Text
+            className="text-md"
+            style={{
+              fontFamily: "OpenSans-Regular",
+            }}
+          >
             {NumberFormat(totalAssets, currency, exchangeRate, decimalEnabled)}
           </Text>
         </View>
@@ -72,15 +77,20 @@ const NetWorth = () => {
 
         <View className="flex flex-col items-center px-10 justify-center gap-4">
           <Text
-            className="text-xl font-semibold"
+            className="text-xl "
             style={{
-              fontFamily: "OpenSans-SemiBold",
+              fontFamily: "OpenSans-Regular",
             }}
           >
             Passifs
           </Text>
 
-          <Text>
+          <Text
+            className="text-md"
+            style={{
+              fontFamily: "OpenSans-Regular",
+            }}
+          >
             {NumberFormat(
               totalPassives,
               currency,
@@ -92,18 +102,18 @@ const NetWorth = () => {
       </View>
 
       <Text
-        className="text-center text-2xl pt-10"
+        className="text-center text-4xl pt-10"
         style={{
-          fontFamily: "OpenSans-SemiBold",
+          fontFamily: "TheHand-Regular",
         }}
       >
         Ma valeur nette est de
       </Text>
 
       <Text
-        className="text-center text-2xl py-3"
+        className="text-center text-lg py-3"
         style={{
-          fontFamily: "OpenSans-Bold",
+          fontFamily: "OpenSans-Regular",
         }}
       >
         {NumberFormat(netWorth, currency, exchangeRate, decimalEnabled)}

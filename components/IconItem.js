@@ -18,7 +18,7 @@ const IconItem = ({ item, methods }) => {
     >
       <AntDesign
         name={icon}
-        size={50}
+        size={40}
         color={
           categoryIcon?.id == id && categoryColor
             ? categoryColor?.color

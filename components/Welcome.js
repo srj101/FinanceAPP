@@ -8,7 +8,7 @@ const Welcome = () => {
       className="relative px-2"
     >
       <Text
-        className="text-6xl py-5 text-center"
+        className="text-4xl py-5 text-center"
         style={{
           fontFamily: "TheHand-Bold",
         }}
@@ -16,7 +16,7 @@ const Welcome = () => {
         Bienvenue sur
       </Text>
       <Text
-        className="text-6xl text-center py-2 uppercase"
+        className="text-4xl text-center py-2 uppercase"
         style={{
           fontFamily: "TheHand-Bold",
         }}
@@ -24,7 +24,7 @@ const Welcome = () => {
         The Moneyvisor Budget
       </Text>
       <Text
-        className="absolute bottom-0 text-center text-2xl px-7"
+        className="absolute bottom-4 text-center text-lg px-7"
         style={{
           fontFamily: "Calibri-Regular",
         }}
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    paddingVertical: 50,
   },
 });
 

@@ -4,11 +4,11 @@ import colors from "../../utils/colors";
 
 const CustomInput = ({ name, children }) => {
   return (
-    <View className="flex flex-row justify-between items-center py-4">
+    <View className="flex flex-row justify-between items-center mb-4">
       <Text
-        className="font-bold text-xl"
+        className="text-lg"
         style={{
-          fontFamily: "OpenSans-Bold",
+          fontFamily: "OpenSans-Regular",
           color: colors.black,
         }}
       >

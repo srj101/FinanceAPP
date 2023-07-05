@@ -47,6 +47,11 @@ const MonthSlider = () => {
   }, [currentIndex]);
 
   React.useEffect(() => {
+    const currentYearMonthIndex = moment().month();
+    setCurrentIndex(currentYearMonthIndex);
+  }, []);
+
+  React.useEffect(() => {
     dispatch(setCurrentMonth(currentIndex));
     dispatch(setCurrentMonthIdx(currentIndex));
   }, [currentIndex]);
@@ -65,6 +70,12 @@ const MonthSlider = () => {
         }}
       >
         <FlatList
+          initialScrollIndex={currentIndex}
+          getItemLayout={(data, index) => ({
+            length: 100,
+            offset: 100 * index,
+            index,
+          })}
           data={months}
           keyExtractor={(item) => item.id}
           horizontal

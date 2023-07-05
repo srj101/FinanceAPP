@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   dot: {
     height: 20,
     borderRadius: 25,
-    backgroundColor: COLORS.primary,
+    backgroundColor: COLORS.yellow,
     marginHorizontal: 8,
     width: 20,
   },

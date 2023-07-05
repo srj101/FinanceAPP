@@ -76,7 +76,7 @@ const SettingItem = (props) => {
         color={colors.black}
       />
       <Text
-        className="text-4xl"
+        className="text-3xl"
         style={{
           fontFamily: "TheHand-Bold",
           color: colors.black,

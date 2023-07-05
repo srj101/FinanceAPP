@@ -23,18 +23,6 @@ const SelectCategory = () => {
 
   const { selectedCategory } = useSelector((state) => state.movement);
 
-  const onSelectedACategory = () => {
-    if (selectedCategory) {
-      navigation.goBack();
-    } else {
-      alert("Please select a category");
-    }
-  };
-
-  useEffect(() => {
-    dispatch(setSelectedCategory(null));
-  }, []);
-
   if (!categories.length) {
     return <AppLoading />;
   }
@@ -48,7 +36,7 @@ const SelectCategory = () => {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={onSelectedACategory}>
+        <TouchableOpacity onPress={() => navigation.navigate("NewCategory")}>
           <AntDesign name="plus" size={30} color={colors.black} />
         </TouchableOpacity>
       </View>
@@ -89,35 +77,25 @@ const SelectCategory = () => {
 
       <View className="absolute bottom-5 left-0 w-full">
         <TouchableOpacity
-          className="rounded-full py-4 my-2"
+          className="rounded-md mx-12 py-3 my-2"
           style={{
             backgroundColor: colors.primary,
           }}
           onPress={() => navigation.navigate("NewCategory")}
         >
           <View className="flex flex-row items-center justify-center gap-2">
-            <AntDesign name="lock1" size={30} color={colors.white} />
+            <AntDesign name="lock1" size={18} color={colors.white} />
             <Text
               style={{
                 fontFamily: "OpenSans-Regular",
                 color: colors.white,
               }}
-              className="text-2xl uppercase"
+              className="text-lg uppercase"
             >
               NOUVELLE CATÉGORIE
             </Text>
           </View>
         </TouchableOpacity>
-
-        <Text
-          style={{
-            fontFamily: "OpenSans-Regular",
-            color: colors.black,
-          }}
-          className="text-sm text-center"
-        >
-          themoneyvisor@gmail.com
-        </Text>
       </View>
     </SafeAreaView>
   );

@@ -39,14 +39,16 @@ const persistConfigFileBased = {
 
 // Combine them together
 const rootReducer = combineReducers({
-  categories: persistReducer(persistConfigFileBased, categoriesReducer),
-  movement: persistReducer(persistConfigFileBased, movementReducer),
-  settings: persistReducer(persistConfig, settingsReducer),
-  worth: persistReducer(persistConfigFileBased, worthReducer),
+  categories: categoriesReducer,
+  movement: movementReducer,
+  settings: settingsReducer,
+  worth: worthReducer,
 });
 
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
 let store = configureStore({
-  reducer: rootReducer, // Pass the rootReducer as the reducer
+  reducer: persistedReducer, // Pass the rootReducer as the reducer
   // middleware option needs to be provided for avoiding the error. ref: https://redux-toolkit.js.org/usage/usage-guide#use-with-redux-persist
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -56,6 +58,7 @@ let store = configureStore({
       },
     }),
 });
+
 let persistor = persistStore(store);
 
 export { persistor, store };

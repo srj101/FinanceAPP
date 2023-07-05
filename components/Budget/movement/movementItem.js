@@ -18,11 +18,11 @@ const MovementItem = ({ item }) => {
         <View style={{}} className="flex flex-row items-center gap-3">
           <AntDesign
             name={category?.icon?.icon || "questioncircleo"}
-            size={35}
+            size={25}
             color={category?.color?.color || colors.black}
           />
           <Text
-            className="text-lg font-regular"
+            className="text-lg"
             style={{
               fontFamily: "OpenSans-Regular",
             }}
@@ -31,7 +31,12 @@ const MovementItem = ({ item }) => {
           </Text>
         </View>
 
-        <Text>
+        <Text
+          className="text-md"
+          style={{
+            fontFamily: "OpenSans-Regular",
+          }}
+        >
           {NumberFormat(amount, currency, exchangeRate, decimalEnabled)}
         </Text>
       </View>

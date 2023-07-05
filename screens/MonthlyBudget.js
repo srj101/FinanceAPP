@@ -20,6 +20,7 @@ import {
   setCurrentMonth,
   setMovementType,
 } from "../providers/state/reducers/movement";
+import moment from "moment";
 
 const MonthlyBudget = () => {
   const navigation = useNavigation();
@@ -109,7 +110,7 @@ const MonthlyBudget = () => {
             navigation.navigate("AddMovement");
           }}
         >
-          <AntDesign name="pluscircleo" size={45} color={colors.primary} />
+          <AntDesign name="pluscircleo" size={45} color={colors.yellow} />
         </TouchableOpacity>
       )}
     </SafeAreaView>

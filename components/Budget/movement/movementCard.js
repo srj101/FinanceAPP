@@ -9,7 +9,7 @@ const Movement = ({ movements, title, type }) => {
       <Text
         className="text-3xl pb-4"
         style={{
-          fontFamily: "DancingScript-SemiBold",
+          fontFamily: "TheHand-Regular",
           letterSpacing: 0.1,
         }}
       >

@@ -31,7 +31,7 @@ import {
   setSelectedDate,
   updateMovement,
 } from "../providers/state/reducers/movement";
-import { setDate } from "../providers/state/reducers/worth";
+import { setCategory, setDate } from "../providers/state/reducers/worth";
 import colors from "../utils/colors";
 import { initalOptions } from "../utils/data/data";
 
@@ -104,11 +104,6 @@ const AddBudgetMovement = (props) => {
       : setShowDatePicker(true);
   };
 
-  useEffect(() => {
-    dispatch(setSelectedCategory(null));
-    dispatch(setSelectedDate(new Date().toISOString().split("T")[0]));
-  }, []);
-
   const onSubmit = () => {
     if (
       !repeatation ||
@@ -152,9 +147,29 @@ const AddBudgetMovement = (props) => {
 
   const handleClose = () => {
     dispatch(setSelectedCategory(null));
+    dispatch(setCategory(null));
     dispatch(setSelectedDate(new Date().toISOString().split("T")[0]));
     navigation.goBack();
   };
+
+  const getFrenchMonth = useCallback((month) => {
+    const months = {
+      January: "Janvier",
+      February: "Février",
+      March: "Mars",
+      April: "Avril",
+      May: "Mai",
+      June: "Juin",
+      July: "Juillet",
+      August: "Août",
+      September: "Septembre",
+      October: "Octobre",
+      November: "Novembre",
+      December: "Décembre",
+    };
+
+    return months[month];
+  }, []);
 
   return (
     <KeyboardAvoidingView
@@ -188,6 +203,8 @@ const AddBudgetMovement = (props) => {
                 justifyContent: "center",
                 alignItems: "center",
                 gap: 5,
+                flex: 1,
+                marginVertical: 20,
               }}
             >
               <TextInput
@@ -197,16 +214,17 @@ const AddBudgetMovement = (props) => {
                 value={amount > 0 ? amount.toString() : undefined}
                 onChangeText={handleAmountChange}
                 style={{
-                  fontFamily: "OpenSans-Bold",
+                  fontFamily: "OpenSans-Regular",
+                  color: colors.black,
+                  fontSize: 30,
                 }}
-                className="text-4xl"
               />
 
               <Text
-                className="text-4xl"
                 style={{
-                  fontFamily: "OpenSans-Bold",
+                  fontFamily: "OpenSans-Regular",
                   color: colors.black,
+                  fontSize: 30,
                 }}
               >
                 {currency}
@@ -219,7 +237,7 @@ const AddBudgetMovement = (props) => {
                 className="flex flex-row justify-end items-center gap-2"
               >
                 <Text
-                  className="text-xl"
+                  className="text-lg"
                   style={{
                     fontFamily: "OpenSans-Regular",
                     color: colors.primary,
@@ -241,13 +259,17 @@ const AddBudgetMovement = (props) => {
                 onPress={handleDatePickerShow}
               >
                 <Text
-                  className="text-xl"
+                  className="text-lg"
                   style={{
                     fontFamily: "OpenSans-Regular",
                     color: colors.primary,
                   }}
                 >
-                  {moment(selectedDate).format("DD MMMM YYYY")}
+                  {moment(selectedDate).format("DD") +
+                    " " +
+                    getFrenchMonth(moment(selectedDate).format("MMMM")) +
+                    " " +
+                    moment(selectedDate).format("YYYY")}
                 </Text>
                 <Ionicons
                   name="md-arrow-forward-circle"
@@ -275,11 +297,12 @@ const AddBudgetMovement = (props) => {
                 alignItems: "center",
                 position: "relative",
               }}
+              className="mb-4"
             >
               <Text
-                className="font-bold text-xl"
+                className=" text-lg"
                 style={{
-                  fontFamily: "OpenSans-Bold",
+                  fontFamily: "OpenSans-Regular",
                   color: colors.black,
                 }}
               >
@@ -311,7 +334,15 @@ const AddBudgetMovement = (props) => {
               </TouchableOpacity>
             </View>
 
-            <CustomInput name="Notes"></CustomInput>
+            <Text
+              className="text-lg"
+              style={{
+                fontFamily: "OpenSans-Regular",
+                color: colors.black,
+              }}
+            >
+              Remarques
+            </Text>
 
             <TextInput
               placeholder="Notes"
@@ -328,7 +359,7 @@ const AddBudgetMovement = (props) => {
               onChangeText={setNotes}
               multiline
               numberOfLines={4}
-              className=" text-xl my-5"
+              className=" text-lg my-5"
             />
           </View>
         </SafeAreaView>

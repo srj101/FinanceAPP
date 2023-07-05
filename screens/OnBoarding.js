@@ -52,7 +52,8 @@ const OnBoarding = () => {
         <View className={currentIndex === 0 ? `pt-20` : `pt-10`}>
           <Image
             source={require("../assets/logo.png")}
-            style={{ height: 50 }}
+            style={{}}
+            resizeMode="contain"
           />
         </View>
 

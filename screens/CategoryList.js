@@ -56,13 +56,21 @@ const CategoryITem = (props) => {
     >
       <PanGestureHandler onGestureEvent={penGesture}>
         <Animated.View style={[styles.categoryItem, rStyle]}>
-          <Text>{props.item.name}</Text>
+          <Text
+            className="text-xl"
+            style={{
+              fontFamily: "OpenSans-Regular",
+              color: colors.black,
+            }}
+          >
+            {props.item.name}
+          </Text>
 
           <TouchableOpacity
             styles={styles.iconContainer}
             onPress={deleteCategoryItem}
           >
-            <AntDesign name="delete" size={24} color="black" />
+            <AntDesign name="delete" size={20} color="black" />
           </TouchableOpacity>
         </Animated.View>
       </PanGestureHandler>
@@ -76,12 +84,12 @@ const CategoryList = () => {
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView className="mx-4">
-      <View className="flex flex-row gap-3 py-5">
+    <SafeAreaView className="px-4">
+      <View className="flex flex-row gap-3 py-5 px-4">
         <TouchableOpacity onPress={navigation.goBack}>
           <Ionicons
             name="ios-arrow-back-outline"
-            size={30}
+            size={25}
             color={colors.black}
           />
         </TouchableOpacity>
@@ -89,7 +97,7 @@ const CategoryList = () => {
         <Text
           className="text-2xl text-center"
           style={{
-            fontFamily: "OpenSans-Bold",
+            fontFamily: "OpenSans-Regular",
             color: colors.black,
           }}
         >
@@ -112,20 +120,14 @@ const styles = StyleSheet.create({
   categoryItem: {
     width: "100%",
     height: 50,
-    marginVertical: 10,
+    paddingVertical: 10,
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
     paddingHorizontal: 20,
     backgroundColor: colors.white,
-    borderRadius: 10,
-    shadowOpacity: 0.08,
-    shadowOffset: {
-      width: 0,
-      height: 10,
-    },
-    shadowRadius: 10,
-    elevation: 10,
+    borderBottomColor: colors.black,
+    borderBottomWidth: 1,
   },
 
   iconContainer: {

@@ -1,15 +1,10 @@
-import { View, Text } from "react-native";
+import { View, Text, ImageBackground } from "react-native";
 import React from "react";
 import DashedBorder from "../DashedBorder";
 import { useSelector } from "react-redux";
 import { NumberFormat } from "../../utils/funtions";
-
-const MonthBudgetCard = ({
-  title = "Budget",
-  revenue = 0,
-  expense = 0,
-  balance = 0,
-}) => {
+const dashedLineImage2 = require("../../assets/dashed-line.png");
+const MonthBudgetCard = ({ title = "Budget", revenue = 0, expense = 0 }) => {
   const { currency, decimalEnabled, exchangeRate } = useSelector(
     (state) => state.settings
   );
@@ -18,68 +13,120 @@ const MonthBudgetCard = ({
       <Text
         className="capitalize text-4xl pt-4 pb-6"
         style={{
-          fontFamily: "DancingScript-SemiBold",
+          fontFamily: "TheHand-Regular",
         }}
       >
         {title}
       </Text>
 
-      <View className="flex flex-row justify-between items-center mt-4 px-5">
-        <View className="flex flex-col items-center justify-center gap-4">
-          <Text
-            className="text-sm uppercase"
-            style={{
-              fontFamily: "OpenSans-SemiBold",
-            }}
-          >
-            Revenus
-          </Text>
+      {/*  flex wrap but keep three columns */}
+      <View className="flex flex-row justify-between">
+        <View className="flex flex-row justify-between flex-1">
+          <View className="flex flex-col relative gap-2 justify-between flex-1 items-center">
+            <Text
+              className="text-lg uppercase text-center"
+              style={{
+                fontFamily: "OpenSans-Regular",
+              }}
+            >
+              Revenus
+            </Text>
 
-          <Text
-            className="text-lg font-semibold"
+            <Text
+              className={
+                // if amount is too big, make font smaller
+                revenue > 999999
+                  ? "text-xs"
+                  : revenue > 99999
+                  ? "text-sm"
+                  : revenue > 9999
+                  ? "text-md"
+                  : "text-lg"
+              }
+              style={{
+                fontFamily: "OpenSans-Regular",
+              }}
+            >
+              {NumberFormat(revenue, currency, exchangeRate, decimalEnabled)}
+            </Text>
+          </View>
+          <ImageBackground
+            source={dashedLineImage2}
             style={{
-              fontFamily: "OpenSans-SemiBold",
+              width: 1,
+              height: 60,
+              alignSelf: "flex-end",
             }}
-          >
-            {NumberFormat(revenue, currency, exchangeRate, decimalEnabled)}
-          </Text>
+          />
         </View>
-        <DashedBorder />
-        <View className="flex flex-col items-center justify-center gap-4">
-          <Text
-            className="text-sm font-semibold uppercase"
+
+        <View className="flex flex-row justify-between flex-1">
+          <View className="flex flex-col relative  justify-between  flex-1 items-center">
+            <Text
+              className="text-lg uppercase text-center"
+              style={{
+                fontFamily: "OpenSans-Regular",
+                justifyContent: "center",
+              }}
+            >
+              Dépenses
+            </Text>
+            <Text
+              className={
+                // if amount is too big, make font smaller
+                expense > 999999
+                  ? "text-xs"
+                  : expense > 99999
+                  ? "text-sm"
+                  : expense > 9999
+                  ? "text-md"
+                  : "text-lg"
+              }
+              style={{
+                fontFamily: "OpenSans-Regular",
+                textAlign: "center",
+              }}
+            >
+              {NumberFormat(expense, currency, exchangeRate, decimalEnabled)}
+            </Text>
+          </View>
+          <ImageBackground
+            source={dashedLineImage2}
             style={{
-              fontFamily: "OpenSans-SemiBold",
+              width: 1,
+              height: 60,
+              alignSelf: "flex-end",
             }}
-          >
-            Dépenses
-          </Text>
-          <Text
-            className="text-lg font-semibold"
-            style={{
-              fontFamily: "OpenSans-SemiBold",
-            }}
-          >
-            {NumberFormat(expense, currency, exchangeRate, decimalEnabled)}
-          </Text>
+          />
         </View>
-        <DashedBorder />
-        <View className="flex flex-col items-center justify-center gap-4">
+
+        <View className="flex flex-col justify-between flex-1 items-center">
           <Text
-            className="text-sm font-semibold uppercase"
+            className="text-lg uppercase text-center"
             style={{
-              fontFamily: "OpenSans-SemiBold",
+              fontFamily: "OpenSans-Regular",
+              justifyContent: "center",
             }}
           >
             Solde
           </Text>
           <Text
-            className="text-lg font-semibold"
+            className={
+              // if amount is too big, make font smaller
+              expense > 999999
+                ? "text-xs"
+                : expense > 99999
+                ? "text-sm"
+                : expense > 9999
+                ? "text-md"
+                : "text-lg"
+            }
             style={{
-              fontFamily: "OpenSans-SemiBold",
+              fontFamily: "OpenSans-Regular",
+              textAlign: "center",
             }}
           >
-            {NumberFormat(balance, currency, exchangeRate, decimalEnabled)}
+            {NumberFormat(expense, currency, exchangeRate, decimalEnabled)}
           </Text>
         </View>
       </View>

@@ -10,19 +10,19 @@ const Options = (props) => {
       {options.map((option) => (
         <TouchableOpacity
           key={option.id}
-          className="px-4 py-5 w-1/2"
+          className="px-4 py-3"
           style={{
             backgroundColor:
-              selected === option.name ? colors.black : option.color,
+              selected !== option.name ? colors.black : option.color,
             borderRadius: 100,
             borderWidth: 2,
-            borderColor:
-              selected === option.name ? colors.primary : option.color,
+            borderColor: selected !== option.name ? colors.black : option.color,
+            minWidth: 100,
           }}
           onPress={() => setSelected(option.name)}
         >
           <Text
-            className="text-center text-2xl"
+            className="text-center text-lg"
             style={{
               fontFamily: "OpenSans-Regular",
               color: colors.white,

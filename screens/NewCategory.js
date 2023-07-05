@@ -86,14 +86,16 @@ const NewCategory = () => {
             fontFamily: "OpenSans-Regular",
             color: categoryColor?.color ? colors.white : colors.black,
             backgroundColor: categoryColor?.color || colors.lightGray2,
+
+            paddingTop: -3,
           }}
-          className="py-4 px-4 text-xl rounded-full text-center"
+          className="py-4 px-4 text-xl rounded-md text-center"
           multiline={false}
         />
 
         <Text
           style={{
-            fontFamily: "OpenSans-Bold",
+            fontFamily: "OpenSans-Regular",
             color: colors.black,
           }}
           className="text-xl py-5 capitalize"
@@ -120,7 +122,7 @@ const NewCategory = () => {
 
         <Text
           style={{
-            fontFamily: "OpenSans-Bold",
+            fontFamily: "OpenSans-Regular",
             color: colors.black,
           }}
           className="text-xl py-5 capitalize"

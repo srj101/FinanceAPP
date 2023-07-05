@@ -28,12 +28,12 @@ const NoMovement = ({ type, analysis = false }) => {
         {analysis === false && (
           <MaterialCommunityIcons
             name="plus-circle"
-            size={35}
+            size={25}
             color={type === "expense" ? colors.red : colors.green}
           />
         )}
         <Text
-          className="text-lg"
+          className="text-md"
           style={{
             fontFamily: "OpenSans-Regular",
           }}

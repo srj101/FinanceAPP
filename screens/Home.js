@@ -7,7 +7,7 @@ import {
   Text,
 } from "react-native";
 import React from "react";
-import colors from "../utils/colors";
+import colors, { SIZES } from "../utils/colors";
 import { useNavigation } from "@react-navigation/native";
 
 const Home = () => {
@@ -32,67 +32,86 @@ const Home = () => {
       {/** Navigation Buttons */}
 
       <View className=" flex flex-col w-full gap-5 mb-10">
-        <TouchableOpacity
+        <View
+          className="flex flex-col justify-center py-4 px-6 items-center"
           style={{
-            backgroundColor: colors.yellow,
-            borderRadius: 50,
-            minHeight: 100,
-            justifyContent: "center",
+            borderColor: colors.black,
+            borderWidth: 1,
+            borderRadius: SIZES.radius,
+            minHeight: 220,
           }}
-          className="py-2 px-2"
-          onPress={() => navigation.navigate("MonthlyBudget")}
         >
-          <Text
-            className="text-5xl py-5 capitalize text-center"
-            style={{
-              color: colors.black,
-              fontFamily: "TheHand-Bold",
-            }}
-          >
-            Mon budget
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            backgroundColor: colors.yellow,
-            borderRadius: 50,
-            minHeight: 100,
-            justifyContent: "center",
-          }}
-          className="py-2 px-2"
-          onPress={() => navigation.navigate("NetWorth")}
-        >
-          <Text
-            className="text-5xl py-5 capitalize text-center"
-            style={{
-              color: colors.black,
-              fontFamily: "TheHand-Bold",
-            }}
-          >
-            Ma valeur nette{" "}
-          </Text>
-        </TouchableOpacity>
-      </View>
+          <View>
+            <TouchableOpacity
+              style={{
+                backgroundColor: colors.yellow,
+                borderRadius: SIZES.radius,
+                justifyContent: "center",
+              }}
+              className="py-2 mb-4 mx-5"
+              onPress={() => navigation.navigate("MonthlyBudget")}
+            >
+              <Text
+                className="text-4xl capitalize text-center"
+                style={{
+                  color: colors.black,
+                  fontFamily: "TheHand-Bold",
+                }}
+              >
+                Mon budget
+              </Text>
+            </TouchableOpacity>
+            <Text
+              className=" text-lg px-5 text-center "
+              style={{
+                fontFamily: "OpenSans-Regular",
+              }}
+            >
+              Un budget est une planification écrite de vos dépenses avant même
+              qu’elles ne surviennent
+            </Text>
+          </View>
+        </View>
 
-      <View className="py-10 px-8">
-        <Text
-          className=" text-lg text-center "
+        <View
+          className="flex flex-col justify-center py-4 px-6 items-center"
           style={{
-            fontFamily: "OpenSans-Regular",
+            borderColor: colors.black,
+            borderWidth: 1,
+            borderRadius: SIZES.radius,
+            minHeight: 220,
           }}
         >
-          Un budget est une planification écrite de vos dépenses avant même
-          qu’elles ne surviennent
-        </Text>
-
-        <Text
-          className="text-lg text-center"
-          style={{
-            fontFamily: "OpenSans-Regular",
-          }}
-        >
-          La valeur nette est votre valeur en argent à une période donnée
-        </Text>
+          <View>
+            <TouchableOpacity
+              style={{
+                backgroundColor: colors.yellow,
+                borderRadius: SIZES.radius,
+                justifyContent: "center",
+              }}
+              className="py-2 mx-5 mb-4"
+              onPress={() => navigation.navigate("NetWorth")}
+            >
+              <Text
+                className="text-4xl capitalize text-center"
+                style={{
+                  color: colors.black,
+                  fontFamily: "TheHand-Bold",
+                }}
+              >
+                Ma valeur nette{" "}
+              </Text>
+            </TouchableOpacity>
+            <Text
+              className=" text-lg px-5 text-center "
+              style={{
+                fontFamily: "OpenSans-Regular",
+              }}
+            >
+              La valeur nette est votre valeur en argent à une période donnée
+            </Text>
+          </View>
+        </View>
       </View>
     </SafeAreaView>
   );

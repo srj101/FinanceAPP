@@ -133,17 +133,12 @@ const AddNetWorthMovement = () => {
     setAmount(0);
     setNotes("");
     setSelectedOption("Actif");
+    dispatch(setSelectedCategory(null));
     dispatch(setCategory(null));
     dispatch(setDate(new Date().toISOString().split("T")[0]));
 
     navigation.goBack();
   };
-
-  useEffect(() => {
-    dispatch(setSelectedCategory(null));
-    dispatch(setCategory(null));
-    dispatch(setDate(new Date().toISOString().split("T")[0]));
-  }, []);
 
   const handleClose = () => {
     dispatch(setSelectedCategory(null));
@@ -152,6 +147,25 @@ const AddNetWorthMovement = () => {
     dispatch(setDate(new Date().toISOString().split("T")[0]));
     navigation.goBack();
   };
+
+  const getFrenchMonth = useCallback((month) => {
+    const months = {
+      January: "Janvier",
+      February: "Février",
+      March: "Mars",
+      April: "Avril",
+      May: "Mai",
+      June: "Juin",
+      July: "Juillet",
+      August: "Août",
+      September: "Septembre",
+      October: "Octobre",
+      November: "Novembre",
+      December: "Décembre",
+    };
+
+    return months[month];
+  }, []);
 
   return (
     <KeyboardAvoidingView
@@ -183,26 +197,28 @@ const AddNetWorthMovement = () => {
               flexDirection: "row",
               justifyContent: "center",
               alignItems: "center",
-              gap: 10,
+              gap: 5,
+              marginVertical: 20,
             }}
           >
             <TextInput
               keyboardType={decimalEnabled ? "numeric" : "number-pad"}
               placeholder={`0.00`}
               maxLength={10}
-              value={amount.toString()}
+              value={amount > 0 ? amount.toString() : undefined}
               onChangeText={handleAmountChange}
               style={{
-                fontFamily: "OpenSans-Bold",
+                fontFamily: "OpenSans-Regular",
+                color: colors.black,
+                fontSize: 30,
               }}
-              className="text-4xl"
             />
 
             <Text
-              className="text-4xl mt-2"
               style={{
-                fontFamily: "OpenSans-Bold",
+                fontFamily: "OpenSans-Regular",
                 color: colors.black,
+                fontSize: 30,
               }}
             >
               {currency}
@@ -243,7 +259,11 @@ const AddNetWorthMovement = () => {
                   color: colors.primary,
                 }}
               >
-                {moment(selectedDate).format("DD MMMM YYYY")}
+                {moment(selectedDate).format("DD") +
+                  " " +
+                  getFrenchMonth(moment(selectedDate).format("MMMM")) +
+                  " " +
+                  moment(selectedDate).format("YYYY")}
               </Text>
               <Ionicons
                 name="md-arrow-forward-circle"

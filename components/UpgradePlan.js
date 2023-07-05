@@ -11,7 +11,7 @@ const UpgradePlan = ({ textColor }) => {
   return (
     <ScrollView className="px-5 py-4">
       <Text
-        className="text-2xl text-center mb-5"
+        className="text-lg text-center mb-5"
         style={[
           styles.upgradeText,
           {
@@ -32,9 +32,9 @@ const UpgradePlan = ({ textColor }) => {
       </Text>
 
       <Text
-        className="text-center py-5 text-xl px-4 "
+        className="text-center py-3 text-lg px-4 "
         style={{
-          fontFamily: "OpenSans-Bold",
+          fontFamily: "OpenSans-Regular",
           color: textColor ? textColor : colors.black,
         }}
       >
@@ -49,7 +49,7 @@ const UpgradePlan = ({ textColor }) => {
           fontFamily: "OpenSans-Light",
           color: textColor ? textColor : colors.black,
         }}
-        className="text-center text-2xl py-5"
+        className="text-center text-lg py-5"
       >
         Débloquez toutes les fonctionnalités de l’application en une fois et à
         vie
@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     fontFamily: "OpenSans-Light",
     opacity: 0.8,
+    marginHorizontal: 10,
   },
 });
 
