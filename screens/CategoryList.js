@@ -22,7 +22,7 @@ const CategoryITem = (props) => {
     color: { color },
   } = item;
 
-  console.log(name, color);
+
 
   const dispatch = useDispatch();
 

@@ -355,6 +355,8 @@ const AddBudgetMovement = (props) => {
                 justifyContent: "flex-start",
                 alignItems: "flex-start",
                 minHeight: 150,
+                paddingVertical: 10,
+                textAlignVertical: "top",
               }}
               value={notes}
               onChangeText={setNotes}

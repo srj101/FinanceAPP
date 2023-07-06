@@ -298,7 +298,10 @@ const AddNetWorthMovement = () => {
               borderRadius: 10,
               padding: 10,
               alignItems: "flex-start",
+              paddingHorizontal: 20,
               height: 150,
+              paddingVertical: 10,
+              textAlignVertical: "top",
             }}
             multiline
             numberOfLines={4}
