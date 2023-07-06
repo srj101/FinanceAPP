@@ -164,6 +164,42 @@ export const worthSlice = createSlice({
     setLiabilityWorths: (state, action) => {
       state.liabilityWorths = action.payload;
     },
+    deleteWorth: (state, action) => {
+      const { id, selectedMonthIndex, worthType } = action.payload;
+
+      if (worthType === "assets") {
+        state.assetWorths[selectedMonthIndex].data = state.assetWorths[
+          selectedMonthIndex
+        ].data.filter((item) => item.id !== id);
+      } else if (worthType === "liabilities") {
+        state.liabilityWorths[selectedMonthIndex].data = state.liabilityWorths[
+          selectedMonthIndex
+        ].data.filter((item) => item.id !== id);
+      }
+    },
+    editWorth: (state, action) => {
+      const { id, selectedMonthIndex, worthType, item } = action.payload;
+
+      if (worthType === "assets") {
+        state.assetWorths[selectedMonthIndex].data = state.assetWorths[
+          selectedMonthIndex
+        ].data.map((worth) => {
+          if (worth.id === id) {
+            return item;
+          }
+          return worth;
+        });
+      } else if (worthType === "liabilities") {
+        state.liabilityWorths[selectedMonthIndex].data = state.liabilityWorths[
+          selectedMonthIndex
+        ].data.map((worth) => {
+          if (worth.id === id) {
+            return item;
+          }
+          return worth;
+        });
+      }
+    },
     updateWorths: (state, action) => {
       const { item, selectedMonthIndex, worthType } = action.payload;
 
@@ -192,5 +228,7 @@ export const {
   setAssetWorths,
   setLiabilityWorths,
   updateWorths,
+  deleteWorth,
+  editWorth,
 } = worthSlice.actions;
 export default worthSlice.reducer;

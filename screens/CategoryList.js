@@ -5,45 +5,45 @@ import {
   FlatList,
   StyleSheet,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import colors from "../utils/colors";
-import { PanGestureHandler } from "react-native-gesture-handler";
-import Animated, {
-  useAnimatedGestureHandler,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
 import { AntDesign, Ionicons } from "@expo/vector-icons";
 import { deleteCategory } from "../providers/state/reducers/categories";
 import { useNavigation } from "@react-navigation/native";
 
 const CategoryITem = (props) => {
   const { item, navigation } = props;
+  const {
+    name,
+    icon: { icon },
+    color: { color },
+  } = item;
+
+  console.log(name, color);
 
   const dispatch = useDispatch();
 
-  const translateX = useSharedValue(0);
-
-  const penGesture = useAnimatedGestureHandler({
-    onActive: (event) => {
-      translateX.value = event.translationX;
-    },
-    onEnd: (event) => {
-      translateX.value = withTiming(0);
-    },
-  });
-
-  const rStyle = useAnimatedStyle(() => {
-    return {
-      transform: [{ translateX: translateX.value }],
-    };
-  });
-
   const deleteCategoryItem = useCallback(() => {
-    dispatch(deleteCategory(item.id));
+    Alert.alert(
+      "Delete Category",
+      "Are you sure you want to delete this category?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+
+        {
+          text: "OK",
+          onPress: () => dispatch(deleteCategory(item.id)),
+        },
+      ],
+      { cancelable: true }
+    );
   }, []);
 
   return (
@@ -53,27 +53,35 @@ const CategoryITem = (props) => {
           item,
         })
       }
+      style={{
+        flex: 1,
+      }}
     >
-      <PanGestureHandler onGestureEvent={penGesture}>
-        <Animated.View style={[styles.categoryItem, rStyle]}>
+      <View
+        style={{
+          borderBottomWidth: 1,
+          borderBottomColor: colors.black,
+        }}
+        className="flex flex-row justify-between px-5 py-4"
+      >
+        <View className="flex flex-row gap-5 items-center">
+          <AntDesign name={icon} size={25} color={color} />
+
           <Text
-            className="text-xl"
+            className="text-3xl"
             style={{
-              fontFamily: "OpenSans-Regular",
+              fontFamily: "TheHand-Regular",
               color: colors.black,
             }}
           >
-            {props.item.name}
+            {name}
           </Text>
+        </View>
 
-          <TouchableOpacity
-            styles={styles.iconContainer}
-            onPress={deleteCategoryItem}
-          >
-            <AntDesign name="delete" size={20} color="black" />
-          </TouchableOpacity>
-        </Animated.View>
-      </PanGestureHandler>
+        <TouchableOpacity styles={{}} onPress={deleteCategoryItem}>
+          <AntDesign name="delete" size={20} color="black" />
+        </TouchableOpacity>
+      </View>
     </TouchableOpacity>
   );
 };
@@ -84,8 +92,8 @@ const CategoryList = () => {
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView className="px-4">
-      <View className="flex flex-row gap-3 py-5 px-4">
+    <SafeAreaView className="px-4 flex-1">
+      <View className="flex flex-row gap-3 py-4 px-4">
         <TouchableOpacity onPress={navigation.goBack}>
           <Ionicons
             name="ios-arrow-back-outline"
@@ -93,16 +101,6 @@ const CategoryList = () => {
             color={colors.black}
           />
         </TouchableOpacity>
-
-        <Text
-          className="text-2xl text-center"
-          style={{
-            fontFamily: "OpenSans-Regular",
-            color: colors.black,
-          }}
-        >
-          Categories
-        </Text>
       </View>
 
       <FlatList
@@ -115,27 +113,5 @@ const CategoryList = () => {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  categoryItem: {
-    width: "100%",
-    height: 50,
-    paddingVertical: 10,
-    justifyContent: "space-between",
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: 20,
-    backgroundColor: colors.white,
-    borderBottomColor: colors.black,
-    borderBottomWidth: 1,
-  },
-
-  iconContainer: {
-    position: "absolute",
-    top: 0,
-    right: 50,
-    height: "100%",
-  },
-});
 
 export default CategoryList;

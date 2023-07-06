@@ -22,7 +22,7 @@ export const categoriesSlice = createSlice({
     },
 
     editCategory: (state, action) => {
-      const { id, name, color, icon } = action.payload;
+      const { id, name, color, icon, type } = action.payload;
 
       const index = state.categories.findIndex(
         (category) => category.id === id
@@ -32,6 +32,7 @@ export const categoriesSlice = createSlice({
         state.categories[index].name = name;
         state.categories[index].color = color;
         state.categories[index].icon = icon;
+        state.categories[index].type = type;
       }
     },
 

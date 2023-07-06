@@ -28,6 +28,7 @@ const EditCategory = (props) => {
   const [categoryName, setCategoryName] = useState(item.name);
   const [categoryColor, setCategoryColor] = useState(item.color);
   const [categoryIcon, setCategoryIcon] = useState(item.icon);
+  const [categoryType, setCategoryType] = useState(item.type);
 
   const handleEditCategory = () => {
     if (!categoryName) {
@@ -53,11 +54,13 @@ const EditCategory = (props) => {
       name: categoryName,
       color: categoryColor,
       icon: categoryIcon,
+      type: categoryType,
     };
 
     setCategoryName("");
     setCategoryColor("");
     setCategoryIcon("");
+    setCategoryType("");
 
     dispatch(editCategory(category));
     navigation.goBack();
@@ -87,13 +90,13 @@ const EditCategory = (props) => {
             color: colors.black,
             backgroundColor: colors.lightGray,
           }}
-          className="py-4 px-4 text-xl rounded-full text-center"
+          className="py-4 px-4 text-xl rounded-md text-center leading-8"
           multiline={false}
         />
 
         <Text
           style={{
-            fontFamily: "OpenSans-Bold",
+            fontFamily: "OpenSans-Regular",
             color: colors.black,
           }}
           className="text-xl py-5 capitalize"
@@ -120,7 +123,7 @@ const EditCategory = (props) => {
 
         <Text
           style={{
-            fontFamily: "OpenSans-Bold",
+            fontFamily: "OpenSans-Regular",
             color: colors.black,
           }}
           className="text-xl py-5 capitalize"

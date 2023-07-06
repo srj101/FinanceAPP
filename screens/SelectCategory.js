@@ -9,7 +9,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import colors from "../utils/colors";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import CategoryItem from "../components/CategoryItem";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedCategory } from "../providers/state/reducers/movement";
@@ -17,11 +17,16 @@ import AppLoading from "../components/AppLoading";
 
 const SelectCategory = () => {
   const navigation = useNavigation();
+  const route = useRoute();
   const dispatch = useDispatch();
 
-  const { categories } = useSelector((state) => state.categories);
+  const { categories: allCats } = useSelector((state) => state.categories);
 
   const { selectedCategory } = useSelector((state) => state.movement);
+
+  const categories = React.useMemo(() => {
+    return allCats.filter((cat) => cat.type === route.params?.type);
+  }, [allCats]);
 
   if (!categories.length) {
     return <AppLoading />;
@@ -36,7 +41,13 @@ const SelectCategory = () => {
           </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => navigation.navigate("NewCategory")}>
+        <TouchableOpacity
+          onPress={() =>
+            navigation.navigate("NewCategory", {
+              type: route.params?.type,
+            })
+          }
+        >
           <AntDesign name="plus" size={30} color={colors.black} />
         </TouchableOpacity>
       </View>
@@ -52,7 +63,7 @@ const SelectCategory = () => {
             color: colors.black,
             backgroundColor: colors.lightGray,
           }}
-          className="py-4 px-4 text-xl rounded-full text-center"
+          className="py-4 px-4 text-xl rounded-md text-center leading-5"
           multiline={false}
         />
       </View>
@@ -81,7 +92,11 @@ const SelectCategory = () => {
           style={{
             backgroundColor: colors.primary,
           }}
-          onPress={() => navigation.navigate("NewCategory")}
+          onPress={() =>
+            navigation.navigate("NewCategory", {
+              type: route.params?.type,
+            })
+          }
         >
           <View className="flex flex-row items-center justify-center gap-2">
             <AntDesign name="lock1" size={18} color={colors.white} />

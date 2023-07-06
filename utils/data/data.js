@@ -20,6 +20,7 @@ export const initialCategories = [
   {
     id: 1,
     name: "Salaire",
+    type: "budget",
     color: {
       id: 1,
       color: colors.primary,
@@ -34,6 +35,7 @@ export const initialCategories = [
   {
     id: 2,
     name: "Imprévu",
+    type: "budget",
     color: {
       id: 1,
       color: colors.primary,
@@ -48,6 +50,7 @@ export const initialCategories = [
   {
     id: 3,
     name: "Epargnes",
+    type: "budget",
     color: {
       id: 1,
       color: colors.primary,
@@ -62,6 +65,7 @@ export const initialCategories = [
   {
     id: 4,
     name: "Logement",
+    type: "budget",
     color: {
       id: 1,
       color: colors.primary,
@@ -76,6 +80,7 @@ export const initialCategories = [
   {
     id: 5,
     name: "Transport",
+    type: "budget",
     color: {
       id: 1,
       color: colors.primary,
@@ -90,6 +95,7 @@ export const initialCategories = [
   {
     id: 6,
     name: "Internet",
+    type: "budget",
     color: {
       id: 1,
       color: colors.primary,
@@ -104,6 +110,7 @@ export const initialCategories = [
   {
     id: 7,
     name: "Alimentation",
+    type: "budget",
     color: {
       id: 1,
       color: colors.primary,
@@ -118,6 +125,7 @@ export const initialCategories = [
   {
     id: 8,
     name: "Loisirs",
+    type: "budget",
     color: {
       id: 1,
       color: colors.primary,
@@ -133,6 +141,7 @@ export const initialCategories = [
   {
     id: 9,
     name: "Autres revenus",
+    type: "budget",
     color: {
       id: 1,
       color: colors.primary,
@@ -142,6 +151,129 @@ export const initialCategories = [
       id: 1,
       icon: "meh",
       name: "meh",
+    },
+  },
+
+  {
+    id: 10,
+    name: "Liquidité",
+    type: "netWorth",
+    color: {
+      id: 1,
+      color: colors.primary,
+      name: "Primary",
+    },
+    icon: {
+      id: 1,
+      icon: "wallet",
+      name: "wallet",
+    },
+  },
+  {
+    id: 11,
+    name: "Epargnes",
+    type: "netWorth",
+    color: {
+      id: 1,
+      color: colors.primary,
+      name: "Primary",
+    },
+    icon: {
+      id: 1,
+      icon: "aliwangwang-o1",
+      name: "aliwangwang-o1",
+    },
+  },
+  {
+    id: 12,
+    name: "Immobilier",
+    type: "netWorth",
+    color: {
+      id: 1,
+      color: colors.primary,
+      name: "Primary",
+    },
+    icon: {
+      id: 1,
+      icon: "bank",
+      name: "bank",
+    },
+  },
+  {
+    id: 13,
+    name: "Découvert",
+    type: "netWorth",
+    color: {
+      id: 1,
+      color: colors.primary,
+      name: "Primary",
+    },
+    icon: {
+      id: 1,
+      icon: "pay-circle-o1",
+      name: "pay",
+    },
+  },
+  {
+    id: 14,
+    name: "Dettes",
+    type: "netWorth",
+    color: {
+      id: 1,
+      color: colors.primary,
+      name: "Primary",
+    },
+    icon: {
+      id: 1,
+      icon: "creditcard",
+      name: "creditcard",
+    },
+  },
+  {
+    id: 15,
+    name: "Prêt étudiant",
+    type: "netWorth",
+    color: {
+      id: 1,
+      color: colors.primary,
+      name: "Primary",
+    },
+    icon: {
+      id: 1,
+      icon: "idcard",
+      name: "idcard",
+    },
+  },
+  {
+    id: 16,
+    name: "Biens de valeur",
+
+    type: "netWorth",
+    color: {
+      id: 1,
+      color: colors.primary,
+      name: "Primary",
+    },
+    icon: {
+      id: 1,
+      icon: "gift",
+      name: "gift",
+    },
+  },
+
+  {
+    id: 17,
+    name: "Actions",
+    type: "netWorth",
+    color: {
+      id: 1,
+      color: colors.primary,
+      name: "Primary",
+    },
+    icon: {
+      id: 1,
+      icon: "piechart",
+      name: "piechart",
     },
   },
 ];

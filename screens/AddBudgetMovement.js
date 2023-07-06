@@ -136,9 +136,6 @@ const AddBudgetMovement = (props) => {
       updateMovement({ item, selectedMonthIndex, movementType, repeatation })
     );
 
-    // dispatch(setMovements(newMovements));
-    Alert.alert("Success", "Movement added successfully");
-
     dispatch(setSelectedCategory(null));
     dispatch(setSelectedDate(new Date().toISOString().split("T")[0]));
     dispatch(setCurrentMonth(selectedMonthIndex));
@@ -233,7 +230,11 @@ const AddBudgetMovement = (props) => {
 
             <CustomInput name="Catégorie">
               <TouchableOpacity
-                onPress={() => navigation.navigate("SelectCategory")}
+                onPress={() =>
+                  navigation.navigate("SelectCategory", {
+                    type: "budget",
+                  })
+                }
                 className="flex flex-row justify-end items-center gap-2"
               >
                 <Text

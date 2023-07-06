@@ -128,8 +128,6 @@ const AddNetWorthMovement = () => {
       })
     );
 
-    alert("Net item added successfully");
-
     setAmount(0);
     setNotes("");
     setSelectedOption("Actif");
@@ -225,10 +223,14 @@ const AddNetWorthMovement = () => {
             </Text>
           </View>
 
-          <CustomInput name="Catégories">
+          <CustomInput name="Catégorie">
             <TouchableOpacity
               className="flex flex-row justify-end items-center gap-2"
-              onPress={() => navigation.navigate("SelectCategory")}
+              onPress={() =>
+                navigation.navigate("SelectCategory", {
+                  type: "netWorth",
+                })
+              }
             >
               <Text
                 className="text-xl"

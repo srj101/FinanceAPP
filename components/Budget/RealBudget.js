@@ -47,12 +47,14 @@ const RealBudget = () => {
         title="Mes revenus"
         movements={currentMonthRevenue}
         type="revenue"
+        movementType="actualBudgets"
       />
 
       <Movement
         title="Mes dépenses"
         movements={currentMonthExpense}
         type="expense"
+        movementType="actualBudgets"
       />
     </View>
   );

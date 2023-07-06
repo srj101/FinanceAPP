@@ -9,7 +9,7 @@ import {
 import React, { useState } from "react";
 import { AntDesign, Octicons } from "@expo/vector-icons";
 import colors from "../utils/colors";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { colorOptions, icons } from "../utils/data/data";
 import Color from "../components/Color";
 import IconItem from "../components/IconItem";
@@ -21,6 +21,7 @@ import {
 
 const NewCategory = () => {
   const navigation = useNavigation();
+  const route = useRoute();
   const dispatch = useDispatch();
   const [categoryName, setCategoryName] = useState("");
   const [categoryColor, setCategoryColor] = useState(undefined);
@@ -45,9 +46,17 @@ const NewCategory = () => {
       return;
     }
 
+    if (!route.params?.type) {
+      alert("Something went wrong , please try again later");
+
+      navigation.goBack();
+      return;
+    }
+
     const category = {
       id: Math.floor(Math.random() * 100000000),
       name: categoryName,
+      type: route.params?.type,
       color: categoryColor,
       icon: categoryIcon,
     };
@@ -57,8 +66,6 @@ const NewCategory = () => {
     setCategoryIcon("");
 
     dispatch(addCategory(category));
-
-    alert("Category created");
 
     navigation.goBack();
   };
@@ -89,7 +96,7 @@ const NewCategory = () => {
 
             paddingTop: -3,
           }}
-          className="py-4 px-4 text-xl rounded-md text-center"
+          className="py-4 px-4 text-xl rounded-md text-center leading-8"
           multiline={false}
         />
 

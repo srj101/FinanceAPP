@@ -200,6 +200,50 @@ export const movementSlice = createSlice({
       }
     },
 
+    deleteMovement: (state, action) => {
+      const { movementType, movementId, monthIndex } = action.payload;
+
+      if (movementType === "estimatedBudgets") {
+        state.estimatedMovements[monthIndex].data = state.estimatedMovements[
+          monthIndex
+        ].data.filter((item) => item.id !== movementId);
+      }
+
+      if (movementType === "actualBudgets") {
+        state.actualMovements[monthIndex].data = state.actualMovements[
+          monthIndex
+        ].data.filter((item) => item.id !== movementId);
+      }
+    },
+
+    editMovement: (state, action) => {
+      const { movementType, movementId, monthIndex, movement } = action.payload;
+
+      if (movementType === "estimatedBudgets") {
+        state.estimatedMovements[monthIndex].data = state.estimatedMovements[
+          monthIndex
+        ].data.map((item) => {
+          if (item.id === movementId) {
+            return movement;
+          }
+
+          return item;
+        });
+      }
+
+      if (movementType === "actualBudgets") {
+        state.actualMovements[monthIndex].data = state.actualMovements[
+          monthIndex
+        ].data.map((item) => {
+          if (item.id === movementId) {
+            return movement;
+          }
+
+          return item;
+        });
+      }
+    },
+
     setEstimaedMovements: (state, action) => {
       state.estimatedMovements = action.payload;
     },
@@ -226,5 +270,7 @@ export const {
   updateMovement,
   setEstimaedMovements,
   setActualMovements,
+  deleteMovement,
+  editMovement,
 } = movementSlice.actions;
 export default movementSlice.reducer;

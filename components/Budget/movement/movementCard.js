@@ -3,7 +3,7 @@ import React from "react";
 import MovementItem from "./movementItem";
 import NoMovement from "./NoMovement";
 
-const Movement = ({ movements, title, type }) => {
+const Movement = ({ movements, title, type, movementType }) => {
   return (
     <View className="pt-5">
       <Text
@@ -20,7 +20,9 @@ const Movement = ({ movements, title, type }) => {
         {movements.length > 0 ? (
           <FlatList
             data={movements}
-            renderItem={({ item }) => <MovementItem item={item} />}
+            renderItem={({ item }) => (
+              <MovementItem item={item} movementType={movementType} />
+            )}
             keyExtractor={(item) => item.id}
           />
         ) : (

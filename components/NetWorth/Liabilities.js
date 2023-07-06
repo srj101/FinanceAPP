@@ -25,7 +25,9 @@ const Liabilities = () => {
         {currentMonthLiabilities.length > 0 ? (
           <FlatList
             data={currentMonthLiabilities}
-            renderItem={({ item }) => <MovementItem item={item} />}
+            renderItem={({ item }) => (
+              <MovementItem item={item} movementType="liabilities" />
+            )}
             keyExtractor={(item) => item.id.toString()}
           />
         ) : (
