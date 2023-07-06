@@ -4,7 +4,12 @@ import DashedBorder from "../DashedBorder";
 import { useSelector } from "react-redux";
 import { NumberFormat } from "../../utils/funtions";
 const dashedLineImage2 = require("../../assets/dashed-line.png");
-const MonthBudgetCard = ({ title = "Budget", revenue = 0, expense = 0 }) => {
+const MonthBudgetCard = ({
+  title = "Budget",
+  revenue = 0,
+  expense = 0,
+  balance = 0,
+}) => {
   const { currency, decimalEnabled, exchangeRate } = useSelector(
     (state) => state.settings
   );
@@ -35,11 +40,11 @@ const MonthBudgetCard = ({ title = "Budget", revenue = 0, expense = 0 }) => {
             <Text
               className={
                 // if amount is too big, make font smaller
-                revenue > 999999
+                revenue > 999999 || revenue < -999999
                   ? "text-xs"
-                  : revenue > 99999
+                  : revenue > 99999 || revenue < -99999
                   ? "text-sm"
-                  : revenue > 9999
+                  : revenue > 9999 || revenue < -9999
                   ? "text-md"
                   : "text-lg"
               }
@@ -74,11 +79,11 @@ const MonthBudgetCard = ({ title = "Budget", revenue = 0, expense = 0 }) => {
             <Text
               className={
                 // if amount is too big, make font smaller
-                expense > 999999
+                expense > 999999 || expense < -999999
                   ? "text-xs"
-                  : expense > 99999
+                  : expense > 99999 || expense < -99999
                   ? "text-sm"
-                  : expense > 9999
+                  : expense > 9999 || expense < -9999
                   ? "text-md"
                   : "text-lg"
               }
@@ -113,11 +118,11 @@ const MonthBudgetCard = ({ title = "Budget", revenue = 0, expense = 0 }) => {
           <Text
             className={
               // if amount is too big, make font smaller
-              expense > 999999
+              balance > 999999 || balance < -999999
                 ? "text-xs"
-                : expense > 99999
+                : balance > 99999 || balance < -99999
                 ? "text-sm"
-                : expense > 9999
+                : balance > 9999 || balance < -9999
                 ? "text-md"
                 : "text-lg"
             }
@@ -126,7 +131,7 @@ const MonthBudgetCard = ({ title = "Budget", revenue = 0, expense = 0 }) => {
               textAlign: "center",
             }}
           >
-            {NumberFormat(expense, currency, exchangeRate, decimalEnabled)}
+            {NumberFormat(balance, currency, exchangeRate, decimalEnabled)}
           </Text>
         </View>
       </View>
