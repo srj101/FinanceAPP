@@ -47,12 +47,6 @@ const Home = () => {
                 backgroundColor: colors.yellow,
                 borderRadius: SIZES.radius,
                 justifyContent: "center",
-                shadowOffset: {
-                  width: 0,
-                  height: -9,
-                },
-                shadowRadius: 19,
-                shadowOpacity: 0.1,
               }}
               className="py-2 mb-4 mx-5"
               onPress={() => navigation.navigate("MonthlyBudget")}
@@ -94,12 +88,6 @@ const Home = () => {
                 backgroundColor: colors.yellow,
                 borderRadius: SIZES.radius,
                 justifyContent: "center",
-                shadowOffset: {
-                  width: 0,
-                  height: -9,
-                },
-                shadowRadius: 19,
-                shadowOpacity: 0.1,
               }}
               className="py-2 mx-5 mb-4"
               onPress={() => navigation.navigate("NetWorth")}

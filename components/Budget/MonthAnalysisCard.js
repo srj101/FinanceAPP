@@ -28,7 +28,7 @@ const MonthAnalysisCard = ({
       </Text>
 
       <View className="flex flex-row justify-between items-center">
-        <View className="flex flex-col items-center justify-center gap-4">
+        <View className="flex flex-col items-start justify-center gap-4">
           <Text
             className="text-sm font-semibold"
             style={{
@@ -65,7 +65,7 @@ const MonthAnalysisCard = ({
           </Text>
         </View>
         <DashedBorder />
-        <View className="flex flex-col items-center justify-center gap-4">
+        <View className="flex flex-col items-end justify-center gap-4">
           <Text
             className="text-sm font-semibold"
             style={{
