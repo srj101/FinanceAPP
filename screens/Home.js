@@ -31,7 +31,7 @@ const Home = () => {
 
       {/** Navigation Buttons */}
 
-      <View className=" flex flex-col w-full gap-6 my-10">
+      <View className=" flex flex-col w-full gap-6 mb-10 mt-16">
         <View
           className="flex flex-col justify-center py-4 px-6 items-center"
           style={{

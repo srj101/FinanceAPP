@@ -54,7 +54,7 @@ const Settings = () => {
   const navigation = useNavigation();
   return (
     <SafeAreaView className="mx-4 relative flex-1">
-      <TouchableOpacity onPress={navigation.goBack}>
+      <TouchableOpacity onPress={navigation.goBack} className="pt-5">
         <Ionicons
           name="ios-arrow-back-outline"
           size={30}
@@ -62,13 +62,11 @@ const Settings = () => {
         />
       </TouchableOpacity>
 
-      <View className="py-3">
-        <FlatList
-          data={settings}
-          keyExtractor={(item) => item.id.toString()}
-          renderItem={({ item }) => <SettingItem item={item} />}
-        />
-      </View>
+      <FlatList
+        data={settings}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={({ item }) => <SettingItem item={item} />}
+      />
 
       <View className="absolute bottom-14 w-full">
         <Text className="text-center text-gray-500 text-xs">

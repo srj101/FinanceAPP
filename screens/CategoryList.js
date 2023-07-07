@@ -22,8 +22,6 @@ const CategoryITem = (props) => {
     color: { color },
   } = item;
 
-
-
   const dispatch = useDispatch();
 
   const deleteCategoryItem = useCallback(() => {
@@ -60,9 +58,9 @@ const CategoryITem = (props) => {
       <View
         style={{
           borderBottomWidth: 1,
-          borderBottomColor: colors.black,
+          borderBottomColor: colors.lightGray,
         }}
-        className="flex flex-row justify-between px-5 py-4"
+        className="flex flex-row justify-between items-center py-4"
       >
         <View className="flex flex-row gap-5 items-center">
           <AntDesign name={icon} size={25} color={color} />
@@ -92,16 +90,14 @@ const CategoryList = () => {
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView className="px-4 flex-1">
-      <View className="flex flex-row gap-3 py-4 px-4">
-        <TouchableOpacity onPress={navigation.goBack}>
-          <Ionicons
-            name="ios-arrow-back-outline"
-            size={25}
-            color={colors.black}
-          />
-        </TouchableOpacity>
-      </View>
+    <SafeAreaView className="mx-4 relative flex-1">
+      <TouchableOpacity onPress={navigation.goBack} className="pt-5">
+        <Ionicons
+          name="ios-arrow-back-outline"
+          size={25}
+          color={colors.black}
+        />
+      </TouchableOpacity>
 
       <FlatList
         data={categories}
