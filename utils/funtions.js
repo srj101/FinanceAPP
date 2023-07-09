@@ -244,7 +244,7 @@ export const NumberFormat = (
       .toFixed(2)
       .replace(/\d(?=(\d{3})+\.)/g, "$&,")} ${currency}`; // 12,345.67
   } else {
-    return `${parseInt(amount).replace(/\d(?=(\d{3})+$)/g, "$&,")} ${currency}`; // 12,345
+    return `${parseInt(amount)} ${currency}`; // 12,345
   }
 };
 

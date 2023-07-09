@@ -22,7 +22,7 @@ const NextButton = ({ data, scrollTo }) => {
         className="text-xl uppercase "
         style={{
           color: colors.yellow,
-          fontFamily: "OpenSans-Bold",
+          fontFamily: "OpenSans-Regular",
         }}
       >
         {data.NextButtonText}

@@ -5,7 +5,13 @@ import {
   Octicons,
 } from "@expo/vector-icons";
 import moment from "moment";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
   Alert,
   Platform,
@@ -18,42 +24,61 @@ import {
 } from "react-native";
 
 import RNDateTimePicker from "@react-native-community/datetimepicker";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { KeyboardAvoidingView, ScrollView } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import Options from "../components/AddBudgetMovement/Options";
 import CustomInput from "../components/shared/CustomInput";
 import {
+  editMovement,
   setCurrentMonth,
-  setMovementType,
-  setMovements,
   setSelectedCategory,
   setSelectedDate,
+  setUpdated,
   updateMovement,
 } from "../providers/state/reducers/movement";
 import { setCategory, setDate } from "../providers/state/reducers/worth";
 import colors from "../utils/colors";
 import { initalOptions } from "../utils/data/data";
 
-const AddBudgetMovement = (props) => {
+const EditMovement = (props) => {
+  const route = useRoute();
+
+  const { movementId, monthIndex, movementType, movement } = route.params;
+
+  const {
+    category: selectedCategoryy,
+    date: selectedDatee,
+    amount: amnt,
+    notes: nts,
+    type,
+  } = movement;
+
+  const { selectedDate, updated, selectedCategory, currentMonth } = useSelector(
+    (state) => state.movement
+  );
+
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef?.current && inputRef.current.focus();
+    dispatch(setSelectedDate(selectedDatee));
+    dispatch(setSelectedCategory(selectedCategoryy));
+    dispatch(setCategory(selectedCategoryy));
+    dispatch(setDate(selectedDatee));
+  }, []);
+
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const { selectedCategory, selectedDate, movementType } = useSelector(
-    (state) => state.movement
-  );
+
   const { currency, decimalEnabled } = useSelector((state) => state.settings);
 
-  const [repeatation, setRepeatation] = useState("NON");
-  const [amount, setAmount] = useState(0);
-  const [notes, setNotes] = useState("");
-  const [selectedCurrentDate, setSelectedCurrentDate] = useState(new Date());
-
-  const inputRef = React.useRef();
-
-  useEffect(() => {
-    inputRef.current.focus();
-  }, []);
+  const [amount, setAmount] = useState(amnt.toString());
+  const [notes, setNotes] = useState(nts || "");
+  const [selectedCurrentDate, setSelectedCurrentDate] = useState(
+    new Date(selectedDate)
+  );
 
   const handleAmountChange = (value) => {
     // remove trailing zeros
@@ -76,12 +101,8 @@ const AddBudgetMovement = (props) => {
     []
   );
   const FirstDateOfCurrentYear = useMemo(() => new Date(currentYear, 0, 1), []);
-  const type = props?.route?.params?.type;
-  const typeValue = useMemo(
-    () => (type === "expense" ? "Dépense" : "Revenu"),
-    [type]
-  );
-  const [selectedOption, setSelectedOption] = useState(typeValue || "Dépense");
+
+  const [selectedOption, setSelectedOption] = useState(type || "Dépense");
 
   const handleDateChange = useCallback(
     (event, selectedDate) => {
@@ -106,13 +127,14 @@ const AddBudgetMovement = (props) => {
 
   const handleDatePickerShow = () => {
     Platform.OS === "ios"
-      ? navigation.navigate("MovementDatePicker")
+      ? navigation.navigate("MovementDatePicker", {
+          date: selectedDate,
+        })
       : setShowDatePicker(true);
   };
 
   const onSubmit = () => {
     if (
-      !repeatation ||
       !amount ||
       !selectedCategory ||
       !selectedDate ||
@@ -128,7 +150,7 @@ const AddBudgetMovement = (props) => {
       .months()
       .indexOf(moment(selectedDate).format("MMMM"));
 
-    const id = Math.random().toString();
+    const id = movementId;
     const item = {
       id,
       amount: ammmount,
@@ -139,12 +161,20 @@ const AddBudgetMovement = (props) => {
     };
 
     dispatch(
-      updateMovement({ item, selectedMonthIndex, movementType, repeatation })
+      editMovement({
+        item,
+        monthIndex,
+        movementType,
+        movementId,
+        selectedMonthIndex,
+      })
     );
+
+    dispatch(setUpdated(!updated));
 
     dispatch(setSelectedCategory(null));
     dispatch(setSelectedDate(new Date().toISOString().split("T")[0]));
-    dispatch(setCurrentMonth(selectedMonthIndex));
+    dispatch(setCurrentMonth(currentMonth));
     navigation.goBack();
   };
 
@@ -173,6 +203,22 @@ const AddBudgetMovement = (props) => {
 
     return months[month];
   }, []);
+
+  const onDelete = () => {
+    dispatch(
+      deleteMovement({
+        movementType,
+        movementId,
+        monthIndex,
+      })
+    );
+
+    dispatch(setUpdated(!updated));
+
+    dispatch(setSelectedCategory(null));
+    dispatch(setSelectedDate(new Date().toISOString().split("T")[0]));
+    navigation.goBack();
+  };
 
   return (
     <KeyboardAvoidingView
@@ -211,10 +257,10 @@ const AddBudgetMovement = (props) => {
               }}
             >
               <TextInput
+                ref={inputRef}
                 keyboardType={decimalEnabled ? "numeric" : "number-pad"}
                 placeholder={`0.00`}
-                caretHidden
-                ref={inputRef}
+                caretHidden={true}
                 maxLength={10}
                 value={amount > 0 ? amount.toString() : undefined}
                 onChangeText={handleAmountChange}
@@ -299,50 +345,6 @@ const AddBudgetMovement = (props) => {
               )}
             </CustomInput>
 
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                position: "relative",
-              }}
-              className="mb-4"
-            >
-              <Text
-                className=" text-lg"
-                style={{
-                  fontFamily: "OpenSans-Regular",
-                  color: colors.black,
-                }}
-              >
-                Répétition
-              </Text>
-
-              <TouchableOpacity
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  position: "relative",
-                  gap: 10,
-                }}
-                onPress={() => {
-                  if (repeatation === "NON") {
-                    setRepeatation("OUI");
-                  } else {
-                    setRepeatation("NON");
-                  }
-                }}
-              >
-                <Text>{repeatation}</Text>
-                <MaterialIcons
-                  name="swap-horizontal-circle"
-                  size={30}
-                  color={colors.black}
-                />
-              </TouchableOpacity>
-            </View>
-
             <Text
               className="text-lg"
               style={{
@@ -372,6 +374,27 @@ const AddBudgetMovement = (props) => {
               numberOfLines={4}
               className=" text-lg my-5"
             />
+
+            <View style={{ alignItems: "center", marginVertical: 20 }}>
+              <TouchableOpacity
+                onPress={onDelete}
+                className="px-4 py-3 rounded-md"
+                style={{
+                  backgroundColor: colors.red,
+                  opacity: 0.8,
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: "OpenSans-Regular",
+                    color: colors.white,
+                  }}
+                  className="text-md uppercase"
+                >
+                  SUPPRIMER
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </SafeAreaView>
       </ScrollView>
@@ -385,4 +408,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddBudgetMovement;
+export default EditMovement;

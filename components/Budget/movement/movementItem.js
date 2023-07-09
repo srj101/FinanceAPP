@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import DashedBorder from "../../DashedBorder";
@@ -8,24 +8,25 @@ import { NumberFormat } from "../../../utils/funtions";
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { deleteMovement } from "../../../providers/state/reducers/movement";
 import { deleteWorth } from "../../../providers/state/reducers/worth";
+import { useNavigation } from "@react-navigation/native";
 
 const MovementItem = ({ item, movementType }) => {
   const { icon, id, amount, color, date, category, notes } = item;
+
+  const monthIndex = useMemo(() => new Date(date).getMonth(), [date]);
+
   const dispatch = useDispatch();
+
+  const navigation = useNavigation();
 
   const { currency, decimalEnabled, exchangeRate } = useSelector(
     (state) => state.settings
   );
 
-  const { currentMonth: worthMonth } = useSelector((state) => state.worth);
-  const { currentMonth: movementMonth } = useSelector(
-    (state) => state.movement
-  );
-
   const { showActionSheetWithOptions } = useActionSheet();
 
   const onPress = () => {
-    const options = ["Delete", "Cancel"];
+    const options = ["Supprimer", "Annuler"];
     const destructiveButtonIndex = 0;
     const cancelButtonIndex = 1;
 
@@ -48,14 +49,14 @@ const MovementItem = ({ item, movementType }) => {
                 deleteMovement({
                   movementType,
                   movementId: id,
-                  monthIndex: movementMonth,
+                  monthIndex,
                 })
               );
             } else {
               dispatch(
                 deleteWorth({
                   id,
-                  selectedMonthIndex: worthMonth,
+                  selectedMonthIndex: monthIndex,
                   worthType: movementType,
                 })
               );
@@ -70,9 +71,42 @@ const MovementItem = ({ item, movementType }) => {
     );
   };
 
+  const handleEditMovement = () => {
+    if (
+      movementType === "estimatedBudgets" ||
+      movementType === "actualBudgets"
+    ) {
+      navigation.navigate("EditMovement", {
+        movementType,
+        movementId: id,
+        monthIndex,
+        movement: item,
+      });
+    }
+
+    if (movementType === "assets" || movementType === "liabilities") {
+      navigation.navigate("EditWorth", {
+        worthType: movementType,
+        worthId: id,
+        monthIndex,
+        worth: item,
+      });
+    }
+  };
+
   return (
-    <TouchableOpacity onLongPress={onPress}>
-      <View className="flex flex-row justify-between items-center py-4">
+    <TouchableOpacity
+      onLongPress={onPress}
+      onPress={handleEditMovement}
+      className="py-4"
+    >
+      <View
+        className={
+          notes
+            ? `flex flex-row justify-between items-center`
+            : `flex flex-row justify-between items-center py-4`
+        }
+      >
         <View style={{}} className="flex flex-row items-center gap-3">
           <AntDesign
             name={category?.icon?.icon || "questioncircleo"}
@@ -98,6 +132,17 @@ const MovementItem = ({ item, movementType }) => {
           {NumberFormat(amount, currency, exchangeRate, decimalEnabled)}
         </Text>
       </View>
+
+      {notes && (
+        <Text
+          className="text-md py-2 "
+          style={{
+            fontFamily: "OpenSans-Regular",
+          }}
+        >
+          {notes.length > 25 ? notes.substring(0, 25) + "..." : notes}
+        </Text>
+      )}
 
       <DashedBorder vertical={false} />
     </TouchableOpacity>

@@ -95,7 +95,7 @@ export default function CurrencyList() {
       <TextInput
         value={search}
         onChangeText={setSearch}
-        placeholder="Search Currencies"
+        placeholder="Rechercher une devise"
         style={{
           paddingHorizontal: 25,
           paddingVertical: 10,

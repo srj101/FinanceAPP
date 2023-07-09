@@ -9,7 +9,7 @@ const UpgradePlan = ({ textColor }) => {
     (state) => state.settings
   );
   return (
-    <ScrollView className="px-5 py-4">
+    <ScrollView className="px-5 pt-4">
       <Text
         className="text-lg text-center mb-5"
         style={[
@@ -32,7 +32,7 @@ const UpgradePlan = ({ textColor }) => {
       </Text>
 
       <Text
-        className="text-center py-3 text-lg px-4 "
+        className="text-center py-3 text-lg px-4 pt-8"
         style={{
           fontFamily: "OpenSans-Regular",
           color: textColor ? textColor : colors.black,

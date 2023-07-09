@@ -25,7 +25,7 @@ const Paginator = ({ data, scrollX, budgetRef }) => {
         return (
           <Animated.View
             key={i.toString()}
-            style={[styles.dot, { width: dotWidth, opacity }]}
+            style={[styles.dot, { opacity }]}
             onPress={() => {
               if (!budgetRef) return;
 
@@ -49,10 +49,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   dot: {
-    height: 20,
+    height: 10,
     borderRadius: 25,
     backgroundColor: COLORS.yellow,
-    marginHorizontal: 8,
-    width: 20,
+    marginHorizontal: 5,
+    width: 10,
   },
 });

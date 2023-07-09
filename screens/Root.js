@@ -37,6 +37,8 @@ import SelectCategory from "./SelectCategory";
 import Settings from "./Settings";
 import PinCodeAuth from "./PinCodeAuth";
 import NewPin from "./NewPin";
+import EditMovement from "./EditMovement";
+import EditWorth from "./EditWorth";
 const Stack = createNativeStackNavigator();
 
 const Root = () => {
@@ -119,12 +121,14 @@ const Root = () => {
         <Stack.Screen name="NewPin" component={NewPin} />
         <Stack.Screen name="MonthlyBudget" component={MonthlyBudget} />
         <Stack.Screen name="AddMovement" component={AddBudgetMovement} />
+        <Stack.Screen name="EditMovement" component={EditMovement} />
 
         <Stack.Screen name="NetWorth" component={NetWorth} />
         <Stack.Screen
           name="AddNetWorthMovement"
           component={AddNetWorthMovement}
         />
+        <Stack.Screen name="EditWorth" component={EditWorth} />
         <Stack.Screen
           name="MovementDatePicker"
           component={MovementDatePicker}

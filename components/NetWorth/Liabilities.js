@@ -6,9 +6,11 @@ import { useSelector } from "react-redux";
 const Liabilities = () => {
   const { currentMonth, liabilityWorths } = useSelector((state) => state.worth);
 
+  const { updated } = useSelector((state) => state.movement);
+
   const currentMonthLiabilities = useMemo(() => {
     return liabilityWorths[currentMonth].data;
-  }, [currentMonth, liabilityWorths]);
+  }, [currentMonth, liabilityWorths, updated]);
 
   return (
     <View className="mx-6">

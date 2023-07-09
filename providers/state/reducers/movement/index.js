@@ -129,6 +129,7 @@ const initialState = {
     },
   ],
   currentMonth: 0,
+  updated: false,
 };
 
 export const movementSlice = createSlice({
@@ -137,6 +138,9 @@ export const movementSlice = createSlice({
   reducers: {
     setSelectedCategory: (state, action) => {
       state.selectedCategory = action.payload;
+    },
+    setUpdated: (state, action) => {
+      state.updated = action.payload;
     },
     setSelectedDate: (state, action) => {
       state.selectedDate = action.payload;
@@ -217,30 +221,74 @@ export const movementSlice = createSlice({
     },
 
     editMovement: (state, action) => {
-      const { movementType, movementId, monthIndex, movement } = action.payload;
+      const {
+        item: movement,
+        monthIndex,
+        movementType,
+        movementId,
+        selectedMonthIndex,
+      } = action.payload;
 
       if (movementType === "estimatedBudgets") {
-        state.estimatedMovements[monthIndex].data = state.estimatedMovements[
-          monthIndex
-        ].data.map((item) => {
-          if (item.id === movementId) {
-            return movement;
-          }
+        const changedMonthIndex = selectedMonthIndex;
 
-          return item;
-        });
+        if (changedMonthIndex === monthIndex) {
+          // update the movement in the same month
+
+          state.estimatedMovements[monthIndex].data = state.estimatedMovements[
+            monthIndex
+          ].data.map((item) => {
+            if (item.id === movementId) {
+              return movement;
+            } else {
+              return item;
+            }
+          });
+        } else {
+          // delete from the old month
+          state.estimatedMovements[monthIndex].data = state.estimatedMovements[
+            monthIndex
+          ].data.filter((item) => item.id !== movementId);
+
+          // add to the new month
+          state.estimatedMovements[changedMonthIndex].data = [
+            ...state.estimatedMovements[changedMonthIndex].data,
+            movement,
+          ];
+
+          state;
+        }
       }
 
       if (movementType === "actualBudgets") {
-        state.actualMovements[monthIndex].data = state.actualMovements[
-          monthIndex
-        ].data.map((item) => {
-          if (item.id === movementId) {
-            return movement;
-          }
+        const changedMonthIndex = selectedMonthIndex;
 
-          return item;
-        });
+        if (changedMonthIndex === monthIndex) {
+          // update the movement in the same month
+
+          state.actualMovements[monthIndex].data = state.actualMovements[
+            monthIndex
+          ].data.map((item) => {
+            if (item.id === movementId) {
+              return movement;
+            } else {
+              return item;
+            }
+          });
+        } else {
+          // delete from the old month
+          state.actualMovements[monthIndex].data = state.actualMovements[
+            monthIndex
+          ].data.filter((item) => item.id !== movementId);
+
+          // add to the new month
+          state.actualMovements[changedMonthIndex].data = [
+            ...state.actualMovements[changedMonthIndex].data,
+            movement,
+          ];
+
+          state;
+        }
       }
     },
 
@@ -272,5 +320,6 @@ export const {
   setActualMovements,
   deleteMovement,
   editMovement,
+  setUpdated,
 } = movementSlice.actions;
 export default movementSlice.reducer;

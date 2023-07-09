@@ -6,71 +6,168 @@ import { useSelector } from "react-redux";
 import NoMovement from "./movement/NoMovement";
 
 const Analysis = () => {
-  const { currentMonth, actualMovements, estimatedMovements } = useSelector(
-    (state) => state.movement
-  );
+  const { currentMonth, actualMovements, estimatedMovements, updated } =
+    useSelector((state) => state.movement);
 
   const currentMonthEstBudgets = useMemo(() => {
     return estimatedMovements[currentMonth].data;
-  }, [currentMonth, estimatedMovements]);
+  }, [currentMonth, estimatedMovements, updated]);
 
   const currentMonthActBudgets = useMemo(() => {
     return actualMovements[currentMonth].data;
-  }, [currentMonth, actualMovements]);
+  }, [currentMonth, actualMovements, updated]);
 
-  const categories = useMemo(() => {
-    let categories = [];
+  const currentMonthEstBudgetRevenues = useMemo(() => {
+    return currentMonthEstBudgets.filter((b) => b.type === "Revenu");
+  }, [currentMonthEstBudgets]);
 
-    currentMonthEstBudgets.forEach((b) => {
-      const isActCatExists = currentMonthActBudgets.find(
+  const currentMonthEstBudgetExpenses = useMemo(() => {
+    return currentMonthEstBudgets.filter((b) => b.type === "Dépense");
+  }, [currentMonthEstBudgets]);
+
+  const currentMonthActBudgetRevenues = useMemo(() => {
+    return currentMonthActBudgets.filter((b) => b.type === "Revenu");
+  }, [currentMonthActBudgets]);
+
+  const currentMonthActBudgetExpenses = useMemo(() => {
+    return currentMonthActBudgets.filter((b) => b.type === "Dépense");
+  }, [currentMonthActBudgets]);
+
+  const currentMonthEstAndActBudgetRevenuesAnalysis = useMemo(() => {
+    const revenuesComparision = [];
+
+    currentMonthEstBudgetRevenues.forEach((b) => {
+      const isActCatExists = currentMonthActBudgetRevenues.find(
         (a) => a.category.id === b.category.id
       );
 
       if (!isActCatExists) {
-        categories.push({
+        revenuesComparision.push({
           category: b.category,
           forseen: b.amount,
           accomplished: 0,
           gap: b.amount,
+          type: b.type,
         });
       } else {
-        categories.push({
+        revenuesComparision.push({
           category: b.category,
           forseen: b.amount,
           accomplished: isActCatExists.amount,
           gap: b.amount - isActCatExists.amount,
+          type: b.type,
         });
       }
     });
 
-    currentMonthActBudgets.forEach((b) => {
-      const isEstCatExists = currentMonthEstBudgets.find(
+    currentMonthActBudgetRevenues.forEach((b) => {
+      const isEstCatExists = currentMonthEstBudgetRevenues.find(
         (a) => a.category.id === b.category.id
       );
 
-      if (categories.find((c) => c.category.id === b.category.id)) {
+      if (revenuesComparision.find((c) => c.category.id === b.category.id)) {
         return;
       }
 
       if (!isEstCatExists) {
-        categories.push({
+        revenuesComparision.push({
           category: b.category,
           forseen: 0,
           accomplished: b.amount,
           gap: -b.amount,
+          type: b.type,
         });
       } else {
-        categories.push({
+        revenuesComparision.push({
           category: b.category,
           forseen: isEstCatExists.amount,
           accomplished: b.amount,
           gap: isEstCatExists.amount - b.amount,
+          type: b.type,
         });
       }
     });
 
-    return categories;
-  }, [currentMonthEstBudgets, currentMonthActBudgets]);
+    return revenuesComparision;
+  }, [currentMonthEstBudgetRevenues, currentMonthActBudgetRevenues]);
+
+  const currentMonthEstAndActBudgetExpensesAnalysis = useMemo(() => {
+    const expensesComparision = [];
+
+    currentMonthEstBudgetExpenses.forEach((b) => {
+      const isActCatExists = currentMonthActBudgetExpenses.find(
+        (a) => a.category.id === b.category.id
+      );
+
+      if (!isActCatExists) {
+        expensesComparision.push({
+          category: b.category,
+          forseen: b.amount,
+          accomplished: 0,
+          gap: b.amount,
+          type: b.type,
+        });
+      } else {
+        expensesComparision.push({
+          category: b.category,
+          forseen: b.amount,
+          accomplished: isActCatExists.amount,
+          gap: b.amount - isActCatExists.amount,
+          type: b.type,
+        });
+      }
+    });
+
+    currentMonthActBudgetExpenses.forEach((b) => {
+      const isEstCatExists = currentMonthEstBudgetExpenses.find(
+        (a) => a.category.id === b.category.id
+      );
+
+      if (expensesComparision.find((c) => c.category.id === b.category.id)) {
+        return;
+      }
+
+      if (!isEstCatExists) {
+        expensesComparision.push({
+          category: b.category,
+          forseen: 0,
+          accomplished: b.amount,
+          gap: -b.amount,
+          type: b.type,
+        });
+      } else {
+        expensesComparision.push({
+          category: b.category,
+          forseen: isEstCatExists.amount,
+          accomplished: b.amount,
+          gap: isEstCatExists.amount - b.amount,
+          type: b.type,
+        });
+      }
+    });
+
+    return expensesComparision;
+  }, [currentMonthEstBudgetExpenses, currentMonthActBudgetExpenses]);
+
+  const categories = useMemo(() => {
+    const revenues = currentMonthEstAndActBudgetRevenuesAnalysis.map((r) => ({
+      category: r.category,
+      forseen: r.forseen,
+      accomplished: r.accomplished,
+      gap: -r.gap,
+      type: r.type,
+    }));
+
+    const expenses = currentMonthEstAndActBudgetExpensesAnalysis.map((e) => ({
+      category: e.category,
+      forseen: e.forseen,
+      accomplished: e.accomplished,
+      gap: e.gap,
+      type: e.type,
+    }));
+
+    return [...revenues, ...expenses];
+  }, []);
 
   return (
     <View className="px-4 py-3">

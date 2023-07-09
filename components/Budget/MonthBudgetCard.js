@@ -29,7 +29,7 @@ const MonthBudgetCard = ({
         <View className="flex flex-row justify-between flex-1">
           <View className="flex flex-col relative gap-2 justify-between flex-1 items-center">
             <Text
-              className="text-lg uppercase text-center"
+              className="text-md uppercase text-center"
               style={{
                 fontFamily: "OpenSans-Regular",
               }}
@@ -62,13 +62,14 @@ const MonthBudgetCard = ({
               height: 60,
               alignSelf: "flex-end",
             }}
+            resizeMode="repeat"
           />
         </View>
 
         <View className="flex flex-row justify-between flex-1">
           <View className="flex flex-col relative  justify-between  flex-1 items-center">
             <Text
-              className="text-lg uppercase text-center"
+              className="text-md uppercase text-center"
               style={{
                 fontFamily: "OpenSans-Regular",
                 justifyContent: "center",
@@ -102,12 +103,13 @@ const MonthBudgetCard = ({
               height: 60,
               alignSelf: "flex-end",
             }}
+            resizeMode="repeat"
           />
         </View>
 
         <View className="flex flex-col justify-between flex-1 items-center">
           <Text
-            className="text-lg uppercase text-center"
+            className="text-md uppercase text-center"
             style={{
               fontFamily: "OpenSans-Regular",
               justifyContent: "center",

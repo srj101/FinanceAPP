@@ -6,9 +6,11 @@ import { useSelector } from "react-redux";
 const Assets = () => {
   const { currentMonth, assetWorths } = useSelector((state) => state.worth);
 
+  const { updated } = useSelector((state) => state.movement);
+
   const currentMonthAssets = useMemo(() => {
     return assetWorths[currentMonth].data;
-  }, [currentMonth, assetWorths]);
+  }, [currentMonth, assetWorths, updated]);
 
   return (
     <View className="mx-6">
@@ -37,7 +39,7 @@ const Assets = () => {
               fontFamily: "OpenSans-Regular",
             }}
           >
-            aucun actif ajouté pour le moment
+            Aucun actif ajouté pour le moment
           </Text>
         )}
       </View>

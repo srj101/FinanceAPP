@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   TextInput,
   FlatList,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { AntDesign, Octicons } from "@expo/vector-icons";
@@ -29,25 +30,28 @@ const NewCategory = () => {
 
   const handleCreateCategory = () => {
     if (!categoryName) {
-      alert("Please enter a name");
+      Alert.alert("ATTENTION", "Entrez un nom");
 
       return;
     }
 
     if (!categoryColor) {
-      alert("Please select a color");
+      Alert.alert("ATTENTION", "Sélectionnez une couleur");
 
       return;
     }
 
     if (!categoryIcon) {
-      alert("Please select an icon");
+      Alert.alert("ATTENTION", "Sélectionnez une icône");
 
       return;
     }
 
     if (!route.params?.type) {
-      alert("Something went wrong , please try again later");
+      Alert.alert(
+        "ATTENTION",
+        "Quelque chose a mal tourné, réessayer plus tard."
+      );
 
       navigation.goBack();
       return;

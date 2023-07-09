@@ -1,6 +1,6 @@
 import { AntDesign, Ionicons, Octicons } from "@expo/vector-icons";
 import moment from "moment";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import {
   Alert,
   KeyboardAvoidingView,
@@ -14,15 +14,18 @@ import {
 } from "react-native";
 
 import RNDateTimePicker from "@react-native-community/datetimepicker";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import Options from "../components/AddBudgetMovement/Options";
 import CustomInput from "../components/shared/CustomInput";
 import {
   setSelectedCategory,
   setSelectedDate,
+  setUpdated,
 } from "../providers/state/reducers/movement";
 import {
+  deleteWorth,
+  editWorth,
   setCategory,
   setDate,
   updateWorths,
@@ -30,26 +33,35 @@ import {
 import colors from "../utils/colors";
 import { netWorthOptions } from "../utils/data/data";
 
-const AddNetWorthMovement = () => {
+const EditWorth = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const inputRef = React.useRef(null);
+  const route = useRoute();
 
-  const { currency, decimalEnabled } = useSelector((state) => state.settings);
-  const [selectedOption, setSelectedOption] = useState("Actif");
-  const [amount, setAmount] = useState(0);
-  const [notes, setNotes] = useState("");
-  const [selectedCurrentDate, setSelectedCurrentDate] = useState(new Date());
-  const [showDatePicker, setShowDatePicker] = useState(false);
+  const { worthType, worthId, monthIndex, worth } = route.params;
 
-  const { selectedCategory, selectedDate } = useSelector(
-    (state) => state.worth
+  const {
+    amount: amnt,
+    notes: nts,
+    type,
+    category,
+    date: selectedDatee,
+  } = worth;
+
+  const { selectedCategory, selectedDate, updated } = useSelector(
+    (state) => state.movement
   );
 
-  const inputRef = React.useRef();
+  const { currency, decimalEnabled } = useSelector((state) => state.settings);
 
-  useEffect(() => {
-    inputRef.current.focus();
-  }, []);
+  const [selectedOption, setSelectedOption] = useState(type || "Actif");
+  const [amount, setAmount] = useState(amnt);
+  const [notes, setNotes] = useState(nts || "");
+  const [selectedCurrentDate, setSelectedCurrentDate] = useState(
+    new Date(selectedDate)
+  );
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const handleAmountChange = (value) => {
     // remove trailing zeros
@@ -115,7 +127,7 @@ const AddNetWorthMovement = () => {
       .months()
       .indexOf(moment(selectedDate).format("MMMM"));
 
-    const id = Math.random().toString();
+    const id = worthId;
     const item = {
       id,
       amount: ammmount,
@@ -127,12 +139,16 @@ const AddNetWorthMovement = () => {
     };
 
     dispatch(
-      updateWorths({
+      editWorth({
+        id: worthId,
         item,
         selectedMonthIndex,
         worthType: selectedOption,
+        prevMonthIndex: monthIndex,
       })
     );
+
+    dispatch(setUpdated(!updated));
 
     setAmount(0);
     setNotes("");
@@ -171,6 +187,34 @@ const AddNetWorthMovement = () => {
     return months[month];
   }, []);
 
+  const onDelete = () => {
+    dispatch(
+      deleteWorth({
+        id: worthId,
+        selectedMonthIndex: monthIndex,
+        worthType: worthType,
+      })
+    );
+
+    dispatch(setSelectedCategory(null));
+    dispatch(setSelectedDate(new Date().toISOString().split("T")[0]));
+    dispatch(setCategory(null));
+    dispatch(setDate(new Date().toISOString().split("T")[0]));
+
+    navigation.goBack();
+  };
+
+  React.useEffect(() => {
+    dispatch(setSelectedCategory(category));
+    dispatch(setCategory(category));
+    dispatch(setSelectedDate(selectedDatee));
+    dispatch(setDate(selectedDatee));
+
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, []);
+
   return (
     <KeyboardAvoidingView
       style={{ flexGrow: 1 }}
@@ -207,9 +251,9 @@ const AddNetWorthMovement = () => {
           >
             <TextInput
               ref={inputRef}
+              caretHidden
               keyboardType={decimalEnabled ? "numeric" : "number-pad"}
               placeholder={`0.00`}
-              caretHidden={true}
               maxLength={10}
               value={amount > 0 ? amount.toString() : undefined}
               onChangeText={handleAmountChange}
@@ -315,10 +359,31 @@ const AddNetWorthMovement = () => {
             numberOfLines={4}
             className=" text-xl my-5"
           />
+
+          <View style={{ alignItems: "center", marginVertical: 20 }}>
+            <TouchableOpacity
+              onPress={onDelete}
+              className="px-4 py-3 rounded-md"
+              style={{
+                backgroundColor: colors.red,
+                opacity: 0.8,
+              }}
+            >
+              <Text
+                style={{
+                  fontFamily: "OpenSans-Regular",
+                  color: colors.white,
+                }}
+                className="text-md uppercase"
+              >
+                SUPPRIMER
+              </Text>
+            </TouchableOpacity>
+          </View>
         </SafeAreaView>
       </ScrollView>
     </KeyboardAvoidingView>
   );
 };
 
-export default AddNetWorthMovement;
+export default EditWorth;

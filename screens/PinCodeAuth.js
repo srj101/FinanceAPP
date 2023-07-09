@@ -88,7 +88,7 @@ const PinCodeAuth = () => {
     if (pinValue.length < maxPinLength) return;
 
     if (pinCode && pinCode !== pinValue) {
-      alert("Pin code does not match");
+      alert("Le code pin est incorrect");
 
       // reset pin
       setPinValue("");

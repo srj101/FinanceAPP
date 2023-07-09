@@ -1,26 +1,24 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  FlatList,
-  Animated,
-  ScrollView,
-} from "react-native";
-import React, { useEffect } from "react";
-import { Feather, AntDesign, Ionicons } from "@expo/vector-icons";
-import MonthSlider from "../components/MonthSlider";
-import monthlyBudgets from "../utils/data/monthlyBudgets";
-import MonthlyBudgetItem from "../components/Budget/MonthlyBudgetItem";
-import Paginator from "../components/Paginator";
-import colors from "../utils/colors";
+import { Entypo, Feather, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import React, { useEffect } from "react";
+import {
+  Animated,
+  FlatList,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { useDispatch } from "react-redux";
+import MonthlyBudgetItem from "../components/Budget/MonthlyBudgetItem";
+import MonthSlider from "../components/MonthSlider";
+import Paginator from "../components/Paginator";
 import {
   setCurrentMonth,
   setMovementType,
 } from "../providers/state/reducers/movement";
-import moment from "moment";
+import colors from "../utils/colors";
+import monthlyBudgets from "../utils/data/monthlyBudgets";
 
 const MonthlyBudget = () => {
   const navigation = useNavigation();
@@ -109,8 +107,14 @@ const MonthlyBudget = () => {
           onPress={() => {
             navigation.navigate("AddMovement");
           }}
+          style={{
+            borderWidth: 5,
+            borderColor: colors.yellow,
+            borderRadius: 100,
+            padding: 5,
+          }}
         >
-          <AntDesign name="pluscircleo" size={45} color={colors.yellow} />
+          <Entypo name="plus" size={30} color="black" />
         </TouchableOpacity>
       )}
     </SafeAreaView>

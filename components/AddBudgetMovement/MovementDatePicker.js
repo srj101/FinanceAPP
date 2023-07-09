@@ -10,7 +10,7 @@ import React, { useCallback, useMemo } from "react";
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import { AntDesign, Octicons } from "@expo/vector-icons";
 import colors from "../../utils/colors";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedDate } from "../../providers/state/reducers/movement";
 import { setDate } from "../../providers/state/reducers/worth";
@@ -18,6 +18,9 @@ import { setDate } from "../../providers/state/reducers/worth";
 const MovementDatePicker = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const route = useRoute();
+  const date = route.params?.date;
+
   const { selectedDate } = useSelector((state) => state.movement);
 
   const handleDateChange = useCallback(
@@ -79,7 +82,7 @@ const MovementDatePicker = () => {
       </View>
       <RNDateTimePicker
         display="spinner"
-        value={new Date(selectedDate)}
+        value={new Date(date || selectedDate)}
         minimumDate={FirstDateOfCurrentYear}
         maximumDate={lastDateOfCurrentYear}
         mode="date"

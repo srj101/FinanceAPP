@@ -13,13 +13,15 @@ const NetWorth = () => {
     (state) => state.settings
   );
 
+  const { updated } = useSelector((state) => state.movement);
+
   const currentMonthAssets = useMemo(() => {
     return assetWorths[currentMonth].data;
-  }, [currentMonth, assetWorths]);
+  }, [currentMonth, assetWorths, updated]);
 
   const currentMonthLiabilities = useMemo(() => {
     return liabilityWorths[currentMonth].data;
-  }, [currentMonth, liabilityWorths]);
+  }, [currentMonth, liabilityWorths, updated]);
 
   const totalAssets = useMemo(() => {
     return currentMonthAssets.reduce((acc, cur) => acc + cur.amount, 0);

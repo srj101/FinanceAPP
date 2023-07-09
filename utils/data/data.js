@@ -6,13 +6,13 @@ export const netWorthOptions = [
     id: 0,
     name: "Actif",
     icon: "arrow-up-circle",
-    color: colors.red,
+    color: colors.green,
   },
   {
     id: 1,
     name: "Passif",
     icon: "arrow-down-circle",
-    color: colors.green,
+    color: colors.red,
   },
 ];
 
