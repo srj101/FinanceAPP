@@ -178,54 +178,114 @@ export const worthSlice = createSlice({
       }
     },
     editWorth: (state, action) => {
-      const { id, selectedMonthIndex, worthType, item, prevMonthIndex } =
-        action.payload;
+      const {
+        id,
+        selectedMonthIndex,
+        worthType,
+        item,
+        prevMonthIndex,
+        prevType,
+      } = action.payload;
 
-      if (worthType === "Actif") {
-        if (prevMonthIndex === selectedMonthIndex) {
-          // update the current month
-          state.assetWorths[prevMonthIndex].data = state.assetWorths[
-            prevMonthIndex
-          ].data.map((worth) => {
-            if (worth.id === id) {
-              return item;
-            }
-            return worth;
-          });
+      // if prevType !== worthType then delete from prevType and add to worthType
+
+      if (prevType !== worthType) {
+        if (selectedMonthIndex === prevMonthIndex) {
+          // delete from prevType and add to worthType in same month
+          if (prevType === "Actif") {
+            state.assetWorths[selectedMonthIndex].data = state.assetWorths[
+              selectedMonthIndex
+            ].data.filter((item) => item.id !== id);
+          } else {
+            state.liabilityWorths[selectedMonthIndex].data =
+              state.liabilityWorths[selectedMonthIndex].data.filter(
+                (item) => item.id !== id
+              );
+          }
+
+          if (worthType === "Actif") {
+            state.assetWorths[selectedMonthIndex].data = [
+              ...state.assetWorths[selectedMonthIndex].data,
+              item,
+            ];
+          } else {
+            state.liabilityWorths[selectedMonthIndex].data = [
+              ...state.liabilityWorths[selectedMonthIndex].data,
+              item,
+            ];
+          }
         } else {
-          // delete from the previous month
-          state.assetWorths[prevMonthIndex].data = state.assetWorths[
-            prevMonthIndex
-          ].data.filter((worth) => worth.id !== id);
+          // delete from prevType and add to worthType in different month
+          if (prevType === "Actif") {
+            state.assetWorths[prevMonthIndex].data = state.assetWorths[
+              prevMonthIndex
+            ].data.filter((item) => item.id !== id);
+          } else {
+            state.liabilityWorths[prevMonthIndex].data = state.liabilityWorths[
+              prevMonthIndex
+            ].data.filter((item) => item.id !== id);
+          }
 
-          // add to the current month
-          state.assetWorths[selectedMonthIndex].data = [
-            ...state.assetWorths[selectedMonthIndex].data,
-            item,
-          ];
+          if (worthType === "Actif") {
+            state.assetWorths[selectedMonthIndex].data = [
+              ...state.assetWorths[selectedMonthIndex].data,
+              item,
+            ];
+          } else {
+            state.liabilityWorths[selectedMonthIndex].data = [
+              ...state.liabilityWorths[selectedMonthIndex].data,
+              item,
+            ];
+          }
         }
-      } else if (worthType === "Passif") {
-        if (prevMonthIndex === selectedMonthIndex) {
-          // update the current month
-          state.liabilityWorths[prevMonthIndex].data = state.liabilityWorths[
-            prevMonthIndex
-          ].data.map((worth) => {
-            if (worth.id === id) {
-              return item;
-            }
-            return worth;
-          });
-        } else {
-          // delete from the previous month
-          state.liabilityWorths[prevMonthIndex].data = state.liabilityWorths[
-            prevMonthIndex
-          ].data.filter((worth) => worth.id !== id);
+      } else {
+        // if month is same then update in same month
+        if (selectedMonthIndex === prevMonthIndex) {
+          if (worthType === "Actif") {
+            state.assetWorths[selectedMonthIndex].data = state.assetWorths[
+              selectedMonthIndex
+            ].data.filter((item) => item.id !== id);
+          } else {
+            state.liabilityWorths[selectedMonthIndex].data =
+              state.liabilityWorths[selectedMonthIndex].data.filter(
+                (item) => item.id !== id
+              );
+          }
 
-          // add to the current month
-          state.liabilityWorths[selectedMonthIndex].data = [
-            ...state.liabilityWorths[selectedMonthIndex].data,
-            item,
-          ];
+          if (worthType === "Actif") {
+            state.assetWorths[selectedMonthIndex].data = [
+              ...state.assetWorths[selectedMonthIndex].data,
+              item,
+            ];
+          } else {
+            state.liabilityWorths[selectedMonthIndex].data = [
+              ...state.liabilityWorths[selectedMonthIndex].data,
+              item,
+            ];
+          }
+        } else {
+          // if month is different then delete from prevMonth and add to selectedMonth
+          if (prevType === "Actif") {
+            state.assetWorths[prevMonthIndex].data = state.assetWorths[
+              prevMonthIndex
+            ].data.filter((item) => item.id !== id);
+          } else {
+            state.liabilityWorths[prevMonthIndex].data = state.liabilityWorths[
+              prevMonthIndex
+            ].data.filter((item) => item.id !== id);
+          }
+
+          if (worthType === "Actif") {
+            state.assetWorths[selectedMonthIndex].data = [
+              ...state.assetWorths[selectedMonthIndex].data,
+              item,
+            ];
+          } else {
+            state.liabilityWorths[selectedMonthIndex].data = [
+              ...state.liabilityWorths[selectedMonthIndex].data,
+              item,
+            ];
+          }
         }
       }
     },

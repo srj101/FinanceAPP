@@ -294,10 +294,10 @@ const AddNetWorthMovement = () => {
             )}
           </CustomInput>
 
-          <CustomInput name="Notes"></CustomInput>
+          <CustomInput name="Note"></CustomInput>
 
           <TextInput
-            placeholder="Notes"
+            placeholder="Note"
             value={notes}
             onChangeText={setNotes}
             style={{

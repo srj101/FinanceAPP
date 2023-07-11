@@ -1,14 +1,14 @@
+import { useActionSheet } from "@expo/react-native-action-sheet";
+import { FontAwesome } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import React, { useMemo } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import DashedBorder from "../../DashedBorder";
-import { AntDesign } from "@expo/vector-icons";
-import colors from "../../../utils/colors";
-import { NumberFormat } from "../../../utils/funtions";
-import { useActionSheet } from "@expo/react-native-action-sheet";
 import { deleteMovement } from "../../../providers/state/reducers/movement";
 import { deleteWorth } from "../../../providers/state/reducers/worth";
-import { useNavigation } from "@react-navigation/native";
+import colors from "../../../utils/colors";
+import { NumberFormat } from "../../../utils/funtions";
+import DashedBorder from "../../DashedBorder";
 
 const MovementItem = ({ item, movementType }) => {
   const { icon, id, amount, color, date, category, notes } = item;
@@ -108,7 +108,7 @@ const MovementItem = ({ item, movementType }) => {
         }
       >
         <View style={{}} className="flex flex-row items-center gap-3">
-          <AntDesign
+          <FontAwesome
             name={category?.icon?.icon || "questioncircleo"}
             size={25}
             color={category?.color?.color || colors.black}

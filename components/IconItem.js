@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import colors from "../utils/colors";
-import { AntDesign } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 
 const IconItem = ({ item, methods }) => {
   const { setCategoryIcon, categoryIcon, categoryColor } = methods;
@@ -16,7 +16,7 @@ const IconItem = ({ item, methods }) => {
       className="p-3"
       onPress={() => setCategoryIcon(item)}
     >
-      <AntDesign
+      <FontAwesome
         name={icon}
         size={40}
         color={

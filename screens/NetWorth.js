@@ -1,25 +1,24 @@
+import { Entypo, Feather, Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
+import React, { useEffect } from "react";
 import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
   Animated,
   FlatList,
+  SafeAreaView,
   ScrollView,
+  TouchableOpacity,
+  View,
 } from "react-native";
-import React, { useEffect } from "react";
-import { AntDesign, Feather, Ionicons } from "@expo/vector-icons";
-import MonthSlider from "../components/MonthSlider";
-import colors from "../utils/colors";
-import Paginator from "../components/Paginator";
-import netWorthPages from "../utils/data/netWorthPages";
-import { useNavigation } from "@react-navigation/native";
-import NetWorthPage from "../components/NetWorth/NetWorthPage";
 import { useDispatch } from "react-redux";
+import MonthSlider from "../components/MonthSlider";
+import NetWorthPage from "../components/NetWorth/NetWorthPage";
+import Paginator from "../components/Paginator";
 import {
   setCurrentMonthIdx,
   setWorthType,
 } from "../providers/state/reducers/worth";
+import colors from "../utils/colors";
+import netWorthPages from "../utils/data/netWorthPages";
 
 const NetWorth = () => {
   const navigation = useNavigation();
@@ -108,8 +107,13 @@ const NetWorth = () => {
       <TouchableOpacity
         className="absolute bottom-8 right-5  "
         onPress={() => navigation.navigate("AddNetWorthMovement")}
+        style={{
+          backgroundColor: colors.yellow,
+          borderRadius: 100,
+          padding: 10,
+        }}
       >
-        <AntDesign name="pluscircleo" size={45} color={colors.green} />
+        <Entypo name="plus" size={25} color={colors.white} />
       </TouchableOpacity>
     </SafeAreaView>
   );

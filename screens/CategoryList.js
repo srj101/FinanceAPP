@@ -1,18 +1,17 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  FlatList,
-  StyleSheet,
-  TouchableOpacity,
-  Alert,
-} from "react-native";
-import React, { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import colors from "../utils/colors";
-import { AntDesign, Ionicons } from "@expo/vector-icons";
-import { deleteCategory } from "../providers/state/reducers/categories";
+import { AntDesign, FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import React, { useCallback } from "react";
+import {
+  Alert,
+  FlatList,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteCategory } from "../providers/state/reducers/categories";
+import colors from "../utils/colors";
 
 const CategoryITem = (props) => {
   const { item, navigation } = props;
@@ -26,11 +25,11 @@ const CategoryITem = (props) => {
 
   const deleteCategoryItem = useCallback(() => {
     Alert.alert(
-      "Delete Category",
-      "Are you sure you want to delete this category?",
+      "Supprimer la catégorie",
+      "vous la suppression de la catégorie?",
       [
         {
-          text: "Cancel",
+          text: "Annuler",
           onPress: () => console.log("Cancel Pressed"),
           style: "cancel",
         },
@@ -63,7 +62,7 @@ const CategoryITem = (props) => {
         className="flex flex-row justify-between items-center py-4"
       >
         <View className="flex flex-row gap-5 items-center">
-          <AntDesign name={icon} size={25} color={color} />
+          <FontAwesome name={icon} size={25} color={color} />
 
           <Text
             className="text-3xl"

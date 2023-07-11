@@ -40,8 +40,13 @@ const settings = [
   },
   {
     id: "6",
-    title: "Pin", // Set Pincode
-    icon: "lock",
+    title: "Conditions d’utilisation",
+    icon: "filetext1",
+  },
+  {
+    id: "8",
+    title: "Politique de confidentialité",
+    icon: "filetext1",
   },
   {
     id: "7",

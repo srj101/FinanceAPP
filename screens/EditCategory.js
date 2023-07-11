@@ -1,24 +1,20 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  TextInput,
-  FlatList,
-} from "react-native";
-import React, { useState } from "react";
 import { AntDesign, Octicons } from "@expo/vector-icons";
-import colors from "../utils/colors";
 import { useNavigation } from "@react-navigation/native";
-import { colorOptions, icons } from "../utils/data/data";
+import React, { useState } from "react";
+import {
+  FlatList,
+  SafeAreaView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { useDispatch } from "react-redux";
 import Color from "../components/Color";
 import IconItem from "../components/IconItem";
-import { useDispatch } from "react-redux";
-import {
-  addCategory,
-  editCategory,
-  resetState,
-} from "../providers/state/reducers/categories";
+import { editCategory } from "../providers/state/reducers/categories";
+import colors from "../utils/colors";
+import { colorOptions, icons } from "../utils/data/data";
 
 const EditCategory = (props) => {
   const { item } = props.route.params;
@@ -89,6 +85,7 @@ const EditCategory = (props) => {
             fontFamily: "OpenSans-Regular",
             color: colors.black,
             backgroundColor: colors.lightGray,
+            paddingTop: 0,
           }}
           className="py-4 px-4 text-xl rounded-md text-center leading-8"
           multiline={false}

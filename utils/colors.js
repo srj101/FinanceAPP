@@ -8,7 +8,7 @@ export default COLORS = {
   red: rgbToHex(255, 59, 48),
   gray: "#6A6A6A",
   green: rgbToHex(40, 205, 65),
-  yellow: rgbToHex(255, 242, 97),
+  yellow: "#EDD900",
   lightGray: rgbToHex(235, 235, 240),
   lightGray2: "#F6F6F6",
   lightGray3: "#EFEFEF",

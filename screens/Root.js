@@ -39,6 +39,7 @@ import PinCodeAuth from "./PinCodeAuth";
 import NewPin from "./NewPin";
 import EditMovement from "./EditMovement";
 import EditWorth from "./EditWorth";
+import TermsPDF from "./TermsPDF";
 const Stack = createNativeStackNavigator();
 
 const Root = () => {
@@ -106,7 +107,7 @@ const Root = () => {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName={pinCode ? "PinCodeAuth" : "OnBoarding"}
+        initialRouteName={"OnBoarding"}
       >
         <Stack.Screen
           name="OnBoarding"
@@ -140,6 +141,8 @@ const Root = () => {
         <Stack.Screen name="EditCategory" component={EditCategory} />
 
         <Stack.Screen name="CurrencyList" component={CurrencyList} />
+
+        <Stack.Screen name="TermsPDF" component={TermsPDF} />
       </Stack.Navigator>
     </View>
   );

@@ -95,10 +95,8 @@ const NewCategory = () => {
           onChangeText={setCategoryName}
           style={{
             fontFamily: "OpenSans-Regular",
-            color: categoryColor?.color ? colors.white : colors.black,
-            backgroundColor: categoryColor?.color || colors.lightGray2,
-
-            paddingTop: -3,
+            backgroundColor: colors.lightGray2,
+            paddingTop: 0,
           }}
           className="py-4 px-4 text-xl rounded-md text-center leading-8"
           multiline={false}

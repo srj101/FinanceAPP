@@ -12,8 +12,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrency } from "../providers/state/reducers/settings";
 import colors from "../utils/colors";
-import currrencyJSON from "../assets/currencies.json";
-import { convertSymbolsFromCode } from "../utils/funtions";
+import currencyToSymbolMap from "currency-symbol-map/map";
 
 const CurrencyItem = memo(({ item, onPress }) => (
   <TouchableOpacity onPress={onPress}>
@@ -35,7 +34,7 @@ const CurrencyItem = memo(({ item, onPress }) => (
           color: colors.black,
         }}
       >
-        {item.CountryName}
+        {item.name}
       </Text>
       <Text
         className="text-2xl"
@@ -43,7 +42,7 @@ const CurrencyItem = memo(({ item, onPress }) => (
           fontFamily: "TheHand-Regular",
         }}
       >
-        {convertSymbolsFromCode(item.Symbol)}
+        {item.symbol}
       </Text>
     </View>
   </TouchableOpacity>
@@ -51,14 +50,33 @@ const CurrencyItem = memo(({ item, onPress }) => (
 
 export default function CurrencyList() {
   const [search, setSearch] = useState("");
-  const [currencies, setCurrencies] = useState(currrencyJSON);
   const { currency } = useSelector((state) => state.settings);
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
-  const filteredCurrencies = currencies.filter((currency) =>
-    currency.CountryName.toLowerCase().includes(search.toLowerCase())
-  );
+  const currencies = React.useMemo(() => {
+    const list = Object.entries(currencyToSymbolMap).map(
+      ([currencyCode, currencySymbol]) => {
+        return {
+          name: currencyCode,
+          symbol: currencySymbol,
+        };
+      }
+    );
+
+    return list;
+  }, []);
+
+  const filteredCurrencies = React.useMemo(() => {
+    const filtered = currencies.filter(
+      (currency) =>
+        // check if the symbol or the name includes the search
+        currency.symbol.toLowerCase().includes(search.toLowerCase()) ||
+        currency.name.toLowerCase().includes(search.toLowerCase())
+    );
+
+    return filtered;
+  }, [search]);
 
   return (
     <SafeAreaView
@@ -113,14 +131,14 @@ export default function CurrencyList() {
             onPress={() => {
               dispatch(
                 setCurrency({
-                  currency: item.Symbol,
+                  currency: item.symbol,
                   exchangeRate: 1.0,
                 })
               );
             }}
           />
         )}
-        keyExtractor={(item) => item.CountryName}
+        keyExtractor={(item) => item.name.toString()}
       />
     </SafeAreaView>
   );

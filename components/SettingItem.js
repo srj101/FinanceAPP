@@ -37,9 +37,6 @@ const SettingItem = (props) => {
     } else if (item.id === "1") {
       // CategoryList
       navigation.navigate("CategoryList");
-    } else if (item.id === "6") {
-      // Set Pincode
-      navigation.navigate("NewPin");
     } else if (item.id === "7") {
       // Export all data to Excel
       downloadJSON({
@@ -55,6 +52,9 @@ const SettingItem = (props) => {
           console.log(err);
           alert("Export failed");
         });
+    } else if (item.id === "6" || item.id === "8") {
+      // Terms and conditions
+      navigation.navigate("TermsPDF");
     }
   };
 

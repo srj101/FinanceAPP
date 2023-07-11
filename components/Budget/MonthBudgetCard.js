@@ -1,6 +1,5 @@
-import { View, Text, ImageBackground } from "react-native";
 import React from "react";
-import DashedBorder from "../DashedBorder";
+import { ImageBackground, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import { NumberFormat } from "../../utils/funtions";
 const dashedLineImage2 = require("../../assets/dashed-line.png");

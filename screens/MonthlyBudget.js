@@ -108,13 +108,12 @@ const MonthlyBudget = () => {
             navigation.navigate("AddMovement");
           }}
           style={{
-            borderWidth: 5,
-            borderColor: colors.yellow,
+            backgroundColor: colors.yellow,
             borderRadius: 100,
-            padding: 5,
+            padding: 10,
           }}
         >
-          <Entypo name="plus" size={30} color="black" />
+          <Entypo name="plus" size={25} color={colors.white} />
         </TouchableOpacity>
       )}
     </SafeAreaView>

@@ -145,6 +145,7 @@ const EditWorth = () => {
         selectedMonthIndex,
         worthType: selectedOption,
         prevMonthIndex: monthIndex,
+        prevType: type,
       })
     );
 
