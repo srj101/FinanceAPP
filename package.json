@@ -49,8 +49,7 @@
     "redux-logger": "^3.0.6",
     "redux-persist": "6.0.0",
     "redux-persist-expo-securestore": "^2.0.0",
-    "redux-thunk": "2.3.0",
-    "rn-pdf-reader-js": "^4.1.1"
+    "redux-thunk": "2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
