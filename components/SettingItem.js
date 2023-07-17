@@ -1,7 +1,13 @@
 import { AntDesign } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { Linking, StyleSheet, Text, TouchableOpacity } from "react-native";
+import {
+  Alert,
+  Linking,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+} from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { setDecimalEnabled } from "../providers/state/reducers/settings";
 import colors from "../utils/colors";
@@ -46,11 +52,10 @@ const SettingItem = (props) => {
         liabilityWorths,
       })
         .then((res) => {
-          alert("Exported successfully");
+          Alert.alert("ATTENTION", "Export réussi");
         })
         .catch((err) => {
-          console.log(err);
-          alert("Export failed");
+          Alert.alert("ATTENTION", "Export échoué");
         });
     } else if (item.id === "6" || item.id === "8") {
       // Terms and conditions
