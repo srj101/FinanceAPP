@@ -204,6 +204,24 @@ export const movementSlice = createSlice({
       }
     },
 
+    deleteAllMovementsHavingCategory: (state, action) => {
+      const { categoryId } = action.payload;
+
+      state.estimatedMovements = state.estimatedMovements.map((month) => {
+        month.data = month.data.filter(
+          (item) => item.category.id !== categoryId
+        );
+        return month;
+      });
+
+      state.actualMovements = state.actualMovements.map((month) => {
+        month.data = month.data.filter(
+          (item) => item.category.id !== categoryId
+        );
+        return month;
+      });
+    },
+
     deleteMovement: (state, action) => {
       const { movementType, movementId, monthIndex } = action.payload;
 
@@ -321,5 +339,6 @@ export const {
   deleteMovement,
   editMovement,
   setUpdated,
+  deleteAllMovementsHavingCategory,
 } = movementSlice.actions;
 export default movementSlice.reducer;

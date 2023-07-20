@@ -33,141 +33,165 @@ const Analysis = () => {
     return currentMonthActBudgets.filter((b) => b.type === "Dépense");
   }, [currentMonthActBudgets]);
 
-  const currentMonthEstAndActBudgetRevenuesAnalysis = useMemo(() => {
-    const revenuesComparision = [];
+  const currentMonthEstRevenues = useMemo(() => {
+    const categories = [];
 
     currentMonthEstBudgetRevenues.forEach((b) => {
-      const isActCatExists = currentMonthActBudgetRevenues.find(
-        (a) => a.category.id === b.category.id
-      );
+      const category = categories.find((c) => c.category.id === b.category.id);
 
-      if (!isActCatExists) {
-        revenuesComparision.push({
-          category: b.category,
-          forseen: b.amount,
-          accomplished: 0,
-          gap: b.amount,
-          type: b.type,
-        });
+      if (category) {
+        category.amount += b.amount;
       } else {
-        revenuesComparision.push({
+        categories.push({
           category: b.category,
-          forseen: b.amount,
-          accomplished: isActCatExists.amount,
-          gap: b.amount - isActCatExists.amount,
-          type: b.type,
+          amount: b.amount,
         });
       }
     });
 
-    currentMonthActBudgetRevenues.forEach((b) => {
-      const isEstCatExists = currentMonthEstBudgetRevenues.find(
-        (a) => a.category.id === b.category.id
-      );
+    return categories;
+  }, [currentMonthEstBudgetRevenues]);
 
-      if (revenuesComparision.find((c) => c.category.id === b.category.id)) {
-        return;
-      }
-
-      if (!isEstCatExists) {
-        revenuesComparision.push({
-          category: b.category,
-          forseen: 0,
-          accomplished: b.amount,
-          gap: -b.amount,
-          type: b.type,
-        });
-      } else {
-        revenuesComparision.push({
-          category: b.category,
-          forseen: isEstCatExists.amount,
-          accomplished: b.amount,
-          gap: isEstCatExists.amount - b.amount,
-          type: b.type,
-        });
-      }
-    });
-
-    return revenuesComparision;
-  }, [currentMonthEstBudgetRevenues, currentMonthActBudgetRevenues]);
-
-  const currentMonthEstAndActBudgetExpensesAnalysis = useMemo(() => {
-    const expensesComparision = [];
+  const currentMonthEstExpenses = useMemo(() => {
+    const categories = [];
 
     currentMonthEstBudgetExpenses.forEach((b) => {
-      const isActCatExists = currentMonthActBudgetExpenses.find(
-        (a) => a.category.id === b.category.id
-      );
+      const category = categories.find((c) => c.category.id === b.category.id);
 
-      if (!isActCatExists) {
-        expensesComparision.push({
+      if (category) {
+        category.amount += b.amount;
+      } else {
+        categories.push({
+          category: b.category,
+          amount: b.amount,
+        });
+      }
+    });
+
+    return categories;
+  }, [currentMonthEstBudgetExpenses]);
+
+  const currentMonthActRevenues = useMemo(() => {
+    const categories = [];
+
+    currentMonthActBudgetRevenues.forEach((b) => {
+      const category = categories.find((c) => c.category.id === b.category.id);
+
+      if (category) {
+        category.amount += b.amount;
+      } else {
+        categories.push({
+          category: b.category,
+          amount: b.amount,
+        });
+      }
+    });
+
+    return categories;
+  }, [currentMonthActBudgetRevenues]);
+
+  const currentMonthActExpenses = useMemo(() => {
+    const categories = [];
+
+    currentMonthActBudgetExpenses.forEach((b) => {
+      const category = categories.find((c) => c.category.id === b.category.id);
+
+      if (category) {
+        category.amount += b.amount;
+      } else {
+        categories.push({
+          category: b.category,
+          amount: b.amount,
+        });
+      }
+    });
+
+    return categories;
+  }, [currentMonthActBudgetExpenses]);
+
+  const categoriesRevenues = useMemo(() => {
+    const categories = [];
+
+    currentMonthEstRevenues.forEach((b) => {
+      const category = categories.find((c) => c.category.id === b.category.id);
+
+      if (category) {
+        category.forseen += b.amount;
+      } else {
+        categories.push({
           category: b.category,
           forseen: b.amount,
           accomplished: 0,
-          gap: b.amount,
-          type: b.type,
-        });
-      } else {
-        expensesComparision.push({
-          category: b.category,
-          forseen: b.amount,
-          accomplished: isActCatExists.amount,
-          gap: b.amount - isActCatExists.amount,
-          type: b.type,
+          gap: 0,
         });
       }
     });
 
-    currentMonthActBudgetExpenses.forEach((b) => {
-      const isEstCatExists = currentMonthEstBudgetExpenses.find(
-        (a) => a.category.id === b.category.id
-      );
+    currentMonthActRevenues.forEach((b) => {
+      const category = categories.find((c) => c.category.id === b.category.id);
 
-      if (expensesComparision.find((c) => c.category.id === b.category.id)) {
-        return;
-      }
-
-      if (!isEstCatExists) {
-        expensesComparision.push({
+      if (category) {
+        category.accomplished += b.amount;
+      } else {
+        categories.push({
           category: b.category,
           forseen: 0,
           accomplished: b.amount,
-          gap: -b.amount,
-          type: b.type,
-        });
-      } else {
-        expensesComparision.push({
-          category: b.category,
-          forseen: isEstCatExists.amount,
-          accomplished: b.amount,
-          gap: isEstCatExists.amount - b.amount,
-          type: b.type,
+          gap: 0,
         });
       }
     });
 
-    return expensesComparision;
-  }, [currentMonthEstBudgetExpenses, currentMonthActBudgetExpenses]);
+    categories.forEach((c) => {
+      c.gap = c.accomplished - c.forseen;
+    });
+
+    return categories;
+  }, [currentMonthEstRevenues, currentMonthActRevenues]);
+
+  const categoriesExpenses = useMemo(() => {
+    const categories = [];
+
+    currentMonthEstExpenses.forEach((b) => {
+      const category = categories.find((c) => c.category.id === b.category.id);
+
+      if (category) {
+        category.forseen += b.amount;
+      } else {
+        categories.push({
+          category: b.category,
+          forseen: b.amount,
+          accomplished: 0,
+          gap: 0,
+        });
+      }
+    });
+
+    currentMonthActExpenses.forEach((b) => {
+      const category = categories.find((c) => c.category.id === b.category.id);
+
+      if (category) {
+        category.accomplished += b.amount;
+      } else {
+        categories.push({
+          category: b.category,
+          forseen: 0,
+          accomplished: b.amount,
+          gap: 0,
+        });
+      }
+    });
+
+    categories.forEach((c) => {
+      c.gap = c.forseen - c.accomplished;
+    });
+
+    return categories;
+  }, [currentMonthEstExpenses, currentMonthActExpenses]);
 
   const categories = useMemo(() => {
-    const revenues = currentMonthEstAndActBudgetRevenuesAnalysis.map((r) => ({
-      category: r.category,
-      forseen: r.forseen,
-      accomplished: r.accomplished,
-      gap: -r.gap,
-      type: r.type,
-    }));
-
-    const expenses = currentMonthEstAndActBudgetExpensesAnalysis.map((e) => ({
-      category: e.category,
-      forseen: e.forseen,
-      accomplished: e.accomplished,
-      gap: e.gap,
-      type: e.type,
-    }));
-
-    return [...revenues, ...expenses];
-  }, []);
+    return [...categoriesRevenues, ...categoriesExpenses];
+  }, [categoriesRevenues, categoriesExpenses]);
 
   return (
     <View className="px-4 py-3">

@@ -29,7 +29,7 @@ const Welcome = () => {
           fontFamily: "Calibri-Regular",
         }}
       >
-        Votre allié pour le suivi et la planification de vos dépenses
+        Votre allié pour la planification et le suivi de vos dépenses
       </Text>
     </ScrollView>
   );

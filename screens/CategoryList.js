@@ -12,6 +12,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCategory } from "../providers/state/reducers/categories";
 import colors from "../utils/colors";
+import { deleteAllWorthsHavingCategory } from "../providers/state/reducers/worth";
+import { deleteAllMovementsHavingCategory } from "../providers/state/reducers/movement";
 
 const CategoryITem = (props) => {
   const { item, navigation } = props;
@@ -26,7 +28,7 @@ const CategoryITem = (props) => {
   const deleteCategoryItem = useCallback(() => {
     Alert.alert(
       "Supprimer la catégorie",
-      "vous la suppression de la catégorie?",
+      "En supprimant la catégorie, tous les mouvements ajoutés seront également supprimés. Confirmez-vous la suppression?",
       [
         {
           text: "Annuler",
@@ -36,7 +38,20 @@ const CategoryITem = (props) => {
 
         {
           text: "OK",
-          onPress: () => dispatch(deleteCategory(item.id)),
+          onPress: () => {
+            dispatch(
+              deleteAllWorthsHavingCategory({
+                categoryId: item.id,
+              })
+            );
+            dispatch(
+              deleteAllMovementsHavingCategory({
+                categoryId: item.id,
+              })
+            );
+
+            dispatch(deleteCategory(item.id));
+          },
         },
       ],
       { cancelable: true }
@@ -61,7 +76,7 @@ const CategoryITem = (props) => {
         }}
         className="flex flex-row justify-between items-center py-4"
       >
-        <View className="flex flex-row gap-5 items-center">
+        <View className="flex flex-row gap-6 items-center">
           <FontAwesome name={icon} size={25} color={color} />
 
           <Text

@@ -49,7 +49,7 @@ const OnBoarding = () => {
     >
       <View className="relative" style={styles.container}>
         {/** Logo Image */}
-        <View className={currentIndex === 0 ? `pt-20` : `pt-10`}>
+        <View className={`pt-10`}>
           <Image
             source={require("../assets/logo.png")}
             style={{}}

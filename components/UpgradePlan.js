@@ -22,13 +22,13 @@ const UpgradePlan = ({ textColor }) => {
         Payez{" "}
         <Text
           style={{
-            color: colors.primary,
+            color: colors.green,
             fontFamily: "OpenSans-Bold",
           }}
         >
-          {NumberFormat(15.99, currency, exchangeRate, decimalEnabled)}
+          {NumberFormat(14.99, currency, exchangeRate, decimalEnabled)}
         </Text>{" "}
-        pour passer à la version premium{" "}
+        une fois et à vie pour soutenir l'évolution de l'application{" "}
       </Text>
 
       <Text
@@ -38,10 +38,17 @@ const UpgradePlan = ({ textColor }) => {
           color: textColor ? textColor : colors.black,
         }}
       >
-        Je suis salariée et entrepreneure. Lorsque je ne travaille pas pour mon
-        employeur, je promeus l’accès à l’éducation financière via la plateforme
-        The Moneyvisor. Soutenez cette vision et profitez de toutes les
-        fonctionnalités de l’application.
+        <Text
+          style={{
+            fontFamily: "OpenSans-SemiBold",
+            color: textColor ? textColor : colors.black,
+          }}
+        >
+          Créez votre premier budget avec TMVBUDGET.
+        </Text>
+        La première version de l’application se veut simple et droit au but.
+        Juste vous, vos revenus, et ce que vous décidez d’en faire de manière
+        périodique.
       </Text>
 
       <Text
@@ -51,8 +58,8 @@ const UpgradePlan = ({ textColor }) => {
         }}
         className="text-center text-lg py-5"
       >
-        Débloquez toutes les fonctionnalités de l’application en une fois et à
-        vie
+        De nouvelles fonctionnalités sont prévues. Aidez-nous à les développer
+        en souscrivant à la version premium.
       </Text>
     </ScrollView>
   );

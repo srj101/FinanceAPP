@@ -35,7 +35,7 @@ const NetWorth = () => {
 
   const lastDate = useMemo(() => {
     // check if the current month is greater than or equal to the current month
-    if (currentMonth >= new Date().getMonth()) {
+    if (currentMonth === new Date().getMonth()) {
       return moment().format("DD.MM.YYYY");
     }
 

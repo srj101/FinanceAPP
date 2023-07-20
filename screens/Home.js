@@ -9,17 +9,17 @@ import {
 import React from "react";
 import colors, { SIZES } from "../utils/colors";
 import { useNavigation } from "@react-navigation/native";
+import HomeButton from "../components/HomeButton";
 
 const Home = () => {
   const navigation = useNavigation();
   return (
-    <SafeAreaView style={styles.container} className="relative mx-4">
+    <SafeAreaView style={styles.container} className="mx-4 py-20">
       {/** Logo Image */}
       <View
         style={{
           marginBottom: 25,
         }}
-        className="absolute top-20"
       >
         <Image
           source={require("../assets/logo.png")}
@@ -29,7 +29,28 @@ const Home = () => {
         />
       </View>
 
-      {/** Navigation Buttons */}
+      <View>
+        <Image
+          source={require("../assets/illustration.png")}
+          style={{ height: 300, width: 300 }}
+          resizeMode="contain"
+        />
+      </View>
+
+      <View>
+        <HomeButton
+          title={"Mon budget"}
+          screen={"MonthlyBudget"}
+          text="Un budget est une planification de vos revenus et dépenses sur une période à venir"
+        />
+        <HomeButton
+          title={"Ma valeur nette"}
+          screen={"NetWorth"}
+          text="La valeur nette est la différence entre les actifs que vous possédez et les dettes à rembourser"
+        />
+      </View>
+
+      {/** Navigation Buttons 
 
       <View className=" flex flex-col w-full gap-6 mb-10 mt-16">
         <View
@@ -67,8 +88,8 @@ const Home = () => {
                 fontFamily: "OpenSans-Regular",
               }}
             >
-              Un budget est une planification écrite de vos dépenses avant même
-              qu’elles ne surviennent
+              Un budget est une planification de vos revenus et dépenses sur une
+              période à venir
             </Text>
           </View>
         </View>
@@ -108,11 +129,12 @@ const Home = () => {
                 fontFamily: "OpenSans-Regular",
               }}
             >
-              La valeur nette est votre valeur en argent à une période donnée
+              La valeur nette est la différence entre les actifs que vous
+              possédez et les dettes à rembourser
             </Text>
           </View>
         </View>
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 };
@@ -121,7 +143,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-evenly",
   },
 });
 

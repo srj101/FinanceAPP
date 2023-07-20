@@ -1,6 +1,6 @@
-import { View, Text } from "react-native";
+import { View, Text, ImageBackground } from "react-native";
 import React from "react";
-import DashedBorder from "../DashedBorder";
+const dashedLineImage2 = require("../../assets/dashed-line.png");
 import { useSelector } from "react-redux";
 import { NumberFormat } from "../../utils/funtions";
 
@@ -16,68 +16,129 @@ const MonthAnalysisCard = ({
   );
 
   return (
-    <View className="py-4">
+    <View className="pb-4">
       <Text
-        className="text-3xl pb-4"
+        className="capitalize text-4xl pt-4 pb-6"
         style={{
-          fontFamily: "TheHand-Bold",
-          letterSpacing: 0.1,
+          fontFamily: "TheHand-Regular",
         }}
       >
         {title}
       </Text>
 
-      <View className="flex flex-row justify-between items-center">
-        <View className="flex flex-col items-start justify-center gap-4">
-          <Text
-            className="text-sm font-semibold"
-            style={{
-              fontFamily: "OpenSans-SemiBold",
-            }}
-          >
-            Prévu
-          </Text>
+      {/*  flex wrap but keep three columns */}
+      <View className="flex flex-row justify-between">
+        <View className="flex flex-row justify-between flex-1">
+          <View className="flex flex-col relative gap-2 justify-between flex-1 items-center">
+            <Text
+              className="text-md uppercase text-center"
+              style={{
+                fontFamily: "OpenSans-Regular",
+              }}
+            >
+              Prévu
+            </Text>
 
+            <Text
+              className={
+                // if amount is too big, make font smaller
+                forseen > 999999 || forseen < -999999
+                  ? "text-xs"
+                  : forseen > 99999 || forseen < -99999
+                  ? "text-sm"
+                  : forseen > 9999 || forseen < -9999
+                  ? "text-md"
+                  : "text-lg"
+              }
+              style={{
+                fontFamily: "OpenSans-Regular",
+              }}
+            >
+              {NumberFormat(forseen, currency, exchangeRate, decimalEnabled)}
+            </Text>
+          </View>
+          <ImageBackground
+            source={dashedLineImage2}
+            style={{
+              width: 1,
+              height: 60,
+              alignSelf: "flex-end",
+            }}
+            resizeMode="repeat"
+          />
+        </View>
+
+        <View className="flex flex-row justify-between flex-1">
+          <View className="flex flex-col relative  justify-between  flex-1 items-center">
+            <Text
+              className="text-md uppercase text-center"
+              style={{
+                fontFamily: "OpenSans-Regular",
+                justifyContent: "center",
+              }}
+            >
+              Réalisé
+            </Text>
+            <Text
+              className={
+                // if amount is too big, make font smaller
+                accomplished > 999999 || accomplished < -999999
+                  ? "text-xs"
+                  : accomplished > 99999 || accomplished < -99999
+                  ? "text-sm"
+                  : accomplished > 9999 || accomplished < -9999
+                  ? "text-md"
+                  : "text-lg"
+              }
+              style={{
+                fontFamily: "OpenSans-Regular",
+                textAlign: "center",
+              }}
+            >
+              {NumberFormat(
+                accomplished,
+                currency,
+                exchangeRate,
+                decimalEnabled
+              )}
+            </Text>
+          </View>
+          <ImageBackground
+            source={dashedLineImage2}
+            style={{
+              width: 1,
+              height: 60,
+              alignSelf: "flex-end",
+            }}
+            resizeMode="repeat"
+          />
+        </View>
+
+        <View className="flex flex-col justify-between flex-1 items-center">
           <Text
+            className="text-md uppercase text-center"
             style={{
               fontFamily: "OpenSans-Regular",
-            }}
-          >
-            {NumberFormat(forseen, currency, exchangeRate, decimalEnabled)}
-          </Text>
-        </View>
-        <DashedBorder />
-        <View className="flex flex-col items-center justify-center gap-4">
-          <Text
-            className="text-sm font-semibold"
-            style={{
-              fontFamily: "OpenSans-SemiBold",
-            }}
-          >
-            Réalisé
-          </Text>
-          <Text
-            style={{
-              fontFamily: "OpenSans-Regular",
-            }}
-          >
-            {NumberFormat(accomplished, currency, exchangeRate, decimalEnabled)}
-          </Text>
-        </View>
-        <DashedBorder />
-        <View className="flex flex-col items-end justify-center gap-4">
-          <Text
-            className="text-sm font-semibold"
-            style={{
-              fontFamily: "OpenSans-SemiBold",
+              justifyContent: "center",
               color: color,
             }}
           >
-            Ecart
+            Écart
           </Text>
           <Text
+            className={
+              // if amount is too big, make font smaller
+              gap > 999999 || gap < -999999
+                ? "text-xs"
+                : gap > 99999 || gap < -99999
+                ? "text-sm"
+                : gap > 9999 || gap < -9999
+                ? "text-md"
+                : "text-lg"
+            }
             style={{
               fontFamily: "OpenSans-Regular",
+              textAlign: "center",
             }}
           >
             {NumberFormat(gap, currency, exchangeRate, decimalEnabled)}

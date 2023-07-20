@@ -1,4 +1,9 @@
-import { AntDesign, Ionicons, Octicons } from "@expo/vector-icons";
+import {
+  AntDesign,
+  Ionicons,
+  MaterialIcons,
+  Octicons,
+} from "@expo/vector-icons";
 import moment from "moment";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
@@ -36,6 +41,7 @@ const AddNetWorthMovement = () => {
 
   const { currency, decimalEnabled } = useSelector((state) => state.settings);
   const [selectedOption, setSelectedOption] = useState("Actif");
+  const [repeatation, setRepeatation] = useState("NON");
   const [amount, setAmount] = useState(0);
   const [notes, setNotes] = useState("");
   const [selectedCurrentDate, setSelectedCurrentDate] = useState(new Date());
@@ -89,7 +95,7 @@ const AddNetWorthMovement = () => {
       }
 
       if (selectedDate > lastDateOfCurrentYear) {
-        alert("The date must be within the current year");
+        alert("La date doit être dans l'année en cours");
         return;
       }
 
@@ -107,7 +113,7 @@ const AddNetWorthMovement = () => {
     const ammmount = decimalEnabled ? parseFloat(amount) : parseInt(amount);
 
     if (ammmount === 0 || !selectedCategory || !selectedDate) {
-      Alert.alert("Please enter an amount, select a category and a date");
+      Alert.alert("Remplissez tous les champs");
       return;
     }
 
@@ -131,6 +137,7 @@ const AddNetWorthMovement = () => {
         item,
         selectedMonthIndex,
         worthType: selectedOption,
+        repeatation,
       })
     );
 
@@ -293,6 +300,50 @@ const AddNetWorthMovement = () => {
               />
             )}
           </CustomInput>
+
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              position: "relative",
+            }}
+            className="mb-4"
+          >
+            <Text
+              className=" text-lg"
+              style={{
+                fontFamily: "OpenSans-Regular",
+                color: colors.black,
+              }}
+            >
+              Répétition
+            </Text>
+
+            <TouchableOpacity
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                position: "relative",
+                gap: 10,
+              }}
+              onPress={() => {
+                if (repeatation === "NON") {
+                  setRepeatation("OUI");
+                } else {
+                  setRepeatation("NON");
+                }
+              }}
+            >
+              <Text>{repeatation}</Text>
+              <MaterialIcons
+                name="swap-horizontal-circle"
+                size={30}
+                color={colors.black}
+              />
+            </TouchableOpacity>
+          </View>
 
           <CustomInput name="Note"></CustomInput>
 

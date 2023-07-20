@@ -90,7 +90,7 @@ const AddBudgetMovement = (props) => {
       }
 
       if (selectedDate > lastDateOfCurrentYear) {
-        alert("The date must be within the current year");
+        alert("La date doit être dans l'année en cours");
         return;
       }
 
@@ -119,7 +119,7 @@ const AddBudgetMovement = (props) => {
       !movementType ||
       !selectedOption
     ) {
-      Alert.alert("Please fill all the fields");
+      Alert.alert("Remplissez tous les champs");
       return;
     }
 

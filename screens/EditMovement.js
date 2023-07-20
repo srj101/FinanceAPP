@@ -30,6 +30,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Options from "../components/AddBudgetMovement/Options";
 import CustomInput from "../components/shared/CustomInput";
 import {
+  deleteMovement,
   editMovement,
   setCurrentMonth,
   setSelectedCategory,
@@ -44,7 +45,9 @@ import { initalOptions } from "../utils/data/data";
 const EditMovement = (props) => {
   const route = useRoute();
 
-  const { movementId, monthIndex, movementType, movement } = route.params;
+  const { currentMonth: monthIndex } = useSelector((state) => state.movement);
+
+  const { movementId, movementType, movement } = route.params;
 
   const {
     category: selectedCategoryy,

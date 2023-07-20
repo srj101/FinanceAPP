@@ -164,6 +164,23 @@ export const worthSlice = createSlice({
     setLiabilityWorths: (state, action) => {
       state.liabilityWorths = action.payload;
     },
+
+    deleteAllWorthsHavingCategory: (state, action) => {
+      const { categoryId } = action.payload;
+
+      state.assetWorths.forEach((month) => {
+        month.data = month.data.filter(
+          (item) => item.category.id !== categoryId
+        );
+      });
+
+      state.liabilityWorths.forEach((month) => {
+        month.data = month.data.filter(
+          (item) => item.category.id !== categoryId
+        );
+      });
+    },
+
     deleteWorth: (state, action) => {
       const { id, selectedMonthIndex, worthType } = action.payload;
 
@@ -290,18 +307,35 @@ export const worthSlice = createSlice({
       }
     },
     updateWorths: (state, action) => {
-      const { item, selectedMonthIndex, worthType } = action.payload;
+      const { item, selectedMonthIndex, worthType, repeatation } =
+        action.payload;
 
-      if (worthType === "Actif") {
-        state.assetWorths[selectedMonthIndex].data = [
-          ...state.assetWorths[selectedMonthIndex].data,
-          item,
-        ];
-      } else if (worthType === "Passif") {
-        state.liabilityWorths[selectedMonthIndex].data = [
-          ...state.liabilityWorths[selectedMonthIndex].data,
-          item,
-        ];
+      if (repeatation === "NON") {
+        if (worthType === "Actif") {
+          state.assetWorths[selectedMonthIndex].data = [
+            ...state.assetWorths[selectedMonthIndex].data,
+            item,
+          ];
+        } else if (worthType === "Passif") {
+          state.liabilityWorths[selectedMonthIndex].data = [
+            ...state.liabilityWorths[selectedMonthIndex].data,
+            item,
+          ];
+        }
+      } else {
+        // starting month
+        let startMonth = selectedMonthIndex;
+
+        for (let i = startMonth; i < 12; i++) {
+          if (worthType === "Actif") {
+            state.assetWorths[i].data = [...state.assetWorths[i].data, item];
+          } else if (worthType === "Passif") {
+            state.liabilityWorths[i].data = [
+              ...state.liabilityWorths[i].data,
+              item,
+            ];
+          }
+        }
       }
     },
   },
@@ -319,5 +353,6 @@ export const {
   updateWorths,
   deleteWorth,
   editWorth,
+  deleteAllWorthsHavingCategory,
 } = worthSlice.actions;
 export default worthSlice.reducer;

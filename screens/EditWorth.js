@@ -39,7 +39,9 @@ const EditWorth = () => {
   const inputRef = React.useRef(null);
   const route = useRoute();
 
-  const { worthType, worthId, monthIndex, worth } = route.params;
+  const { currentMonth: monthIndex } = useSelector((state) => state.worth);
+
+  const { worthType, worthId, worth } = route.params;
 
   const {
     amount: amnt,
