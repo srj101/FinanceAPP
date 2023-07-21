@@ -1,12 +1,13 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
 import colors from "../utils/colors";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+import IconComponent from "./Budget/movement/IconComponent";
 
 const IconItem = ({ item, methods }) => {
   const { setCategoryIcon, categoryIcon, categoryColor } = methods;
 
-  const { icon, id } = item;
+  const { icon, id, name } = item;
 
   return (
     <TouchableOpacity
@@ -16,8 +17,9 @@ const IconItem = ({ item, methods }) => {
       className="p-3"
       onPress={() => setCategoryIcon(item)}
     >
-      <FontAwesome
-        name={icon}
+      <IconComponent
+        type={name}
+        icon={icon}
         size={40}
         color={
           categoryIcon?.id == id && categoryColor

@@ -9,6 +9,7 @@ import { deleteWorth } from "../../../providers/state/reducers/worth";
 import colors from "../../../utils/colors";
 import { NumberFormat } from "../../../utils/funtions";
 import DashedBorder from "../../DashedBorder";
+import IconComponent from "./IconComponent";
 
 const MovementItem = ({ item, movementType }) => {
   const { icon, id, amount, color, date, category, notes } = item;
@@ -108,11 +109,15 @@ const MovementItem = ({ item, movementType }) => {
         }
       >
         <View style={{}} className="flex flex-row items-center gap-3">
-          <FontAwesome
-            name={category?.icon?.icon || "questioncircleo"}
-            size={25}
-            color={category?.color?.color || colors.black}
-          />
+          <View>
+            <IconComponent
+              type={category?.icon?.name}
+              icon={category?.icon?.icon}
+              size={25}
+              color={category?.color?.color}
+            />
+          </View>
+
           <Text
             className="text-lg"
             style={{

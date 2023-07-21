@@ -14,12 +14,13 @@ import { deleteCategory } from "../providers/state/reducers/categories";
 import colors from "../utils/colors";
 import { deleteAllWorthsHavingCategory } from "../providers/state/reducers/worth";
 import { deleteAllMovementsHavingCategory } from "../providers/state/reducers/movement";
+import IconComponent from "../components/Budget/movement/IconComponent";
 
 const CategoryITem = (props) => {
   const { item, navigation } = props;
   const {
     name,
-    icon: { icon },
+    icon: { icon, name: iconName },
     color: { color },
   } = item;
 
@@ -77,7 +78,14 @@ const CategoryITem = (props) => {
         className="flex flex-row justify-between items-center py-4"
       >
         <View className="flex flex-row gap-6 items-center">
-          <FontAwesome name={icon} size={25} color={color} />
+          <View>
+            <IconComponent
+              type={iconName}
+              icon={icon}
+              size={25}
+              color={color}
+            />
+          </View>
 
           <Text
             className="text-3xl"

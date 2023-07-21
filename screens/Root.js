@@ -54,7 +54,9 @@ const Root = () => {
     getValueFor("firstTimeLaunch")
       .then((res) => {
         if (res === null) {
-          dispatch(setCategories(initialCategories));
+          if (categories.length < 17) {
+            dispatch(setCategories(initialCategories));
+          }
           setIsFirstLaunch(true);
         } else {
           setIsFirstLaunch(false);

@@ -31,9 +31,11 @@ const Home = () => {
 
       <View>
         <Image
-          source={require("../assets/illustration.png")}
-          style={{ height: 300, width: 300 }}
+          source={require("../assets/illustration.jpeg")}
           resizeMode="contain"
+          style={{
+            height: 400,
+          }}
         />
       </View>
 

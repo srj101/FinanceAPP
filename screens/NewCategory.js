@@ -1,24 +1,21 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  TextInput,
-  FlatList,
-  Alert,
-} from "react-native";
-import React, { useState } from "react";
 import { AntDesign, Octicons } from "@expo/vector-icons";
-import colors from "../utils/colors";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { colorOptions, icons } from "../utils/data/data";
+import React, { useState } from "react";
+import {
+  Alert,
+  FlatList,
+  SafeAreaView,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { useDispatch } from "react-redux";
 import Color from "../components/Color";
 import IconItem from "../components/IconItem";
-import { useDispatch } from "react-redux";
-import {
-  addCategory,
-  resetState,
-} from "../providers/state/reducers/categories";
+import { addCategory } from "../providers/state/reducers/categories";
+import colors from "../utils/colors";
+import { colorOptions, icons } from "../utils/data/data";
 
 const NewCategory = () => {
   const navigation = useNavigation();

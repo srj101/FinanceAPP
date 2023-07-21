@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { setSelectedCategory } from "../providers/state/reducers/movement";
 import { setCategory } from "../providers/state/reducers/worth";
 import { useNavigation } from "@react-navigation/native";
+import IconComponent from "./Budget/movement/IconComponent";
 
 const CategoryItem = ({ item }) => {
   const navigation = useNavigation();
@@ -23,7 +24,12 @@ const CategoryItem = ({ item }) => {
       onPress={selectCategory}
       className="py-5 items-center gap-3 flex-1"
     >
-      <FontAwesome name={icon?.icon} size={40} color={color?.color} />
+      <IconComponent
+        type={icon?.name}
+        icon={icon?.icon}
+        size={40}
+        color={color?.color}
+      />
       <Text
         className="text-lg text-center"
         style={{

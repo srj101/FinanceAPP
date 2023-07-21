@@ -355,11 +355,11 @@ const EditMovement = (props) => {
                 color: colors.black,
               }}
             >
-              Remarques
+              Note
             </Text>
 
             <TextInput
-              placeholder="Notes"
+              placeholder="Note"
               style={{
                 fontFamily: "OpenSans-Regular",
                 backgroundColor: colors.lightGray,
