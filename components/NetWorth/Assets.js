@@ -9,7 +9,36 @@ const Assets = () => {
   const { updated } = useSelector((state) => state.movement);
 
   const currentMonthAssets = useMemo(() => {
-    return assetWorths[currentMonth].data;
+    const data = assetWorths[currentMonth].data;
+
+    // group by category and calculate total amount
+    const groupedData = data.reduce((acc, item) => {
+      const {
+        category: { name: categoryName },
+        amount,
+      } = item;
+
+      if (!acc[categoryName]) {
+        acc[categoryName] = {
+          data: [],
+          totalAmount: 0,
+          category: categoryName,
+        };
+      }
+
+      acc[categoryName].data.push(item);
+
+      acc[categoryName].totalAmount += amount;
+
+      return acc;
+    }, {});
+
+    // convert object to array
+    const groupedDataArray = Object.keys(groupedData).map((key) => {
+      return groupedData[key];
+    });
+
+    return groupedDataArray;
   }, [currentMonth, assetWorths, updated]);
 
   return (
@@ -25,13 +54,54 @@ const Assets = () => {
 
       <View>
         {currentMonthAssets.length > 0 ? (
-          <FlatList
-            data={currentMonthAssets}
-            renderItem={({ item }) => (
-              <MovementItem item={item} movementType="assets" />
-            )}
-            keyExtractor={(item) => item.id.toString()}
-          />
+          <React.Fragment>
+            {currentMonthAssets.map((item) => {
+              return (
+                <View
+                  key={item.category}
+                  style={{
+                    marginVertical: item.data.length > 1 ? 10 : 0,
+                  }}
+                >
+                  <FlatList
+                    data={item.data}
+                    renderItem={({ item }, index) => {
+                      return (
+                        <MovementItem
+                          key={index}
+                          item={item}
+                          movementType="assets"
+                        />
+                      );
+                    }}
+                    keyExtractor={(item) => item.id}
+                  />
+                  {item.data.length > 1 ? (
+                    <View>
+                      <View
+                        style={{
+                          height: 1,
+                          width: "30%",
+                          alignSelf: "flex-end",
+                          backgroundColor: "#E2E8F0",
+                          marginVertical: 10,
+                        }}
+                      />
+                      <Text
+                        style={{
+                          fontFamily: "OpenSans-Regular",
+                          textAlign: "right",
+                        }}
+                        className="text-lg "
+                      >
+                        Total : {item.totalAmount}
+                      </Text>
+                    </View>
+                  ) : null}
+                </View>
+              );
+            })}
+          </React.Fragment>
         ) : (
           <Text
             className="text-md text-center my-10"

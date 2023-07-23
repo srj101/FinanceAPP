@@ -51,7 +51,7 @@ const Root = () => {
 
   const dispatch = useDispatch();
   React.useEffect(() => {
-    getValueFor("firstTimeLaunch")
+    getValueFor("FirstTime")
       .then((res) => {
         if (res === null) {
           if (categories.length < 17) {

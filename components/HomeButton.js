@@ -8,11 +8,11 @@ const HomeButton = ({ title, screen, text }) => {
   const navigation = useNavigation();
 
   const handlePress = () => {
-    getValueFor("showPopup").then((res) => {
+    getValueFor("showPopuUp").then((res) => {
       if (res !== null) {
         navigation.navigate(screen);
       } else {
-        Alert.alert("Attention", text, [
+        Alert.alert("En savoir plus", text, [
           {
             text: "OK",
             onPress: () => {
@@ -22,7 +22,7 @@ const HomeButton = ({ title, screen, text }) => {
           {
             text: "Ne plus voir cette description",
             onPress: () => {
-              save("showPopup", "false");
+              save("showPopUp", "false");
               navigation.navigate(screen);
             },
           },

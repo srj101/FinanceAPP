@@ -25,7 +25,7 @@ const settings = [
   },
   {
     id: "3",
-    title: "Aids & support",
+    title: "Aide & support",
     icon: "customerservice",
   },
   {

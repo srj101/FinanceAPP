@@ -38,17 +38,24 @@ const UpgradePlan = ({ textColor }) => {
           color: textColor ? textColor : colors.black,
         }}
       >
+        Cette première version de l’application TMVBUDGET se veut simple,
+        pratique et droit au but. Ce sera vous, vos revenus, et ce que vous
+        déciderez d’en faire de manière périodique.
         <Text
           style={{
-            fontFamily: "OpenSans-SemiBold",
+            fontFamily: "OpenSans-Regular",
             color: textColor ? textColor : colors.black,
           }}
         >
-          Créez votre premier budget avec TMVBUDGET.
+          {
+            // new line
+
+            "\n"
+          }{" "}
+          Passez à la version premium de l’application et créez un budget
+          personnalisé, qui reflète exactement votre situation financière avec
+          l’option d’ajout de nouvelles catégories de dépenses.
         </Text>
-        La première version de l’application se veut simple et droit au but.
-        Juste vous, vos revenus, et ce que vous décidez d’en faire de manière
-        périodique.
       </Text>
 
       <Text
@@ -58,8 +65,7 @@ const UpgradePlan = ({ textColor }) => {
         }}
         className="text-center text-lg py-5"
       >
-        De nouvelles fonctionnalités sont prévues. Aidez-nous à les développer
-        en souscrivant à la version premium.
+        Alors, êtes-vous prêt à créer votre premier budget avec TMVBUDGET?
       </Text>
     </ScrollView>
   );
