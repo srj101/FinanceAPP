@@ -55,10 +55,10 @@ const Assets = () => {
       <View>
         {currentMonthAssets.length > 0 ? (
           <React.Fragment>
-            {currentMonthAssets.map((item) => {
+            {currentMonthAssets.map((item, index) => {
               return (
                 <View
-                  key={item.category}
+                  key={index}
                   style={{
                     marginVertical: item.data.length > 1 ? 10 : 0,
                   }}
@@ -94,7 +94,7 @@ const Assets = () => {
                         }}
                         className="text-lg "
                       >
-                        Total : {item.totalAmount}
+                        {item.category} total : {item.totalAmount}
                       </Text>
                     </View>
                   ) : null}
