@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "TMVBudget",
-    "slug": "TMVBudget",
+    "slug": "TMVBudgetApplication",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -10,27 +10,21 @@
       "backgroundColor": "#ffffff"
     },
     "jsEngine": "hermes",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
       "config": {
         "usesNonExemptEncryption": false
       },
-      "bundleIdentifier": "com.TMVBudgetApp.TMVBudgetApp"
+      "bundleIdentifier": "com.TMVBudgetApplication.TMVBudgetApplication"
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#ffffff"
       },
-      "package": "com.TMVBudgetApp.TMVBudgetApp",
+      "package": "com.TMVBudgetApplication.TMVBudgetApplication",
       "versionCode": 1
     },
-    "extra": {
-      "eas": {
-        "projectId": "d0a758e9-e0f3-411d-8289-2db740fb64c1"
-      }
-    }
+    "extra": {}
   }
 }
