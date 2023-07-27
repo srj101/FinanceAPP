@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "TMVBudget",
-    "slug": "TMVBudgetApplication",
+    "slug": "TMVBudgetFinance",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -18,18 +18,18 @@
       "config": {
         "usesNonExemptEncryption": false
       },
-      "bundleIdentifier": "com.TMVBudgetApplication.TMVBudgetApplication"
+      "bundleIdentifier": "com.TMVBudgetFinance.TMVBudgetFinance"
     },
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#ffffff"
       },
-      "package": "com.TMVBudgetApplication.TMVBudgetApplication",
+      "package": "com.TMVBudgetFinance.TMVBudgetFinance",
       "versionCode": 1
     },
     "extra": {
       "eas": {
-        "projectId": "62beb5e6-a3e5-44d4-957e-317b56022753"
+        "projectId": "b6ec3b74-d7e8-403d-9f28-644c242fe145"
       }
     }
   }

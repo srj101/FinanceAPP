@@ -31,7 +31,7 @@ const UpgradePlan = ({ textColor }) => {
       </Text>
 
       <Text
-        className="text-left py-3 text-lg px-4 pt-8"
+        className="text-center py-3 text-lg px-4 pt-8"
         style={{
           fontFamily: "OpenSans-Regular",
           color: textColor ? textColor : colors.black,
