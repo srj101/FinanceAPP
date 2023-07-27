@@ -1,4 +1,4 @@
-import { Text, StyleSheet, ScrollView } from "react-native";
+import { Text, StyleSheet, ScrollView, View } from "react-native";
 import React from "react";
 import colors from "../utils/colors";
 import { NumberFormat } from "../utils/funtions";
@@ -19,44 +19,60 @@ const UpgradePlan = ({ textColor }) => {
           },
         ]}
       >
-        Payez{" "}
+        Personnalisez à souhait votre budget en activant l’option premium pour{" "}
         <Text
           style={{
             color: colors.green,
             fontFamily: "OpenSans-Bold",
           }}
         >
-          {NumberFormat(14.99, currency, exchangeRate, decimalEnabled)}
+          {NumberFormat(9.99, currency, exchangeRate, decimalEnabled)}
         </Text>{" "}
-        une fois et à vie pour soutenir l'évolution de l'application{" "}
       </Text>
 
       <Text
-        className="text-center py-3 text-lg px-4 pt-8"
+        className="text-left py-3 text-lg px-4 pt-8"
         style={{
           fontFamily: "OpenSans-Regular",
           color: textColor ? textColor : colors.black,
         }}
       >
-        Cette première version de l’application TMVBUDGET se veut simple,
-        pratique et droit au but. Ce sera vous, vos revenus, et ce que vous
-        déciderez d’en faire de manière périodique.
+        Avec votre paiement une seule fois et à vie, passez à la version premium
+        et débloquez les fonctionnalités suivantes : {"\n"}
+      </Text>
+      <View
+        style={{
+          paddingHorizontal: 10,
+        }}
+      >
         <Text
           style={{
             fontFamily: "OpenSans-Regular",
             color: textColor ? textColor : colors.black,
           }}
         >
-          {
-            // new line
-
-            "\n"
-          }{" "}
-          Passez à la version premium de l’application et créez un budget
-          personnalisé, qui reflète exactement votre situation financière avec
-          l’option d’ajout de nouvelles catégories de dépenses.
+          {"📌   "}
+          Catégories de budget illimitées (dépenses & revenus){"\n"}
         </Text>
-      </Text>
+        <Text
+          style={{
+            fontFamily: "OpenSans-Regular",
+            color: textColor ? textColor : colors.black,
+          }}
+        >
+          {"📌   "}
+          Catégories de valeur nette illimitées (actifs et passifs){"\n"}
+        </Text>
+        <Text
+          style={{
+            fontFamily: "OpenSans-Regular",
+            color: textColor ? textColor : colors.black,
+          }}
+        >
+          {"📌   "}
+          Répétition de transactions sur les périodes à venir{"\n"}
+        </Text>
+      </View>
 
       <Text
         style={{
