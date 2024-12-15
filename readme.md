@@ -56,15 +56,16 @@ Here are some screenshots showcasing the app’s interface and features:
 ## 🛠️ Technology Stack
 
 ### **Frontend**
-- Flutter for building a cross-platform mobile application.
+- React Native with Expo for cross-platform mobile development.
 
 ### **Backend**
 - Firebase for real-time database and authentication.
 
 ### **Additional Tools**
-- **Cloud Firestore**: Efficiently store and manage user data.
-- **Dart Programming Language**: For fast, efficient app performance.
-- **Material Design**: Ensures a clean and modern UI.
+- **Redux**: For state management.
+- **React Navigation**: For seamless app navigation.
+- **Styled Components**: For consistent and modern UI design.
+- **Expo APIs**: For leveraging device features like notifications and permissions.
 
 ---
 
